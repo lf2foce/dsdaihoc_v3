@@ -1,0 +1,492 @@
+.page {
+  min-height: 100vh;
+  background: #111;
+  color: #eee;
+  line-height: 1.6;
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+.header {
+  padding: 2rem;
+  border-bottom: 1px solid #333;
+}
+
+.headerBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  line-height: 0;
+}
+
+.logo {
+  display: block;
+  height: 44px;
+  width: auto;
+}
+
+.subtitle {
+  margin: 0.35rem 0 0;
+  color: #888;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.headerRight {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.headerChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid #333;
+  border-radius: 999px;
+  background: #1a1a1a;
+  color: #eee;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.headerChip:hover {
+  border-color: #555;
+  text-decoration: none;
+}
+
+.followChip {
+  color: #eee;
+}
+
+.chipEmoji {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.chipText {
+  display: inline-flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.chipValue {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.chipLabel {
+  color: #888;
+  font-size: 0.75rem;
+}
+
+.tabsBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 2rem;
+  border-bottom: 1px solid #333;
+}
+
+.tabs,
+.tabsActions {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: #888;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.tab:hover {
+  color: #eee;
+  text-decoration: none;
+}
+
+.tabActive {
+  color: #eee;
+  border-bottom-color: #6cf;
+}
+
+.main {
+  padding: 1.5rem 2rem;
+}
+
+.controlsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1 1 auto;
+  min-width: 0;
+  flex-wrap: nowrap;
+}
+
+.input,
+.multiSelectBtn,
+.pageBtn,
+.pageSizeSelect {
+  border: 1px solid #333;
+  border-radius: 4px;
+  background: #1a1a1a;
+  color: #eee;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.input {
+  width: 220px;
+  padding: 0.5rem 0.75rem;
+}
+
+.input::placeholder {
+  color: #888;
+}
+
+.input:focus,
+.select:focus,
+.multiSelectBtn:focus,
+.pageSizeSelect:focus {
+  outline: none;
+  border-color: #6cf;
+}
+
+.select {
+  appearance: auto;
+}
+
+.multiSelectDropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.multiSelectDropdown[open] .multiSelectBtn {
+  border-color: #6cf;
+}
+
+.multiSelectBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-width: 140px;
+  padding: 0.5rem 0.75rem;
+  list-style: none;
+  cursor: pointer;
+}
+
+.multiSelectBtn::-webkit-details-marker {
+  display: none;
+}
+
+.selectedCount {
+  border-radius: 3px;
+  background: #6cf;
+  padding: 0.1rem 0.4rem;
+  color: #000;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.multiSelectMenu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 100;
+  min-width: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background: #1a1a1a;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 30%);
+}
+
+.multiSelectOption {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+}
+
+.multiSelectOption:hover {
+  background: #333;
+}
+
+.checkbox {
+  margin: 0;
+  accent-color: #2563eb;
+}
+
+.colorDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  flex: 0 0 10px;
+}
+
+.optionLabel {
+  flex: 1;
+  font-size: 0.85rem;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.pageBtn {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.pageBtn:hover {
+  background: #333;
+  border-color: #888;
+}
+
+.pageBtnDisabled {
+  opacity: 0.4;
+}
+
+.pageBtnDisabled:hover {
+  background: transparent;
+  border-color: #333;
+}
+
+.pageInfo {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.pageInfoCurrent {
+  color: #eee;
+  font-weight: 600;
+}
+
+.pageSizeSelect {
+  margin-left: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  background: transparent;
+  color: #888;
+}
+
+.tableScrollWrapper {
+  position: relative;
+}
+
+.tableContainer {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  min-width: 1600px;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.th,
+.td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid #333;
+  text-align: left;
+  vertical-align: top;
+}
+
+.th {
+  color: #888;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.row:hover .td {
+  background: #1a1a1a;
+}
+
+.stickyRank,
+.stickyFlag,
+.stickyRepo {
+  position: sticky;
+  background: #111;
+  z-index: 1;
+}
+
+.stickyRank {
+  left: 0;
+  width: 20px;
+  padding: 0.6rem 0.2rem;
+  text-align: center;
+  font-size: 0.75rem;
+}
+
+.stickyFlag {
+  left: 20px;
+  width: 24px;
+  max-width: 24px;
+  padding: 0.6rem 0.2rem;
+  text-align: center;
+}
+
+.stickyRepo {
+  left: 44px;
+  box-shadow: 2px 0 4px rgb(0 0 0 / 30%);
+}
+
+.row:hover .stickyRank,
+.row:hover .stickyFlag,
+.row:hover .stickyRepo {
+  background: #1a1a1a;
+}
+
+.repoCell {
+  max-width: 140px;
+  padding-right: 1rem;
+}
+
+.repoOwner {
+  color: #888;
+  font-size: 0.65rem;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+}
+
+.repoName {
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+}
+
+.growthCell {
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.positive {
+  color: #4c8;
+  font-weight: 600;
+}
+
+.positiveSub {
+  margin-top: 0.15rem;
+  color: #4c8;
+  opacity: 0.7;
+  font-size: 0.75em;
+}
+
+.descCell {
+  max-width: 280px;
+  max-height: 2.8em;
+  overflow: hidden;
+  line-height: 1.4;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.chip {
+  display: inline-block;
+  white-space: nowrap;
+  border-radius: 3px;
+  padding: 0.2rem 0.5rem;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.chipApplications {
+  background: #8b5cf6;
+}
+
+.chipLists {
+  background: #f43f5e;
+}
+
+.chipEngineering {
+  background: #6366f1;
+}
+
+.chipMuted {
+  background: #374151;
+  color: #d1d5db;
+}
+
+.dateCell,
+.contributorsCell {
+  color: #888;
+}
+
+@media (max-width: 900px) {
+  .header,
+  .tabsBar,
+  .main {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
+  .headerBar,
+  .tabsBar,
+  .controlsRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headerRight,
+  .tabsActions,
+  .pagination {
+    justify-content: flex-start;
+    margin-left: 0;
+  }
+
+  .controls {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .input {
+    width: min(100%, 220px);
+  }
+}
