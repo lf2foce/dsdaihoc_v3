@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import styles from "./page.module.css";
+import ThemeToggle from "./theme-toggle";
 
 type Stat = {
   icon: string;
@@ -307,6 +308,7 @@ export default function Home() {
             {stats.map((stat) => (
               <StatChip key={stat.label} {...stat} />
             ))}
+            <ThemeToggle />
             <a href="#" className={`${styles.headerChip} ${styles.followChip}`}>
               <span className={styles.chipEmoji}>𝕏</span>
               <span className={styles.chipText}>
