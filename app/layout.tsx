@@ -3,8 +3,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
-  title: "Good AI List",
-  description: "AI open source projects and developers",
+  title: "Danh sách đại học Việt Nam",
+  description: "Tìm thông tin trường đại học Việt Nam dễ dàng",
 };
 
 export default function RootLayout({

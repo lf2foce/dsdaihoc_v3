@@ -28,10 +28,6 @@ export default function ThemeToggle() {
       title={isLight ? "Switch to dark mode" : "Switch to light mode"}
     >
       {isLight ? <Moon size={16} /> : <Sun size={16} />}
-      <span className={styles.chipText}>
-        <span className={styles.chipValue}>{isLight ? "Light" : "Dark"}</span>
-        <span className={styles.chipLabel}>mode</span>
-      </span>
     </button>
   );
 }

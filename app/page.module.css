@@ -69,6 +69,12 @@
   width: auto;
 }
 
+.logoText {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--page-text-strong);
+}
+
 .subtitle {
   margin: 0.35rem 0 0;
   color: var(--page-muted);
