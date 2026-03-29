@@ -261,7 +261,7 @@ export default function AI4SDPage() {
                 className="rounded-[2rem] border border-slate-200 bg-white p-7 shadow-[0_20px_60px_rgba(15,23,42,0.05)]"
               >
                 <dt className="flex items-center gap-3 text-base font-semibold text-slate-950">
-                  <div className="flex size-12 items-center justify-center rounded-2xl border border-teal-100 bg-teal-50">
+                  <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl border border-teal-100 bg-teal-50">
                     {feature.icon}
                   </div>
                   {feature.name}
@@ -294,7 +294,7 @@ export default function AI4SDPage() {
               className={`rounded-[2rem] border border-slate-200 bg-gradient-to-br ${item.tone} p-8 shadow-[0_20px_60px_rgba(15,23,42,0.05)] sm:p-10`}
             >
               <div
-                className={`inline-flex rounded-2xl p-3 ${item.iconClassName}`}
+                className={`inline-flex size-14 shrink-0 items-center justify-center rounded-2xl ${item.iconClassName}`}
               >
                 {item.icon}
               </div>
@@ -347,7 +347,7 @@ export default function AI4SDPage() {
             {roadmap.map((item) => (
               <article
                 key={item.title}
-                className={`${styles.roadmapItem} rounded-[2rem] border border-slate-200 bg-white p-7 shadow-[0_18px_50px_rgba(15,23,42,0.05)] sm:p-8`}
+                className={`${styles.roadmapItem} py-2 pb-8`}
               >
                 <span className={styles.roadmapDot} />
                 <span className="mb-3 block text-xs font-semibold uppercase tracking-[0.24em] text-amber-700">

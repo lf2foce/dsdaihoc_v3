@@ -12,15 +12,15 @@
 .roadmapList {
   position: relative;
   display: grid;
-  gap: 1.25rem;
+  gap: 1.75rem;
 }
 
 .roadmapList::before {
   content: "";
   position: absolute;
   left: 1.75rem;
-  top: 1.75rem;
-  bottom: 1.75rem;
+  top: 0.7rem;
+  bottom: 2.4rem;
   width: 2px;
   background: linear-gradient(180deg, rgba(13, 148, 136, 0.26) 0%, rgba(245, 158, 11, 0.18) 100%);
   z-index: 2;
@@ -35,7 +35,7 @@
 .roadmapDot {
   position: absolute;
   left: 1.19rem;
-  top: 1.7rem;
+  top: 0.35rem;
   width: 1.125rem;
   height: 1.125rem;
   border-radius: 9999px;
@@ -52,6 +52,8 @@
 
   .roadmapList::before {
     left: 1.44rem;
+    top: 0.6rem;
+    bottom: 2.2rem;
   }
 
   .roadmapDot {
