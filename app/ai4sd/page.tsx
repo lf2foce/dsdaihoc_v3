@@ -26,7 +26,7 @@ const Section = ({
   id?: string;
 }) => (
   <section id={id} className={`py-20 sm:py-28 ${className}`}>
-    <div className="mx-auto max-w-7xl px-6 lg:px-8">{children}</div>
+    <div className="mx-auto w-full max-w-[92rem] px-6 lg:px-8 2xl:px-12">{children}</div>
   </section>
 );
 
@@ -104,7 +104,7 @@ const outcomes = [
   },
   {
     title: "Chứng nhận năng lực",
-    text: "Chứng nhận AI Product Builder đóng vai trò bằng chứng đầu ra, không phải một chứng chỉ học cho có.",
+    text: "Chứng nhận AI Product Builder là dấu mốc xác nhận năng lực tạo sản phẩm và triển khai đầu ra thực tế.",
     icon: <ShieldCheck className="size-8" />,
     tone: "from-white to-stone-100",
     iconClassName: "bg-slate-100 text-slate-900",
@@ -118,7 +118,7 @@ export default function AI4SDPage() {
       <div className={styles.pageGrid} />
 
       <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200/80 bg-white/88 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-8">
+        <div className="mx-auto flex h-16 w-full max-w-[92rem] items-center justify-between px-6 lg:px-8 2xl:px-12">
           <div className="flex items-center gap-3">
             <div className="flex size-9 items-center justify-center rounded-2xl bg-teal-950 text-amber-50 shadow-[0_12px_30px_rgba(15,118,110,0.18)]">
               <Cpu className="size-4" />
@@ -149,15 +149,15 @@ export default function AI4SDPage() {
       </header>
 
       <section className="relative overflow-hidden pt-32 pb-18 sm:pt-40 sm:pb-24">
-        <div className="mx-auto grid max-w-7xl items-center gap-14 px-6 lg:grid-cols-[1.06fr_0.94fr] lg:px-8">
+        <div className="mx-auto grid w-full max-w-[92rem] items-center gap-16 px-6 lg:grid-cols-[1.04fr_0.96fr] lg:px-8 2xl:px-12">
           <div className="relative z-10">
             <div className="mb-7 inline-flex items-center gap-3 rounded-full border border-teal-100 bg-teal-50/70 px-4 py-2 text-sm font-semibold text-teal-900">
               <span className="inline-flex size-2 rounded-full bg-emerald-500" />
-              Tuyển sinh khoá 2025 đang mở
+              Tuyển sinh quý 2 2026 đang mở
             </div>
 
             <h1 className="max-w-4xl text-5xl font-semibold leading-[0.98] tracking-tight text-slate-950 sm:text-6xl xl:text-7xl">
-              Xây sản phẩm số thật
+              Tạo sản phẩm số
               <span className="block text-teal-800">trên nền tư duy kinh doanh.</span>
             </h1>
 
@@ -365,7 +365,7 @@ export default function AI4SDPage() {
         id="register"
         className="relative z-10 border-t border-slate-200/80 py-20 sm:py-28"
       >
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-[92rem] px-6 lg:px-8 2xl:px-12">
           <div className="relative overflow-hidden rounded-[2.25rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#f5fbfa_52%,#fff9ef_100%)] p-8 shadow-[0_35px_110px_rgba(15,23,42,0.08)] sm:p-12">
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(13,148,136,0.10),_transparent_26%),radial-gradient(circle_at_bottom_left,_rgba(245,158,11,0.12),_transparent_28%)]" />
             <div className="relative grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
@@ -404,7 +404,7 @@ export default function AI4SDPage() {
       </section>
 
       <footer className="relative z-10 border-t border-slate-200 bg-white px-6 py-8 text-center text-sm text-slate-500">
-        Cung cấp bởi AI4SD Academy © 2025. All rights reserved.
+        Cung cấp bởi AI4SD Academy © 2026. All rights reserved.
       </footer>
     </main>
   );
