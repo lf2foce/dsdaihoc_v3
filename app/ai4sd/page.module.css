@@ -1,52 +1,60 @@
+.pageGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(180deg, rgba(255, 255, 255, 0.75), transparent 88%);
+  pointer-events: none;
+}
+
 .roadmapList {
   position: relative;
   display: grid;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .roadmapList::before {
   content: "";
   position: absolute;
-  left: 1.5625rem;
-  top: 1.65rem;
-  bottom: 1.65rem;
-  width: 1px;
-  background: linear-gradient(180deg, rgba(13, 148, 136, 0.32) 0%, rgba(245, 158, 11, 0.24) 100%);
+  left: 1.75rem;
+  top: 1.75rem;
+  bottom: 1.75rem;
+  width: 2px;
+  background: linear-gradient(180deg, rgba(13, 148, 136, 0.26) 0%, rgba(245, 158, 11, 0.18) 100%);
   z-index: 2;
 }
 
 .roadmapItem {
   position: relative;
-  padding: 0.25rem 0 1.75rem 4.75rem;
+  padding-left: 5rem;
   z-index: 1;
 }
 
 .roadmapDot {
   position: absolute;
-  left: 1rem;
-  top: 0.2rem;
+  left: 1.19rem;
+  top: 1.7rem;
   width: 1.125rem;
   height: 1.125rem;
   border-radius: 9999px;
   background: #0f766e;
-  border: 4px solid #dff7f2;
+  border: 4px solid #f0fdfa;
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.95);
   z-index: 3;
-}
-
-.roadmapCardTight {
-  min-height: 0;
 }
 
 @media (max-width: 768px) {
   .roadmapItem {
-    padding: 0.15rem 0 1.5rem 4rem;
+    padding-left: 4.25rem;
   }
 
   .roadmapList::before {
-    left: 1.4375rem;
+    left: 1.44rem;
   }
 
   .roadmapDot {
-    left: 0.875rem;
+    left: 0.88rem;
   }
 }
