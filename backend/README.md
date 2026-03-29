@@ -3,7 +3,7 @@
 Python backend for:
 
 1. Reading queued university records from Airtable
-2. Taking the Airtable school name and using Gemini plus Google Search grounding to generate structured content in one pass
+2. Taking the Airtable school name and using Gemini plus Google Search grounding to generate section content, then a lightweight metadata pass
 3. Writing the generated fields back to Airtable and moving the record from `Todo` to `Pending`
 4. Syncing `Approved` records from Airtable into PostgreSQL with idempotent upsert
 
@@ -47,7 +47,10 @@ AIRTABLE_FIELD_ID=id
 AIRTABLE_FIELD_NAME=Tên trường
 AIRTABLE_FIELD_DESCRIPTION=Mô tả trường
 AIRTABLE_FIELD_INFORMATION=Thông tin trường
+AIRTABLE_FIELD_CAMPUS=campus
+AIRTABLE_FIELD_CAMPUS_LOCATIONS=campus_locations
 AIRTABLE_FIELD_PROGRAMS=Chương trình
+AIRTABLE_FIELD_ADMISSION_METHODS=Phương thức xét tuyển
 AIRTABLE_FIELD_ADMISSION_SCORE=Điểm chuẩn
 AIRTABLE_FIELD_TAGS=Tags
 AIRTABLE_FIELD_SOURCE_URL=source_url
@@ -61,6 +64,8 @@ AIRTABLE_STATUS_PENDING=Pending
 AIRTABLE_STATUS_APPROVED=Approved
 
 GEMINI_MODEL=gemini-3.1-pro-preview
+GEMINI_SECTION_MODEL=gemini-3.1-pro-preview
+GEMINI_METADATA_MODEL=gemini-3.1-flash-lite-preview
 GEMINI_ENABLE_GOOGLE_SEARCH=true
 GEMINI_THINKING_LEVEL=high
 GEMINI_MAX_OUTPUT_TOKENS=32768
@@ -110,12 +115,15 @@ python sync_airtable_to_postgres.py --limit 10
 
 ## Notes
 
-- Crawl flow is: Airtable `Todo` record -> read `id` and `Tên trường` -> Gemini research with Google Search -> structured JSON output -> patch Airtable fields -> set `Status=Pending`.
+- Crawl flow is: Airtable `Todo` record -> read `id` and `Tên trường` -> 4 Gemini section calls with Google Search (`information`, `programs`, `admission_methods`, `admission_score`) -> 1 lightweight metadata call (`description`, `campus`, `campus_locations`, `tags`, `source_url`, `source_urls`) -> patch Airtable fields -> set `Status=Pending`.
 - The crawler is async and can process multiple schools concurrently. Control parallelism with `CRAWL_CONCURRENCY`.
-- Current official Gemini 3.1 Pro preview supports `thinkingLevel=low|high`; `medium` is not supported for Pro.
+- The default section model is `gemini-3.1-pro-preview`.
+- The default metadata model is `gemini-3.1-flash-lite-preview`.
 - The code accepts `AIRTABLE_ACCESS_TOKEN` and also still supports the old env name `AIRTABLE_API_KEY`.
 - Airtable status names are case-sensitive. The defaults here are `Todo`, `Pending`, and `Approved`.
 - The scripts assume your Airtable `id` field is numeric.
 - `Tags` are written back to Airtable as a list of strings, suitable for a multi-select style field.
+- `campus_locations` should be a multi-select style field in Airtable and should contain only standardized Vietnamese province/city names such as `Hà Nội`, `TP.HCM`, `Đà Nẵng`.
 - `source_urls` should be a `Long text` field in Airtable; the crawler writes one URL per line.
-- The sync step uses `INSERT ... ON CONFLICT (id) DO UPDATE`.
+- Add `campus` in Airtable as a `Long text` field for cơ sở đào tạo.
+- The sync step uses `INSERT ... ON CONFLICT (id) DO UPDATE` and now expects PostgreSQL columns `campus`, `campus_locations`, and `admission_methods`.

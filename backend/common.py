@@ -2,6 +2,7 @@ import json
 import logging
 import os
 import asyncio
+import re
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from typing import Any
@@ -41,7 +42,10 @@ class AirtableConfig:
     name_field: str
     description_field: str
     information_field: str
+    campus_field: str
+    campus_locations_field: str
     programs_field: str
+    admission_methods_field: str
     admission_score_field: str
     tags_field: str
     source_url_field: str
@@ -56,6 +60,8 @@ class AirtableConfig:
 class GeminiConfig:
     api_key: str
     model: str
+    section_model: str
+    metadata_model: str
     enable_google_search: bool
     concurrency: int
     thinking_level: str | None
@@ -75,16 +81,26 @@ class PostgresConfig:
 
 class SchoolResearchResult(BaseModel):
     description: str = Field(
-        description="Đoạn giới thiệu giàu thông tin về trường, khoảng 120-220 từ, có thể dùng Markdown nhẹ để dễ đọc."
+        description="Đoạn giới thiệu giàu thông tin về trường, khoảng 150-260 từ, có thể dùng Markdown nhẹ để dễ đọc."
     )
     information: str = Field(
-        description="Phần tổng quan chi tiết nhất về trường, khoảng 300-700 từ, có chiều sâu như phần nội dung chính của một trang CMS, cho phép Markdown để chia ý rõ."
+        description="Phần tổng quan chi tiết nhất về trường, khoảng 450-900 từ, có chiều sâu như phần nội dung chính của một trang CMS, cho phép Markdown để chia ý rõ."
+    )
+    campus: str = Field(
+        description="Tóm tắt ngắn gọn, rõ ràng về cơ sở đào tạo, địa điểm học hoặc các campus chính của trường."
+    )
+    campus_locations: list[str] = Field(
+        default_factory=list,
+        description="Danh sách tên tỉnh/thành phố tại Việt Nam để lọc dữ liệu, ví dụ: Hà Nội, TP.HCM, Đà Nẵng, Nghệ An."
     )
     programs: str = Field(
-        description="Phần mô tả chi tiết các nhóm ngành và chương trình đào tạo nổi bật, khoảng 220-500 từ, cho phép Markdown để chia nhóm ngành rõ ràng."
+        description="Phần mô tả chi tiết các nhóm ngành và chương trình đào tạo nổi bật, khoảng 320-700 từ, cho phép Markdown để chia nhóm ngành rõ ràng."
+    )
+    admission_methods: str = Field(
+        description="Phần tổng hợp chi tiết về phương thức xét tuyển và điều kiện của từng phương thức, cho phép Markdown để chia ý rõ."
     )
     admission_score: str = Field(
-        description="Phần tổng hợp chi tiết về tuyển sinh gần nhất, khoảng 180-420 từ, ưu tiên phương thức xét tuyển, tổ hợp, điều kiện đầu vào và điểm chuẩn khi có; cho phép Markdown để tăng tính đọc."
+        description="Phần tổng hợp chi tiết về ngành và điểm chuẩn gần nhất, khoảng 260-550 từ, cho phép Markdown để tăng tính đọc."
     )
     tags: list[str] = Field(
         default_factory=list,
@@ -97,6 +113,72 @@ class SchoolResearchResult(BaseModel):
     source_urls: list[str] = Field(
         default_factory=list,
         description="Danh sách nhiều URL nguồn hữu ích mà model đã dùng để tổng hợp; không cần giới hạn một nguồn duy nhất.",
+    )
+
+
+class SchoolInformationDraft(BaseModel):
+    information: str = Field(
+        description="Bản nháp rất chi tiết cho section tổng quan và thay đổi chính của trường, đủ dày như một article section."
+    )
+    source_urls: list[str] = Field(
+        default_factory=list,
+        description="Các URL nguồn hữu ích cho section tổng quan.",
+    )
+
+
+class SchoolProgramsDraft(BaseModel):
+    programs: str = Field(
+        description="Bản nháp rất chi tiết cho section chương trình đào tạo, nhóm ngành, học phí hoặc học bổng nếu đáng chú ý."
+    )
+    source_urls: list[str] = Field(
+        default_factory=list,
+        description="Các URL nguồn hữu ích cho section chương trình đào tạo.",
+    )
+
+
+class SchoolAdmissionDraft(BaseModel):
+    admission_methods: str = Field(
+        description="Bản nháp rất chi tiết cho section phương thức xét tuyển và điều kiện của từng phương thức."
+    )
+    source_urls: list[str] = Field(
+        default_factory=list,
+        description="Các URL nguồn hữu ích cho section phương thức xét tuyển.",
+    )
+
+
+class SchoolAdmissionScoreDraft(BaseModel):
+    admission_score: str = Field(
+        description="Bản nháp rất chi tiết cho section ngành và điểm chuẩn gần nhất."
+    )
+    source_urls: list[str] = Field(
+        default_factory=list,
+        description="Các URL nguồn hữu ích cho section ngành và điểm chuẩn.",
+    )
+
+
+class SchoolMetadataDraft(BaseModel):
+    description: str = Field(
+        description="Đoạn mở đầu khoảng 150-260 từ, giàu thông tin, viết như opening section của bài giới thiệu trường."
+    )
+    campus: str = Field(
+        default="",
+        description="Phần tóm tắt ngắn gọn về cơ sở đào tạo/campus, ưu tiên nêu địa điểm và số lượng hoặc tên campus chính nếu xác minh được."
+    )
+    campus_locations: list[str] = Field(
+        default_factory=list,
+        description="Danh sách ngắn gọn 1-6 tên tỉnh/thành phố tại Việt Nam nơi trường có cơ sở đào tạo chính, dùng để filter."
+    )
+    tags: list[str] = Field(
+        default_factory=list,
+        description="Danh sách 5-10 tag ngắn, chuẩn hóa, hữu ích cho lọc dữ liệu."
+    )
+    source_url: str = Field(
+        default="",
+        description="URL nguồn chính hữu ích nhất để editor kiểm tra nhanh."
+    )
+    source_urls: list[str] = Field(
+        default_factory=list,
+        description="Danh sách ngắn gọn các URL nguồn tiêu biểu, không cần quá dài."
     )
 
 
@@ -128,7 +210,10 @@ def load_airtable_config() -> AirtableConfig:
         name_field=os.getenv("AIRTABLE_FIELD_NAME", "Tên trường"),
         description_field=os.getenv("AIRTABLE_FIELD_DESCRIPTION", "Mô tả trường"),
         information_field=os.getenv("AIRTABLE_FIELD_INFORMATION", "Thông tin trường"),
+        campus_field=os.getenv("AIRTABLE_FIELD_CAMPUS", "campus"),
+        campus_locations_field=os.getenv("AIRTABLE_FIELD_CAMPUS_LOCATIONS", "campus_locations"),
         programs_field=os.getenv("AIRTABLE_FIELD_PROGRAMS", "Chương trình"),
+        admission_methods_field=os.getenv("AIRTABLE_FIELD_ADMISSION_METHODS", "Phương thức xét tuyển"),
         admission_score_field=os.getenv("AIRTABLE_FIELD_ADMISSION_SCORE", "Điểm chuẩn"),
         tags_field=os.getenv("AIRTABLE_FIELD_TAGS", "Tags"),
         source_url_field=os.getenv("AIRTABLE_FIELD_SOURCE_URL", "source_url"),
@@ -147,6 +232,14 @@ def load_gemini_config() -> GeminiConfig:
     return GeminiConfig(
         api_key=_get_required_env("GEMINI_API_KEY"),
         model=os.getenv("GEMINI_MODEL", "gemini-3.1-pro-preview"),
+        section_model=os.getenv(
+            "GEMINI_SECTION_MODEL",
+            os.getenv("GEMINI_MODEL", "gemini-3.1-pro-preview"),
+        ),
+        metadata_model=os.getenv(
+            "GEMINI_METADATA_MODEL",
+            "gemini-3.1-flash-lite-preview",
+        ),
         enable_google_search=os.getenv("GEMINI_ENABLE_GOOGLE_SEARCH", "true").lower()
         in {"1", "true", "yes", "on"},
         concurrency=max(1, int(os.getenv("CRAWL_CONCURRENCY", "20"))),
@@ -328,12 +421,160 @@ class GeminiResearchClient:
         school_name: str,
         school_id: int | str,
     ) -> SchoolResearchResult:
-        prompt = self._build_prompt(
+        logging.info("starting section calls for school id=%s", school_id)
+        information, programs, admission_methods, admission_score = await asyncio.gather(
+            self.generate_information_async(
+                school_name=school_name,
+                school_id=school_id,
+            ),
+            self.generate_programs_async(
+                school_name=school_name,
+                school_id=school_id,
+            ),
+            self.generate_admission_async(
+                school_name=school_name,
+                school_id=school_id,
+            ),
+            self.generate_admission_score_async(
+                school_name=school_name,
+                school_id=school_id,
+            ),
+        )
+        logging.info("completed section calls for school id=%s", school_id)
+        merged_section_sources = self._merge_source_urls(
+            information.source_urls,
+            programs.source_urls,
+            admission_methods.source_urls,
+            admission_score.source_urls,
+        )
+        logging.info("starting metadata call for school id=%s", school_id)
+        metadata = await self.generate_metadata_async(
             school_name=school_name,
             school_id=school_id,
+            information=information.information,
+            programs=programs.programs,
+            admission_methods=admission_methods.admission_methods,
+            admission_score=admission_score.admission_score,
+            candidate_source_urls=merged_section_sources,
         )
+        logging.info("completed metadata call for school id=%s", school_id)
+        merged_sources = self._merge_source_urls(
+            metadata.source_urls,
+            merged_section_sources,
+        )
+        return SchoolResearchResult(
+            description=metadata.description,
+            information=information.information,
+            campus=metadata.campus,
+            campus_locations=metadata.campus_locations,
+            programs=programs.programs,
+            admission_methods=admission_methods.admission_methods,
+            admission_score=admission_score.admission_score,
+            tags=metadata.tags,
+            source_url=metadata.source_url.strip() or (merged_sources[0] if merged_sources else ""),
+            source_urls=merged_sources,
+        )
+
+    async def generate_information_async(
+        self,
+        *,
+        school_name: str,
+        school_id: int | str,
+    ) -> SchoolInformationDraft:
+        return await self._generate_structured_async(
+            model=self.config.section_model,
+            prompt=self._build_information_prompt(
+                school_name=school_name,
+                school_id=school_id,
+            ),
+            schema=SchoolInformationDraft,
+            use_google_search=True,
+        )
+
+    async def generate_programs_async(
+        self,
+        *,
+        school_name: str,
+        school_id: int | str,
+    ) -> SchoolProgramsDraft:
+        return await self._generate_structured_async(
+            model=self.config.section_model,
+            prompt=self._build_programs_prompt(
+                school_name=school_name,
+                school_id=school_id,
+            ),
+            schema=SchoolProgramsDraft,
+            use_google_search=True,
+        )
+
+    async def generate_admission_async(
+        self,
+        *,
+        school_name: str,
+        school_id: int | str,
+    ) -> SchoolAdmissionDraft:
+        return await self._generate_structured_async(
+            model=self.config.section_model,
+            prompt=self._build_admission_methods_prompt(
+                school_name=school_name,
+                school_id=school_id,
+            ),
+            schema=SchoolAdmissionDraft,
+            use_google_search=True,
+        )
+
+    async def generate_admission_score_async(
+        self,
+        *,
+        school_name: str,
+        school_id: int | str,
+    ) -> SchoolAdmissionScoreDraft:
+        return await self._generate_structured_async(
+            model=self.config.section_model,
+            prompt=self._build_admission_score_prompt(
+                school_name=school_name,
+                school_id=school_id,
+            ),
+            schema=SchoolAdmissionScoreDraft,
+            use_google_search=True,
+        )
+
+    async def generate_metadata_async(
+        self,
+        *,
+        school_name: str,
+        school_id: int | str,
+        information: str,
+        programs: str,
+        admission_methods: str,
+        admission_score: str,
+        candidate_source_urls: list[str],
+    ) -> SchoolMetadataDraft:
+        return await self._generate_structured_async(
+            model=self.config.metadata_model,
+            prompt=self._build_metadata_prompt(
+                school_name=school_name,
+                school_id=school_id,
+                information=information,
+                programs=programs,
+                admission_methods=admission_methods,
+                admission_score=admission_score,
+                candidate_source_urls=candidate_source_urls,
+            ),
+            schema=SchoolMetadataDraft,
+            use_google_search=False,
+        )
+
+    async def _generate_structured_async(
+        self,
+        *,
+        model: str,
+        prompt: str,
+        schema: type[BaseModel],
+        use_google_search: bool,
+    ) -> BaseModel:
         tools: list[Any] = []
-        if self.config.enable_google_search:
+        if use_google_search and self.config.enable_google_search:
             tools.append(types.Tool(google_search=types.GoogleSearch()))
 
         thinking_config = None
@@ -341,120 +582,255 @@ class GeminiResearchClient:
             thinking_config = types.ThinkingConfig(thinking_level=self.config.thinking_level)
 
         response = await self.async_client.models.generate_content(
-            model=self.config.model,
+            model=model,
             contents=prompt,
             config=types.GenerateContentConfig(
                 temperature=0.2,
                 tools=tools,
                 response_mime_type="application/json",
-                response_json_schema=SchoolResearchResult.model_json_schema(),
+                response_json_schema=schema.model_json_schema(),
                 thinking_config=thinking_config,
                 max_output_tokens=self.config.max_output_tokens,
             ),
         )
-
         if response.text:
-            return SchoolResearchResult.model_validate_json(response.text)
-        raise RuntimeError(f"Gemini did not return structured output for school {school_id}")
+            return schema.model_validate_json(response.text)
+        raise RuntimeError("Gemini did not return structured output")
 
-    def _build_prompt(
+    def _build_information_prompt(
         self,
         *,
         school_name: str,
         school_id: int | str,
     ) -> str:
         return f"""
-Bạn là biên tập viên nghiên cứu dữ liệu giáo dục đại học Việt Nam cấp senior.
+Bạn đang viết riêng section `information` cho CMS về trường đại học Việt Nam "{school_name}" (ID nội bộ: {school_id}).
+
+Yêu cầu:
+- Chỉ trả về JSON hợp lệ theo schema được cung cấp.
+- Viết bằng tiếng Việt, chi tiết, giàu dữ kiện, không quảng cáo.
+- Hiện tại là năm 2026. Ưu tiên thông tin công bố trong năm 2026 hoặc áp dụng cho tuyển sinh/đào tạo năm 2026; nếu chưa có thì mới lùi về 2025 và phải nói rõ đang dùng dữ liệu năm nào.
+- Đi thẳng vào ý chính.
+- Được phép dùng Markdown nhẹ bên trong chuỗi.
+- Output proper markdown, sạch, không có citation numbers ở cuối câu.
+- Không dùng HTML.
+- Viết chi tiết, đầy đủ, nhiều ý rõ ràng để dễ đọc, nhưng không lan man.
+- Bỏ các bình luận chủ quan và đánh giá chung chung, chỉ tập trung vào thông tin.
+
+Section này phải đủ dày như nội dung chính của một trang thông tin trường.
+
+Nội dung cần cố gắng bao phủ:
+- lịch sử hoặc cột mốc đáng chú ý
+- loại hình và đơn vị chủ quản nếu quan trọng
+- vị trí, cơ sở đào tạo, quy mô hoặc phạm vi đào tạo
+- định hướng phát triển, thay đổi nổi bật gần đây
+- thế mạnh đào tạo, nghiên cứu, thực hành
+- hợp tác quốc tế/doanh nghiệp/bệnh viện/xưởng/phòng lab nếu có
+- môi trường học tập và lợi thế cho sinh viên
+- điểm khác biệt so với các trường cùng nhóm
+- website chính thức và trang tuyển sinh chính thức nếu xác định được trong phần nguồn
+- Không nên biến section này thành phần tuyển sinh; chỉ nhắc tuyển sinh khi đó là thay đổi quan trọng giúp hiểu bức tranh chung của trường.
+
+Nếu có thay đổi rõ giữa năm gần nhất và năm trước đó, phải nêu rõ trong section.
+Nếu có thuật ngữ khó, giải thích ngắn gọn ngay trong câu.
+- Nên có nhiều bullet hoặc tiểu mục rõ ràng cho dễ scan.
+- Mục tiêu độ dài cao hơn mức tóm tắt ngắn, không viết sơ sài.
+""".strip()
+
+    def _build_programs_prompt(
+        self,
+        *,
+        school_name: str,
+        school_id: int | str,
+    ) -> str:
+        return f"""
+Bạn đang viết riêng section `programs` cho CMS về trường đại học Việt Nam "{school_name}" (ID nội bộ: {school_id}).
+
+Yêu cầu:
+- Chỉ trả về JSON hợp lệ theo schema được cung cấp.
+- Viết bằng tiếng Việt, giàu thông tin, dễ scan.
+- Hiện tại là năm 2026. Ưu tiên thông tin công bố trong năm 2026 hoặc áp dụng cho năm học/tuyển sinh 2026; nếu chưa có thì mới lùi về 2025 và phải nói rõ đang dùng dữ liệu năm nào.
+- Được phép dùng Markdown nhẹ, bullet, numbered list.
+- Output proper markdown, sạch, không có citation numbers ở cuối câu.
+- Không dùng HTML.
+- Đi thẳng vào ý chính.
+- Chi tiết, đầy đủ, chia theo nhóm ngành và điều kiện khi phù hợp.
+
+Section này phải mô tả cụ thể các nhóm ngành/chương trình nổi bật, không được chỉ nói "đào tạo đa ngành".
+
+Cần cố gắng bao phủ:
+- nhóm ngành mạnh
+- chương trình đào tạo nổi bật
+- chương trình chất lượng cao/quốc tế/ứng dụng/liên kết nếu có
+- ngành mới hoặc hướng đào tạo mới gần đây nếu có
+- học phí, học bổng hoặc hỗ trợ tài chính nếu đó là thông tin nổi bật và xác minh được
+- trường phù hợp với định hướng người học nào
+- nếu có học phí, cố gắng cho biết mức học phí theo nhóm chương trình hoặc nêu rõ chưa thấy công bố mới nhất
+- nếu có học bổng, nêu ngắn gọn loại học bổng hoặc hỗ trợ đáng chú ý
+- nên có nhiều bullet hoặc numbered list để dễ đọc như một clean article section
+- Mục tiêu độ dài cao hơn mức mô tả tóm tắt, không viết quá mỏng.
+- Không lặp lại quá nhiều phần lịch sử hoặc tổng quan chung của trường; chỉ giữ đúng trọng tâm chương trình đào tạo.
+""".strip()
+
+    def _build_admission_methods_prompt(
+        self,
+        *,
+        school_name: str,
+        school_id: int | str,
+    ) -> str:
+        return f"""
+Bạn đang viết riêng section `admission_methods` cho CMS về trường đại học Việt Nam "{school_name}" (ID nội bộ: {school_id}).
+
+Yêu cầu:
+- Chỉ trả về JSON hợp lệ theo schema được cung cấp.
+- Viết bằng tiếng Việt, rõ ràng, thực dụng cho thí sinh.
+- Hiện tại là năm 2026. Ưu tiên thông tin tuyển sinh 2026 đã công bố chính thức; nếu chưa có thì dùng dữ liệu 2025 gần nhất và phải ghi rất rõ đang tham chiếu năm nào.
+- Được phép dùng Markdown nhẹ, bullet, numbered list.
+- Không bịa con số.
+- Output proper markdown, sạch, không có citation numbers ở cuối câu.
+- Không dùng HTML.
+- Đi thẳng vào ý chính.
+- Chi tiết, đầy đủ và nhiều bullet để dễ đọc.
+- Trình bày đồng bộ với các section khác: mở bằng 1-2 câu khái quát ngắn, sau đó chia thành các tiểu mục Markdown rõ ràng.
+- Ưu tiên cấu trúc như một clean article section với các heading ngắn kiểu `##` hoặc các nhóm bullet lớn.
+
+Cần cố gắng bao phủ:
+- phương thức xét tuyển
+- tổ hợp hoặc điều kiện đầu vào nếu có
+- thay đổi quan trọng gần đây
+- lưu ý hữu ích cho thí sinh về hồ sơ, điều kiện, chứng chỉ hoặc mốc thời gian nếu có
+- chi tiết điều kiện của từng phương thức nếu xác minh được
+- nếu chưa có dữ liệu năm mới nhất, ghi rõ dùng dữ liệu gần nhất nào
+- không biến section này thành phần điểm chuẩn; trọng tâm là phương thức và điều kiện của từng phương thức
+- Mục tiêu độ dài cao hơn mức ghi chú ngắn, đủ dày để thành một section hữu ích thực sự.
+- Ưu tiên một cấu trúc gần như sau nếu phù hợp với dữ liệu:
+  - một đoạn mở đầu rất ngắn
+  - `## Phương thức xét tuyển`
+  - `## Điều kiện hoặc lưu ý của từng phương thức`
+  - `## Lưu ý gần đây cho thí sinh`
+""".strip()
+
+    def _build_admission_score_prompt(
+        self,
+        *,
+        school_name: str,
+        school_id: int | str,
+    ) -> str:
+        return f"""
+Bạn đang viết riêng section `admission_score` cho CMS về trường đại học Việt Nam "{school_name}" (ID nội bộ: {school_id}).
+
+Yêu cầu:
+- Chỉ trả về JSON hợp lệ theo schema được cung cấp.
+- Viết bằng tiếng Việt, rõ ràng, thực dụng cho thí sinh.
+- Hiện tại là năm 2026. Ưu tiên dữ liệu điểm chuẩn hoặc mức điểm tham khảo năm 2026 nếu đã có công bố chính thức; nếu chưa có thì dùng năm 2025 gần nhất và phải ghi rõ đang tham chiếu năm nào.
+- Được phép dùng Markdown nhẹ, bullet, numbered list.
+- Không bịa con số.
+- Output proper markdown, sạch, không có citation numbers ở cuối câu.
+- Không dùng HTML.
+- Đi thẳng vào ý chính.
+- Chi tiết, đầy đủ và nhiều bullet để dễ đọc.
+- Trình bày đồng bộ với các section khác: mở bằng 1-2 câu khái quát ngắn, sau đó chia thành các tiểu mục Markdown rõ ràng.
+
+Cần cố gắng bao phủ:
+- nhóm ngành và mức điểm chuẩn nếu có xác minh
+- nêu rõ điểm đó thuộc phương thức nào nếu xác minh được
+- xu hướng tăng/giảm nếu có cơ sở từ dữ liệu gần nhất
+- nếu chưa có điểm chuẩn năm 2026, chuyển sang điểm chuẩn 2025 hoặc mức điểm tham khảo gần nhất
+- nếu trường chưa công bố điểm chuẩn mới nhất, phải ghi rõ điều đó
+- nên nhóm các ngành hoặc mức điểm chuẩn nếu liên quan thay vì liệt kê rời rạc
+- không lặp lại quá nhiều phần phương thức xét tuyển vì đã có section riêng
+- Mục tiêu độ dài cao hơn mức ghi chú ngắn, đủ dày để thành một section hữu ích thực sự.
+- Ưu tiên một cấu trúc gần như sau nếu phù hợp với dữ liệu:
+  - một đoạn mở đầu rất ngắn
+  - `## Nhóm ngành và mức điểm đáng chú ý`
+  - `## Theo từng phương thức hoặc nhóm ngành`
+  - `## Lưu ý khi đọc điểm chuẩn`
+- Nếu chưa có điểm chuẩn mới nhất, hãy ghi rõ điều đó trong một tiểu mục riêng thay vì lẫn trong câu văn dài.
+""".strip()
+
+    def _build_metadata_prompt(
+        self,
+        *,
+        school_name: str,
+        school_id: int | str,
+        information: str,
+        programs: str,
+        admission_methods: str,
+        admission_score: str,
+        candidate_source_urls: list[str],
+    ) -> str:
+        source_block = "\n".join(f"- {url}" for url in candidate_source_urls if str(url).strip()) or "- Chưa có URL ứng viên rõ ràng"
+        return f"""
+Bạn đang làm bước metadata cuối cho trường đại học Việt Nam "{school_name}" (ID nội bộ: {school_id}).
 
 Nhiệm vụ:
-Nghiên cứu và tổng hợp thông tin chi tiết, thực dụng, dễ dùng ngay cho trường đại học tại Việt Nam có tên "{school_name}" (ID nội bộ: {school_id}).
+- Không nghiên cứu lại từ đầu.
+- Chỉ dựa trên 4 section đã có bên dưới để rút ra:
+  - `description`
+  - `campus`
+  - `campus_locations`
+  - `tags`
+  - `source_url`
+  - `source_urls`
+- Chỉ trả về JSON hợp lệ theo schema được cung cấp.
 
-Mục tiêu:
-- Chỉ trả về đúng một JSON object hợp lệ theo schema hệ thống.
-- Không thêm bất kỳ giải thích nào ngoài JSON.
-- Viết bằng tiếng Việt tự nhiên, giàu thông tin, không quảng cáo, không sáo rỗng.
-- Nội dung phải đủ dày để khi ghép `description`, `information`, `programs`, `admission_score` lại có cảm giác như một trang nội dung ngắn, không phải vài câu cho có.
-- Được phép dùng Markdown bên trong các string của JSON để tăng khả năng hiển thị và đọc, ví dụ: tiêu đề ngắn `##`, bullet `-`, danh sách đánh số `1.`.
-- Không dùng code fence ba dấu backtick trong bất kỳ field nào.
+Yêu cầu cho `description`:
+- Viết như đoạn mở đầu của bài giới thiệu trường, khoảng 150-260 từ.
+- Phải trả lời được nhanh: trường là ai, thuộc nhóm nào, ở đâu, nổi bật ở điểm gì, phù hợp với nhóm người học nào.
+- Viết tự nhiên, giàu thông tin, không sáo rỗng.
+- Dùng Markdown nhẹ nếu cần, nhưng không dùng HTML.
 
-Ưu tiên nguồn:
-1. Tìm thông tin mới nhất trong năm gần nhất có thể xác minh. Ưu tiên năm 2026, nếu chưa có thì lùi về 2025.
-2. Website chính thức của trường.
-3. Trang tuyển sinh chính thức hoặc đề án tuyển sinh chính thức.
-4. Trang khoa/chương trình chính thức.
-5. Nguồn báo chí hoặc đơn vị giáo dục uy tín để bổ sung ngữ cảnh khi nguồn chính thức chưa đủ.
+Yêu cầu cho `campus`:
+- Viết ngắn gọn nhưng cụ thể, ưu tiên 1-4 câu hoặc một nhóm bullet ngắn.
+- Chỉ tập trung vào cơ sở đào tạo, campus, địa điểm học chính, phân bố cơ sở nếu có.
+- Nếu trường có nhiều cơ sở, nêu rõ các cơ sở chính hoặc cách phân bố.
+- Nếu chưa xác minh rõ số lượng hoặc tên cơ sở, ghi trung thực rằng chưa thấy công bố đầy đủ.
 
-Nguyên tắc:
-- Đi thẳng vào ý chính, hạn chế câu mở đầu rỗng.
-- Không bịa số liệu hay chi tiết cụ thể nếu không chắc.
-- Nếu thiếu dữ liệu chắc chắn, ghi rõ là chưa có thông tin rõ ràng hoặc chưa thấy công bố chính thức.
-- Nếu có thay đổi so với năm trước, phải nêu rõ.
-- Nếu có thuật ngữ tuyển sinh/chương trình dễ khó hiểu, giải thích ngắn gọn ngay trong câu cho dễ đọc.
-- `source_url` phải là URL hữu ích nhất để editor kiểm tra nhanh.
+Yêu cầu cho `campus_locations`:
+- Trả về danh sách rất ngắn gọn các tên tỉnh/thành phố tại Việt Nam để filter.
+- Ưu tiên tên chuẩn hóa như `Hà Nội`, `TP.HCM`, `Đà Nẵng`, `Nghệ An`, `Cần Thơ`, `Huế`.
+- Không đưa địa chỉ đầy đủ, không đưa tên cơ sở, không đưa quận/huyện, không đưa câu dài vào field này.
+- Nếu trường có nhiều cơ sở ở cùng một thành phố thì chỉ giữ một giá trị địa phương chuẩn hóa.
+- Nếu chưa xác minh rõ campus ở đâu, trả về danh sách rỗng thay vì đoán.
 
-Hãy coi output như 4 section nội dung riêng, nhưng trả về gộp trong một JSON:
-- `description`: phần mở đầu của bài
-- `information`: section tổng quan và thay đổi chính
-- `programs`: section chương trình đào tạo, nhóm ngành, học phí/học bổng nếu đáng chú ý
-- `admission_score`: section tuyển sinh, phương thức, điểm chuẩn, lưu ý cho thí sinh
-
-Yêu cầu theo từng field:
-
-1. `description`
-- Viết 1 đoạn giới thiệu hoàn chỉnh khoảng 120-220 từ.
-- Phải trả lời được ngay: trường là ai, thuộc loại hình nào, ở đâu, nổi bật ở điểm gì, vì sao thường được biết tới.
-- Không được quá chung chung.
-- Có thể dùng 1 đoạn Markdown gọn, nhưng không cần bullet quá nhiều.
-
-2. `information`
-- Đây là field dài và quan trọng nhất, mục tiêu khoảng 300-700 từ.
-- Viết như phần nội dung chính của một trang thông tin trường.
-- Cố gắng bao phủ càng nhiều càng tốt:
-  lịch sử/cột mốc;
-  loại hình và đơn vị chủ quản;
-  vị trí, cơ sở đào tạo;
-  quy mô hoặc phạm vi đào tạo;
-  định hướng phát triển;
-  thế mạnh đào tạo, nghiên cứu, thực hành;
-  hợp tác quốc tế/doanh nghiệp/bệnh viện/xưởng/phòng lab nếu có;
-  môi trường học tập và lợi thế cho sinh viên;
-  các điểm khác biệt so với trường cùng nhóm.
-- Nếu trường mạnh về một lĩnh vực cụ thể như kiến trúc, kỹ thuật, y dược, sức khỏe, kinh tế, ngoại ngữ, công nghệ... phải làm nổi bật rất rõ.
-- Nên trình bày như một section giàu cấu trúc, ví dụ mở bằng 1-2 câu khái quát rồi xuống các bullet theo ý lớn.
-- Nếu có thay đổi chính trong năm gần nhất, nên có một mục nhỏ kiểu `### Thay đổi chính gần đây` hoặc bullet tương đương.
-
-3. `programs`
-- Mục tiêu khoảng 220-500 từ.
-- Không chỉ nói "đào tạo đa ngành".
-- Phải mô tả cụ thể các nhóm ngành/chương trình nổi bật.
-- Nhóm theo cụm lĩnh vực khi hợp lý.
-- Nếu có chương trình chất lượng cao, quốc tế, ứng dụng, liên kết doanh nghiệp, ngành mới, chương trình mũi nhọn thì phải nêu rõ.
-- Có thể nhắc ngắn tới học phí hoặc học bổng nếu đó là thông tin nổi bật, xác minh được và giúp người đọc hiểu chương trình tốt hơn.
-- Ưu tiên cấu trúc Markdown dễ đọc: nhóm ngành theo bullet hoặc numbered list.
-- Nếu có học phí/học bổng đáng chú ý, nêu như một tiểu mục ngắn thay vì lẫn hoàn toàn vào câu văn.
-
-4. `admission_score`
-- Mục tiêu khoảng 180-420 từ.
-- Ưu tiên thông tin tuyển sinh gần nhất có thể xác minh.
-- Nếu có điểm chuẩn, trình bày cụ thể nhưng trung thực: theo phương thức nào, nhóm ngành nào đáng chú ý, xu hướng ra sao nếu có cơ sở.
-- Nếu chưa có điểm chuẩn chính thức, thay bằng thông tin tuyển sinh hữu ích:
-  phương thức xét tuyển, tổ hợp, điều kiện đầu vào, mốc thông tin gần nhất, lưu ý quan trọng cho thí sinh.
-- Không bịa con số.
-- Nên trình bày thành các bullet dễ scan.
-- Nếu chưa có điểm chuẩn năm mới nhất, phải nói rõ và thay bằng thông tin tuyển sinh gần nhất hữu ích.
-
-5. `tags`
+Yêu cầu cho `tags`:
 - Tạo 5-10 tag ngắn, chuẩn hóa, hữu ích cho lọc dữ liệu.
-- Ưu tiên tag về loại hình trường, địa phương, nhóm ngành nổi bật, định hướng đào tạo, đặc điểm nhận diện.
+- Ưu tiên loại hình trường, địa phương, nhóm ngành mạnh, định hướng đào tạo, đặc điểm nhận diện.
+- Không tạo tag quá dài.
 
-6. `source_url`
-- Chọn 1 URL tốt nhất để editor mở ra kiểm tra nhanh thông tin cốt lõi.
-- Ưu tiên trang chính thức có độ bao quát cao nhất.
-- Không để trống.
+Yêu cầu cho `source_url` và `source_urls`:
+- Ưu tiên chọn từ danh sách URL ứng viên bên dưới.
+- `source_url` là URL tốt nhất để editor mở ra kiểm tra nhanh.
+- `source_urls` chỉ cần ngắn gọn, tiêu biểu, không cần liệt kê quá nhiều.
+- Nếu URL ứng viên chưa đủ tốt, bạn có thể chọn lại từ ngữ cảnh section, nhưng vẫn ưu tiên danh sách ứng viên.
 
-Chỉ trả về JSON với đúng các key:
-description, information, programs, admission_score, tags, source_url, source_urls
+Không dùng HTML. Không thêm giải thích ngoài JSON.
+
+## URL ứng viên
+{source_block}
+
+## Section information
+{information}
+
+## Section programs
+{programs}
+
+## Section admission_methods
+{admission_methods}
+
+## Section admission_score
+{admission_score}
 """.strip()
+
+    @staticmethod
+    def _merge_source_urls(*groups: list[str]) -> list[str]:
+        merged: list[str] = []
+        for group in groups:
+            for item in group:
+                normalized = str(item).strip()
+                if normalized and normalized not in merged:
+                    merged.append(normalized)
+        return merged
 
 
 def get_school_identity(fields: dict[str, Any], config: AirtableConfig) -> tuple[int, str]:
@@ -521,6 +897,15 @@ def to_airtable_source_urls(value: list[str]) -> str:
         if normalized and normalized not in cleaned:
             cleaned.append(normalized)
     return "\n".join(cleaned)
+
+
+def sanitize_rich_text(value: str) -> str:
+    text = str(value)
+    text = re.sub(r"<br\s*/?>", "\n", text, flags=re.IGNORECASE)
+    text = re.sub(r"</p\s*>", "\n\n", text, flags=re.IGNORECASE)
+    text = re.sub(r"<[^>]+>", "", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
 
 
 def to_jsonb(value: list[str]) -> str:

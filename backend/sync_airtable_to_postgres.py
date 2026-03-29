@@ -19,19 +19,25 @@ INSERT INTO schools (
     name,
     description,
     information,
+    campus,
+    campus_locations,
     programs,
+    admission_methods,
     admission_score,
     tags,
     source_url,
     updated_at
 )
-VALUES (%s, %s, %s, %s, %s, %s, %s, %s, NOW())
+VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW())
 ON CONFLICT (id)
 DO UPDATE SET
     name = EXCLUDED.name,
     description = EXCLUDED.description,
     information = EXCLUDED.information,
+    campus = EXCLUDED.campus,
+    campus_locations = EXCLUDED.campus_locations,
     programs = EXCLUDED.programs,
+    admission_methods = EXCLUDED.admission_methods,
     admission_score = EXCLUDED.admission_score,
     tags = EXCLUDED.tags,
     source_url = EXCLUDED.source_url,
@@ -99,7 +105,10 @@ def main() -> int:
                             school_name,
                             fields.get(airtable_config.description_field),
                             fields.get(airtable_config.information_field),
+                            fields.get(airtable_config.campus_field),
+                            Json(fields.get(airtable_config.campus_locations_field) or []),
                             fields.get(airtable_config.programs_field),
+                            fields.get(airtable_config.admission_methods_field),
                             fields.get(airtable_config.admission_score_field),
                             Json(tags),
                             fields.get(airtable_config.source_url_field),
