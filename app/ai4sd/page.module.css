@@ -1,0 +1,52 @@
+.roadmapList {
+  position: relative;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.roadmapList::before {
+  content: "";
+  position: absolute;
+  left: 1.5625rem;
+  top: 1.65rem;
+  bottom: 1.65rem;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(13, 148, 136, 0.32) 0%, rgba(245, 158, 11, 0.24) 100%);
+  z-index: 2;
+}
+
+.roadmapItem {
+  position: relative;
+  padding: 0.25rem 0 1.75rem 4.75rem;
+  z-index: 1;
+}
+
+.roadmapDot {
+  position: absolute;
+  left: 1rem;
+  top: 0.2rem;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 9999px;
+  background: #0f766e;
+  border: 4px solid #dff7f2;
+  z-index: 3;
+}
+
+.roadmapCardTight {
+  min-height: 0;
+}
+
+@media (max-width: 768px) {
+  .roadmapItem {
+    padding: 0.15rem 0 1.5rem 4rem;
+  }
+
+  .roadmapList::before {
+    left: 1.4375rem;
+  }
+
+  .roadmapDot {
+    left: 0.875rem;
+  }
+}

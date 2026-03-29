@@ -1,0 +1,44 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="40" fill="#0B1220"/>
+  <rect x="44" y="44" width="1112" height="812" rx="28" fill="#0F1A2B" stroke="#233552" stroke-width="2"/>
+  <rect x="78" y="78" width="1044" height="56" rx="18" fill="#15253A"/>
+  <circle cx="110" cy="106" r="10" fill="#84E2D3"/>
+  <circle cx="142" cy="106" r="10" fill="#F8C37A"/>
+  <rect x="820" y="93" width="120" height="26" rx="13" fill="#233552"/>
+  <rect x="954" y="93" width="128" height="26" rx="13" fill="#FFFFFF"/>
+  <rect x="78" y="168" width="268" height="160" rx="24" fill="#1C2E45" stroke="#233552" stroke-width="2"/>
+  <rect x="78" y="350" width="268" height="160" rx="24" fill="#84E2D3"/>
+  <rect x="78" y="532" width="268" height="246" rx="24" fill="#1C2E45" stroke="#233552" stroke-width="2"/>
+  <rect x="374" y="168" width="458" height="342" rx="28" fill="#15253A" stroke="#233552" stroke-width="2"/>
+  <rect x="374" y="532" width="458" height="246" rx="28" fill="#0F1A2B" stroke="#233552" stroke-width="2"/>
+  <rect x="860" y="168" width="262" height="286" rx="24" fill="#15253A" stroke="#233552" stroke-width="2"/>
+  <rect x="860" y="476" width="262" height="302" rx="24" fill="#0F1A2B" stroke="#233552" stroke-width="2"/>
+  <text x="104" y="214" fill="#B7C5D2" font-family="Arial, sans-serif" font-size="22">Business health</text>
+  <text x="104" y="266" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="56" font-weight="700">+27%</text>
+  <text x="104" y="396" fill="#0B1220" font-family="Arial, sans-serif" font-size="22">Automation impact</text>
+  <text x="104" y="450" fill="#0B1220" font-family="Arial, sans-serif" font-size="56" font-weight="700">84 tasks</text>
+  <text x="104" y="585" fill="#B7C5D2" font-family="Arial, sans-serif" font-size="24">Workflow snapshot</text>
+  <rect x="104" y="618" width="216" height="18" rx="9" fill="#233552"/>
+  <rect x="104" y="652" width="180" height="18" rx="9" fill="#84E2D3"/>
+  <rect x="104" y="686" width="146" height="18" rx="9" fill="#F8C37A"/>
+  <rect x="104" y="720" width="200" height="18" rx="9" fill="#FFFFFF"/>
+  <text x="406" y="214" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="26" font-weight="700">Market dashboard</text>
+  <path d="M406 426C458 360 523 372 564 314C615 242 672 244 720 298C752 333 780 370 800 414" stroke="#84E2D3" stroke-width="10" stroke-linecap="round"/>
+  <path d="M406 462C462 470 522 430 564 444C615 462 676 418 732 400C764 389 786 392 804 404" stroke="#F8C37A" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="564" cy="314" r="13" fill="#84E2D3"/>
+  <circle cx="720" cy="298" r="13" fill="#84E2D3"/>
+  <circle cx="732" cy="400" r="13" fill="#F8C37A"/>
+  <text x="406" y="578" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="24" font-weight="700">KPI checklist</text>
+  <rect x="406" y="618" width="388" height="26" rx="13" fill="#233552"/>
+  <rect x="406" y="662" width="312" height="26" rx="13" fill="#84E2D3"/>
+  <rect x="406" y="706" width="348" height="26" rx="13" fill="#FFFFFF"/>
+  <text x="892" y="214" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="24" font-weight="700">Prompt log</text>
+  <rect x="892" y="242" width="198" height="18" rx="9" fill="#233552"/>
+  <rect x="892" y="276" width="160" height="18" rx="9" fill="#F8C37A"/>
+  <rect x="892" y="320" width="198" height="82" rx="18" fill="#84E2D3"/>
+  <text x="890" y="522" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="24" font-weight="700">Launch board</text>
+  <rect x="892" y="556" width="198" height="24" rx="12" fill="#233552"/>
+  <rect x="892" y="594" width="174" height="24" rx="12" fill="#84E2D3"/>
+  <rect x="892" y="632" width="152" height="24" rx="12" fill="#F8C37A"/>
+  <rect x="892" y="670" width="184" height="24" rx="12" fill="#FFFFFF"/>
+</svg>

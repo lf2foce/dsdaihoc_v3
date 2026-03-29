@@ -1,0 +1,21 @@
+<svg width="900" height="1200" viewBox="0 0 900 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="1200" rx="64" fill="#0B1220"/>
+  <rect x="110" y="80" width="680" height="1040" rx="52" fill="#0F1A2B"/>
+  <rect x="280" y="110" width="340" height="22" rx="11" fill="#233552"/>
+  <rect x="150" y="178" width="600" height="110" rx="30" fill="#15253A"/>
+  <text x="188" y="230" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="30" font-weight="700">AI Student Coach</text>
+  <text x="188" y="262" fill="#9CB6D1" font-family="Arial, sans-serif" font-size="20">Portfolio builder assistant</text>
+  <rect x="150" y="330" width="410" height="100" rx="26" fill="#1C2E45"/>
+  <rect x="350" y="455" width="400" height="100" rx="26" fill="#84E2D3"/>
+  <rect x="150" y="580" width="450" height="116" rx="26" fill="#1C2E45"/>
+  <rect x="300" y="728" width="450" height="132" rx="26" fill="#F8C37A"/>
+  <rect x="150" y="890" width="600" height="140" rx="32" fill="#15253A" stroke="#233552" stroke-width="2"/>
+  <text x="184" y="378" fill="#D5E0EC" font-family="Arial, sans-serif" font-size="24">I want a marketing capstone.</text>
+  <text x="388" y="510" fill="#0B1220" font-family="Arial, sans-serif" font-size="24">Here are three product directions.</text>
+  <text x="184" y="634" fill="#D5E0EC" font-family="Arial, sans-serif" font-size="24">I need a demo with real data.</text>
+  <text x="336" y="784" fill="#3B2A12" font-family="Arial, sans-serif" font-size="24">Try AI content planner + landing.</text>
+  <text x="184" y="944" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="22" font-weight="700">Suggested next steps</text>
+  <rect x="184" y="968" width="180" height="18" rx="9" fill="#84E2D3"/>
+  <rect x="184" y="1000" width="260" height="18" rx="9" fill="#F8C37A"/>
+  <rect x="184" y="1032" width="210" height="18" rx="9" fill="#FFFFFF"/>
+</svg>

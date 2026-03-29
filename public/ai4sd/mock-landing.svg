@@ -1,0 +1,29 @@
+<svg width="1400" height="980" viewBox="0 0 1400 980" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1400" height="980" rx="48" fill="#0B1220"/>
+  <rect x="54" y="54" width="1292" height="872" rx="34" fill="#0F1A2B" stroke="#233552" stroke-width="2"/>
+  <rect x="94" y="94" width="1212" height="70" rx="22" fill="#15253A"/>
+  <rect x="124" y="118" width="180" height="22" rx="11" fill="#84E2D3"/>
+  <rect x="1088" y="118" width="88" height="22" rx="11" fill="#F8C37A"/>
+  <rect x="1192" y="118" width="80" height="22" rx="11" fill="#FFFFFF"/>
+  <rect x="94" y="212" width="760" height="322" rx="32" fill="#101C2D" stroke="#233552" stroke-width="2"/>
+  <rect x="884" y="212" width="422" height="322" rx="32" fill="#84E2D3" fill-opacity="0.14" stroke="#233552" stroke-width="2"/>
+  <rect x="94" y="568" width="596" height="318" rx="32" fill="#0F1A2B" stroke="#233552" stroke-width="2"/>
+  <rect x="720" y="568" width="586" height="318" rx="32" fill="#F8C37A" fill-opacity="0.12" stroke="#233552" stroke-width="2"/>
+  <text x="138" y="282" fill="#8FA6BF" font-family="Arial, sans-serif" font-size="24">Modern AI program</text>
+  <text x="138" y="360" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="72" font-weight="700">Build real</text>
+  <text x="138" y="438" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="72" font-weight="700">AI products</text>
+  <rect x="138" y="474" width="172" height="24" rx="12" fill="#84E2D3"/>
+  <rect x="330" y="474" width="184" height="24" rx="12" fill="#F8C37A"/>
+  <text x="928" y="286" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="28" font-weight="700">Preview stack</text>
+  <rect x="928" y="320" width="334" height="22" rx="11" fill="#84E2D3"/>
+  <rect x="928" y="360" width="290" height="22" rx="11" fill="#FFFFFF"/>
+  <rect x="928" y="414" width="334" height="82" rx="24" fill="#FFFFFF" fill-opacity="0.12"/>
+  <text x="138" y="636" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="28" font-weight="700">Outcome cards</text>
+  <rect x="138" y="670" width="230" height="150" rx="24" fill="#15253A"/>
+  <rect x="386" y="670" width="230" height="150" rx="24" fill="#84E2D3"/>
+  <text x="764" y="636" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="28" font-weight="700">Capstone wall</text>
+  <rect x="764" y="674" width="238" height="34" rx="17" fill="#15253A"/>
+  <rect x="764" y="726" width="280" height="34" rx="17" fill="#84E2D3"/>
+  <rect x="764" y="778" width="248" height="34" rx="17" fill="#F8C37A"/>
+  <rect x="764" y="830" width="296" height="34" rx="17" fill="#15253A"/>
+</svg>
