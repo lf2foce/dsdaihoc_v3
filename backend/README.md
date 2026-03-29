@@ -51,6 +51,7 @@ AIRTABLE_FIELD_PROGRAMS=Chương trình
 AIRTABLE_FIELD_ADMISSION_SCORE=Điểm chuẩn
 AIRTABLE_FIELD_TAGS=Tags
 AIRTABLE_FIELD_SOURCE_URL=source_url
+AIRTABLE_FIELD_SOURCE_URLS=source_urls
 AIRTABLE_FIELD_STATUS=Status
 AIRTABLE_FIELD_SYNCED=synced_to_db
 AIRTABLE_FIELD_LAST_CRAWLED_AT=last_crawled_at
@@ -59,8 +60,11 @@ AIRTABLE_STATUS_TODO=Todo
 AIRTABLE_STATUS_PENDING=Pending
 AIRTABLE_STATUS_APPROVED=Approved
 
-GEMINI_MODEL=gemini-2.5-flash
+GEMINI_MODEL=gemini-3.1-pro-preview
 GEMINI_ENABLE_GOOGLE_SEARCH=true
+GEMINI_THINKING_LEVEL=high
+GEMINI_MAX_OUTPUT_TOKENS=32768
+CRAWL_CONCURRENCY=20
 
 POSTGRES_PORT=5432
 POSTGRES_SSLMODE=
@@ -107,8 +111,11 @@ python sync_airtable_to_postgres.py --limit 10
 ## Notes
 
 - Crawl flow is: Airtable `Todo` record -> read `id` and `Tên trường` -> Gemini research with Google Search -> structured JSON output -> patch Airtable fields -> set `Status=Pending`.
+- The crawler is async and can process multiple schools concurrently. Control parallelism with `CRAWL_CONCURRENCY`.
+- Current official Gemini 3.1 Pro preview supports `thinkingLevel=low|high`; `medium` is not supported for Pro.
 - The code accepts `AIRTABLE_ACCESS_TOKEN` and also still supports the old env name `AIRTABLE_API_KEY`.
 - Airtable status names are case-sensitive. The defaults here are `Todo`, `Pending`, and `Approved`.
 - The scripts assume your Airtable `id` field is numeric.
 - `Tags` are written back to Airtable as a list of strings, suitable for a multi-select style field.
+- `source_urls` should be a `Long text` field in Airtable; the crawler writes one URL per line.
 - The sync step uses `INSERT ... ON CONFLICT (id) DO UPDATE`.

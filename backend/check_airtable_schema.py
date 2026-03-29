@@ -43,6 +43,7 @@ def main() -> int:
         config.admission_score_field,
         config.tags_field,
         config.source_url_field,
+        config.source_urls_field,
         config.status_field,
         config.synced_field,
         config.last_crawled_at_field,
