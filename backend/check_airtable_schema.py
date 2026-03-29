@@ -36,7 +36,10 @@ def main() -> int:
 
     expected_fields = [
         config.id_field,
+        config.short_name_field,
         config.name_field,
+        config.school_type_field,
+        config.featured_major_field,
         config.description_field,
         config.information_field,
         config.campus_field,

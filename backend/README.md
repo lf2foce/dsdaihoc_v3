@@ -11,6 +11,7 @@ Python backend for:
 
 - `crawl_airtable_records.py`: research + populate Airtable content fields
 - `check_airtable_schema.py`: inspect Airtable columns before running the crawl
+- `export_approved_to_json.py`: export Airtable `Approved` rows to a local JSON file for UI/mock
 - `sync_airtable_to_postgres.py`: sync approved Airtable rows into PostgreSQL
 - `common.py`: shared Airtable, Gemini, and PostgreSQL utilities
 
@@ -44,7 +45,9 @@ AIRTABLE_TABLE_NAME=Trường
 AIRTABLE_VIEW=
 
 AIRTABLE_FIELD_ID=id
+AIRTABLE_FIELD_SHORT_NAME=short_name
 AIRTABLE_FIELD_NAME=Tên trường
+AIRTABLE_FIELD_SCHOOL_TYPE=school_type
 AIRTABLE_FIELD_DESCRIPTION=Mô tả trường
 AIRTABLE_FIELD_INFORMATION=Thông tin trường
 AIRTABLE_FIELD_CAMPUS=campus
@@ -101,6 +104,12 @@ Run crawl:
 python crawl_airtable_records.py --limit 3
 ```
 
+Export `Approved` rows to JSON:
+
+```bash
+python export_approved_to_json.py
+```
+
 Dry-run sync:
 
 ```bash
@@ -115,7 +124,7 @@ python sync_airtable_to_postgres.py --limit 10
 
 ## Notes
 
-- Crawl flow is: Airtable `Todo` record -> read `id` and `Tên trường` -> 4 Gemini section calls with Google Search (`information`, `programs`, `admission_methods`, `admission_score`) -> 1 lightweight metadata call (`description`, `campus`, `campus_locations`, `tags`, `source_url`, `source_urls`) -> patch Airtable fields -> set `Status=Pending`.
+- Crawl flow is: Airtable `Todo` record -> read `id` and `Tên trường` -> 4 Gemini section calls with Google Search (`information`, `programs`, `admission_methods`, `admission_score`) -> 1 lightweight metadata call (`short_name`, `school_type`, `description`, `campus`, `campus_locations`, `tags`, `source_url`, `source_urls`) -> patch Airtable fields -> set `Status=Pending`.
 - The crawler is async and can process multiple schools concurrently. Control parallelism with `CRAWL_CONCURRENCY`.
 - The default section model is `gemini-3.1-pro-preview`.
 - The default metadata model is `gemini-3.1-flash-lite-preview`.
@@ -125,5 +134,7 @@ python sync_airtable_to_postgres.py --limit 10
 - `Tags` are written back to Airtable as a list of strings, suitable for a multi-select style field.
 - `campus_locations` should be a multi-select style field in Airtable and should contain only standardized Vietnamese province/city names such as `Hà Nội`, `TP.HCM`, `Đà Nẵng`.
 - `source_urls` should be a `Long text` field in Airtable; the crawler writes one URL per line.
+- `short_name` should be a short text field for display in list/table views.
+- `school_type` should be a short text or single-select field, usually `Công lập` or `Tư thục`.
 - Add `campus` in Airtable as a `Long text` field for cơ sở đào tạo.
-- The sync step uses `INSERT ... ON CONFLICT (id) DO UPDATE` and now expects PostgreSQL columns `campus`, `campus_locations`, and `admission_methods`.
+- The sync step uses `INSERT ... ON CONFLICT (id) DO UPDATE` and now expects PostgreSQL columns `short_name`, `school_type`, `campus`, `campus_locations`, and `admission_methods`.

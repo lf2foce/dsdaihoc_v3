@@ -16,7 +16,10 @@ from common import (
 UPSERT_SQL = """
 INSERT INTO schools (
     id,
+    short_name,
     name,
+    school_type,
+    featured_major,
     description,
     information,
     campus,
@@ -28,10 +31,13 @@ INSERT INTO schools (
     source_url,
     updated_at
 )
-VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW())
+VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW())
 ON CONFLICT (id)
 DO UPDATE SET
+    short_name = EXCLUDED.short_name,
     name = EXCLUDED.name,
+    school_type = EXCLUDED.school_type,
+    featured_major = EXCLUDED.featured_major,
     description = EXCLUDED.description,
     information = EXCLUDED.information,
     campus = EXCLUDED.campus,
@@ -102,7 +108,10 @@ def main() -> int:
                         UPSERT_SQL,
                         (
                             school_id,
+                            fields.get(airtable_config.short_name_field),
                             school_name,
+                            fields.get(airtable_config.school_type_field),
+                            fields.get(airtable_config.featured_major_field),
                             fields.get(airtable_config.description_field),
                             fields.get(airtable_config.information_field),
                             fields.get(airtable_config.campus_field),

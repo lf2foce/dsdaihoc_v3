@@ -5,6 +5,7 @@ import asyncio
 import re
 from dataclasses import dataclass
 from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any
 
 import aiohttp
@@ -16,7 +17,7 @@ from google.genai import types
 from pydantic import BaseModel, Field
 
 
-load_dotenv()
+load_dotenv(Path(__file__).resolve().parent / ".env")
 
 
 def setup_logging() -> None:
@@ -39,7 +40,10 @@ class AirtableConfig:
     status_field: str
     synced_field: str
     id_field: str
+    short_name_field: str
     name_field: str
+    school_type_field: str
+    featured_major_field: str
     description_field: str
     information_field: str
     campus_field: str
@@ -80,6 +84,15 @@ class PostgresConfig:
 
 
 class SchoolResearchResult(BaseModel):
+    short_name: str = Field(
+        description="Tên viết tắt hoặc mã nhận diện ngắn gọn của trường, ví dụ: UAH, HUB, NUTE."
+    )
+    school_type: str = Field(
+        description="Loại hình trường được chuẩn hóa ngắn gọn, ưu tiên một trong các giá trị như Công lập hoặc Tư thục."
+    )
+    featured_major: str = Field(
+        description="Một nhãn ngắn gọn cho ngành hoặc nhóm ngành nổi bật nhất của trường để hiển thị ở bảng danh sách."
+    )
     description: str = Field(
         description="Đoạn giới thiệu giàu thông tin về trường, khoảng 150-260 từ, có thể dùng Markdown nhẹ để dễ đọc."
     )
@@ -157,6 +170,18 @@ class SchoolAdmissionScoreDraft(BaseModel):
 
 
 class SchoolMetadataDraft(BaseModel):
+    short_name: str = Field(
+        default="",
+        description="Tên viết tắt ngắn gọn, dễ hiển thị ở bảng danh sách, ví dụ: UAH, HUB, NUTE."
+    )
+    school_type: str = Field(
+        default="",
+        description="Loại hình trường được chuẩn hóa để hiển thị ở bảng đầu, ưu tiên Công lập hoặc Tư thục."
+    )
+    featured_major: str = Field(
+        default="",
+        description="Ngành hoặc nhóm ngành nổi bật nhất của trường, ngắn gọn, phù hợp hiển thị ở bảng danh sách."
+    )
     description: str = Field(
         description="Đoạn mở đầu khoảng 150-260 từ, giàu thông tin, viết như opening section của bài giới thiệu trường."
     )
@@ -207,7 +232,10 @@ def load_airtable_config() -> AirtableConfig:
         status_field=os.getenv("AIRTABLE_FIELD_STATUS", "Status"),
         synced_field=os.getenv("AIRTABLE_FIELD_SYNCED", "synced_to_db"),
         id_field=os.getenv("AIRTABLE_FIELD_ID", "id"),
+        short_name_field=os.getenv("AIRTABLE_FIELD_SHORT_NAME", "short_name"),
         name_field=os.getenv("AIRTABLE_FIELD_NAME", "Tên trường"),
+        school_type_field=os.getenv("AIRTABLE_FIELD_SCHOOL_TYPE", "school_type"),
+        featured_major_field=os.getenv("AIRTABLE_FIELD_FEATURED_MAJOR", "featured_major"),
         description_field=os.getenv("AIRTABLE_FIELD_DESCRIPTION", "Mô tả trường"),
         information_field=os.getenv("AIRTABLE_FIELD_INFORMATION", "Thông tin trường"),
         campus_field=os.getenv("AIRTABLE_FIELD_CAMPUS", "campus"),
@@ -463,6 +491,9 @@ class GeminiResearchClient:
             merged_section_sources,
         )
         return SchoolResearchResult(
+            short_name=metadata.short_name,
+            school_type=metadata.school_type,
+            featured_major=metadata.featured_major,
             description=metadata.description,
             information=information.information,
             campus=metadata.campus,
@@ -766,6 +797,9 @@ Bạn đang làm bước metadata cuối cho trường đại học Việt Nam "
 Nhiệm vụ:
 - Không nghiên cứu lại từ đầu.
 - Chỉ dựa trên 4 section đã có bên dưới để rút ra:
+  - `short_name`
+  - `school_type`
+  - `featured_major`
   - `description`
   - `campus`
   - `campus_locations`
@@ -773,6 +807,23 @@ Nhiệm vụ:
   - `source_url`
   - `source_urls`
 - Chỉ trả về JSON hợp lệ theo schema được cung cấp.
+
+Yêu cầu cho `short_name`:
+- Tạo một tên viết tắt ngắn gọn, dễ đọc, dễ hiển thị trong bảng danh sách.
+- Ưu tiên viết tắt đang được trường hoặc người học dùng phổ biến nếu xác định được trong ngữ cảnh.
+- Nếu tên trường đã có viết tắt trong ngoặc, ưu tiên đúng viết tắt đó.
+- Nếu không xác định chắc chắn được viết tắt phổ biến, mới suy ra một viết tắt ngắn từ tên trường, tối đa khoảng 3-8 ký tự.
+
+Yêu cầu cho `school_type`:
+- Trả về loại hình trường ngắn gọn, chuẩn hóa.
+- Ưu tiên một trong các giá trị: `Công lập`, `Tư thục`.
+- Chỉ dùng giá trị khác nếu thật sự cần và xác minh được.
+
+Yêu cầu cho `featured_major`:
+- Trả về đúng một nhãn ngắn gọn cho ngành hoặc nhóm ngành nổi bật nhất.
+- Ưu tiên các nhãn kiểu: `Kiến trúc`, `Kỹ thuật - Xây dựng`, `Kinh tế - Quản trị`, `Sư phạm`, `Y - Dược`, `CNTT`, `Ngoại ngữ`.
+- Không dùng tên trường, không dùng địa phương, không dùng loại hình trường.
+- Không tạo câu dài; tối đa khoảng 2-5 từ hoặc một cụm ngắn dễ quét.
 
 Yêu cầu cho `description`:
 - Viết như đoạn mở đầu của bài giới thiệu trường, khoảng 150-260 từ.

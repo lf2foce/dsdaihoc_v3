@@ -63,7 +63,10 @@ async def process_record(
             )
 
             update_fields = {
+                airtable_config.short_name_field: result.short_name,
                 airtable_config.name_field: school_name,
+                airtable_config.school_type_field: result.school_type,
+                airtable_config.featured_major_field: result.featured_major,
                 airtable_config.description_field: sanitize_rich_text(result.description),
                 airtable_config.information_field: sanitize_rich_text(result.information),
                 airtable_config.campus_field: sanitize_rich_text(result.campus),

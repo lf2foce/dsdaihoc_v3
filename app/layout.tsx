@@ -22,7 +22,6 @@ export default function RootLayout({
         <ThemeProvider
           attribute="data-ui-theme"
           defaultTheme="light"
-          forcedTheme="light"
           enableSystem={false}
           storageKey="goodailist-theme"
         >
