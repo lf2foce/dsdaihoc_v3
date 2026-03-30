@@ -152,6 +152,8 @@ function ActiveFilters({
   onClearQuery,
   onClearLocation,
   onReset,
+  mobileResetOnly = false,
+  compactResetLabel = false,
 }: {
   query: string;
   selectedLocation: string;
@@ -160,6 +162,8 @@ function ActiveFilters({
   onClearQuery: () => void;
   onClearLocation: () => void;
   onReset: () => void;
+  mobileResetOnly?: boolean;
+  compactResetLabel?: boolean;
 }) {
   const hiddenCategoryCount = totalCategories - selectedCategories.size;
 
@@ -189,11 +193,11 @@ function ActiveFilters({
         type="button"
         variant="outline"
         size="sm"
-        className={`${styles.filterResetButton} ${styles.controlSurface}`}
+        className={`${styles.filterResetButton} ${styles.controlSurface} ${mobileResetOnly ? styles.filterResetButtonMobileOnly : ""}`}
         onClick={onReset}
       >
         <RotateCcw data-icon="inline-start" />
-        Xoá bộ lọc
+        {compactResetLabel ? "Reset" : "Xoá bộ lọc"}
       </Button>
     </div>
   );
@@ -207,6 +211,8 @@ function PaginationControls({
   onPrev,
   onNext,
   onPageSizeChange,
+  onReset,
+  showReset,
   mobileOnly = false,
 }: {
   currentPage: number;
@@ -216,6 +222,8 @@ function PaginationControls({
   onPrev: () => void;
   onNext: () => void;
   onPageSizeChange: (nextValue: string) => void;
+  onReset: () => void;
+  showReset: boolean;
   mobileOnly?: boolean;
 }) {
   return (
@@ -235,7 +243,10 @@ function PaginationControls({
         <span className={styles.pageInfoCurrent}>{currentPage}</span> /{" "}
         <span className={styles.pageInfoCurrent}>{totalPages}</span>
       </span>
-      <span className={styles.pageInfo}>({totalItems} trường)</span>
+      <span className={styles.pageInfo}>
+        ({totalItems}
+        {!mobileOnly ? " trường" : ""})
+      </span>
       <button
         type="button"
         className={`${styles.pageBtn} ${styles.pageBtnIcon} ${currentPage >= totalPages ? styles.pageBtnDisabled : ""}`}
@@ -255,6 +266,18 @@ function PaginationControls({
         <option value="50">50</option>
         <option value="100">100</option>
       </select>
+      {mobileOnly && showReset ? (
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className={`${styles.filterResetButton} ${styles.controlSurface} ${styles.filterResetButtonBottom}`}
+          onClick={onReset}
+        >
+          <RotateCcw data-icon="inline-start" />
+          Reset
+        </Button>
+      ) : null}
     </div>
   );
 }
@@ -284,6 +307,10 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
   const [pageSize, setPageSize] = useState(20);
   const [openSlug, setOpenSlug] = useState<string | null>(null);
   const deferredQuery = useDeferredValue(debouncedQuery);
+  const hasActiveFilters =
+    !!query.trim() ||
+    selectedLocation !== "Tất cả tỉnh thành" ||
+    selectedCategories.size !== majorOptions.length;
 
   useEffect(() => {
     function syncSlugFromUrl() {
@@ -499,6 +526,8 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
           onPrev={() => goToPage(effectiveCurrentPage - 1)}
           onNext={() => goToPage(effectiveCurrentPage + 1)}
           onPageSizeChange={handlePageSizeChange}
+          onReset={resetFilters}
+          showReset={hasActiveFilters}
         />
       </div>
 
@@ -510,6 +539,8 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
         onClearQuery={() => setQuery("")}
         onClearLocation={() => setSelectedLocation("Tất cả tỉnh thành")}
         onReset={resetFilters}
+        mobileResetOnly
+        compactResetLabel
       />
 
       <UniversityTable
@@ -527,6 +558,8 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
         onPrev={() => goToPage(effectiveCurrentPage - 1)}
         onNext={() => goToPage(effectiveCurrentPage + 1)}
         onPageSizeChange={handlePageSizeChange}
+        onReset={resetFilters}
+        showReset={hasActiveFilters}
         mobileOnly
       />
     </section>
