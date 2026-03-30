@@ -304,6 +304,7 @@ function PaginationControls({
         onChange={(event) => onPageSizeChange(event.target.value)}
         aria-label="Số trường mỗi trang"
       >
+        <option value="10">10</option>
         <option value="20">20</option>
         <option value="50">50</option>
         <option value="100">100</option>
@@ -346,7 +347,7 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
       ),
   );
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(20);
+  const [pageSize, setPageSize] = useState(10);
   const [openSlug, setOpenSlug] = useState<string | null>(null);
   const deferredQuery = useDeferredValue(debouncedQuery);
   const hasActiveFilters =
@@ -529,13 +530,18 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
     <section>
       <div className={styles.controlsRow}>
         <div className={styles.controls}>
-          <input
-            type="text"
-            value={query}
-            onChange={(event) => handleQueryChange(event.target.value)}
-            placeholder="Tìm kiếm trường đại học..."
-            className={`${styles.input} ${styles.controlSurface}`}
-          />
+          <div className={styles.searchField}>
+            <input
+              type="text"
+              value={query}
+              onChange={(event) => handleQueryChange(event.target.value)}
+              placeholder="Tìm kiếm trường đại học..."
+              className={`${styles.input} ${styles.controlSurface} ${styles.searchInput}`}
+            />
+            <span className={styles.searchCount}>
+              {filteredRows.length}
+            </span>
+          </div>
           <CategoryDropdown
             categories={majorOptions}
             open={categoryOpen}

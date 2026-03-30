@@ -244,6 +244,11 @@
   flex-wrap: nowrap;
 }
 
+.searchField {
+  position: relative;
+  flex: 0 0 auto;
+}
+
 .resetButton {
   flex: 0 0 auto;
 }
@@ -273,10 +278,25 @@
 }
 
 .input {
-  width: 190px;
+  width: 240px;
   min-height: 2.45rem;
   padding: 0 0.9rem;
   line-height: 1.2;
+}
+
+.searchInput {
+  padding-right: 3.25rem;
+}
+
+.searchCount {
+  position: absolute;
+  top: 50%;
+  right: 0.8rem;
+  transform: translateY(-50%);
+  color: var(--page-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  pointer-events: none;
 }
 
 .input::placeholder {
@@ -1042,6 +1062,11 @@
   padding: 0 0.08em;
 }
 
+:global(html[data-ui-theme="dark"]) .searchMark {
+  background: #facc15;
+  color: #1a1200;
+}
+
 .detailSource {
   display: inline-flex;
   margin-top: 1.1rem;
@@ -1160,7 +1185,11 @@
     min-height: 2.4rem;
   }
 
-  .controls > .input:first-child {
+  .searchField {
+    width: 100%;
+  }
+
+  .controls > .searchField:first-child {
     grid-column: 1 / -1;
   }
 
