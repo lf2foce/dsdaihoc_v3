@@ -206,10 +206,10 @@ function ActiveFilters({
 function PaginationControls({
   currentPage,
   totalPages,
-  totalItems,
   pageSize,
   onPrev,
   onNext,
+  onGoToPage,
   onPageSizeChange,
   onReset,
   showReset,
@@ -217,15 +217,46 @@ function PaginationControls({
 }: {
   currentPage: number;
   totalPages: number;
-  totalItems: number;
   pageSize: number;
   onPrev: () => void;
   onNext: () => void;
+  onGoToPage: (page: number) => void;
   onPageSizeChange: (nextValue: string) => void;
   onReset: () => void;
   showReset: boolean;
   mobileOnly?: boolean;
 }) {
+  const pages = useMemo(() => {
+    if (totalPages <= 5) {
+      return Array.from({ length: totalPages }, (_, index) => index + 1);
+    }
+
+    if (currentPage <= 3) {
+      return [1, 2, 3, 4, "ellipsis-end", totalPages] as const;
+    }
+
+    if (currentPage >= totalPages - 2) {
+      return [
+        1,
+        "ellipsis-start",
+        totalPages - 3,
+        totalPages - 2,
+        totalPages - 1,
+        totalPages,
+      ] as const;
+    }
+
+    return [
+      1,
+      "ellipsis-start",
+      currentPage - 1,
+      currentPage,
+      currentPage + 1,
+      "ellipsis-end",
+      totalPages,
+    ] as const;
+  }, [currentPage, totalPages]);
+
   return (
     <div
       className={`${styles.pagination} ${mobileOnly ? styles.paginationMobileOnly : styles.paginationDesktopOnly}`}
@@ -239,14 +270,25 @@ function PaginationControls({
       >
         <ChevronLeft />
       </button>
-      <span className={styles.pageInfo}>
-        <span className={styles.pageInfoCurrent}>{currentPage}</span> /{" "}
-        <span className={styles.pageInfoCurrent}>{totalPages}</span>
-      </span>
-      <span className={styles.pageInfo}>
-        ({totalItems}
-        {!mobileOnly ? " trường" : ""})
-      </span>
+      <div className={styles.pageNumberGroup} aria-label="Danh sách trang">
+        {pages.map((page) =>
+          typeof page === "number" ? (
+            <button
+              key={page}
+              type="button"
+              className={`${styles.pageNumberBtn} ${page === currentPage ? styles.pageNumberBtnActive : ""}`}
+              aria-current={page === currentPage ? "page" : undefined}
+              onClick={() => onGoToPage(page)}
+            >
+              {page}
+            </button>
+          ) : (
+            <span key={page} className={styles.pageEllipsis}>
+              ...
+            </span>
+          ),
+        )}
+      </div>
       <button
         type="button"
         className={`${styles.pageBtn} ${styles.pageBtnIcon} ${currentPage >= totalPages ? styles.pageBtnDisabled : ""}`}
@@ -430,6 +472,7 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
   }
 
   function handleToggleRow(slug: string | null) {
+    setCategoryOpen(false);
     setOpenSlug(slug);
     replaceOpenSlug(slug);
   }
@@ -521,10 +564,10 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
         <PaginationControls
           currentPage={effectiveCurrentPage}
           totalPages={totalPages}
-          totalItems={filteredRows.length}
           pageSize={pageSize}
           onPrev={() => goToPage(effectiveCurrentPage - 1)}
           onNext={() => goToPage(effectiveCurrentPage + 1)}
+          onGoToPage={goToPage}
           onPageSizeChange={handlePageSizeChange}
           onReset={resetFilters}
           showReset={hasActiveFilters}
@@ -553,10 +596,10 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
       <PaginationControls
         currentPage={effectiveCurrentPage}
         totalPages={totalPages}
-        totalItems={filteredRows.length}
         pageSize={pageSize}
         onPrev={() => goToPage(effectiveCurrentPage - 1)}
         onNext={() => goToPage(effectiveCurrentPage + 1)}
+        onGoToPage={goToPage}
         onPageSizeChange={handlePageSizeChange}
         onReset={resetFilters}
         showReset={hasActiveFilters}

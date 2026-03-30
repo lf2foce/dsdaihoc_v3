@@ -172,6 +172,16 @@
   flex: 0 0 auto;
 }
 
+.themeToggleDesktop {
+  display: inline-flex;
+  align-items: center;
+}
+
+.themeToggleMobile {
+  display: none;
+  align-items: center;
+}
+
 .tabsBar {
   position: sticky;
   top: 0;
@@ -536,6 +546,44 @@
 .pageInfoCurrent {
   color: var(--page-text);
   font-weight: 600;
+}
+
+.pageNumberGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.pageNumberBtn {
+  min-width: 2rem;
+  height: 2rem;
+  border: 1px solid color-mix(in srgb, var(--page-border) 78%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--page-surface) 96%, var(--page-bg) 4%);
+  color: var(--page-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.pageNumberBtn:hover {
+  border-color: var(--page-border-strong);
+  background: color-mix(in srgb, var(--page-surface) 90%, var(--page-hover) 10%);
+  color: var(--page-text);
+}
+
+.pageNumberBtnActive {
+  border-color: color-mix(in srgb, var(--page-link) 50%, var(--page-border) 50%);
+  background: color-mix(in srgb, var(--page-link) 14%, var(--page-surface) 86%);
+  color: var(--page-text-strong);
+}
+
+.pageEllipsis {
+  color: var(--page-muted);
+  font-size: 0.85rem;
+  line-height: 1;
 }
 
 .pageSizeSelect {
@@ -1075,6 +1123,14 @@
     flex-wrap: nowrap;
   }
 
+  .themeToggleDesktop {
+    display: none;
+  }
+
+  .themeToggleMobile {
+    display: inline-flex;
+  }
+
   .headerRight {
     margin-left: auto;
     align-self: flex-start;
@@ -1142,6 +1198,16 @@
     background: color-mix(in srgb, var(--page-surface) 92%, var(--page-bg) 8%);
     box-shadow: var(--page-shadow);
     backdrop-filter: blur(10px);
+  }
+
+  .pageNumberGroup {
+    gap: 0.25rem;
+  }
+
+  .pageNumberBtn {
+    min-width: 1.8rem;
+    height: 1.8rem;
+    font-size: 0.78rem;
   }
 
   .multiSelectTrigger,
@@ -1216,10 +1282,27 @@
 
   .collapseFab {
     right: 1rem;
-    bottom: calc(5.9rem + env(safe-area-inset-bottom, 0px));
+    bottom: calc(6.8rem + env(safe-area-inset-bottom, 0px));
   }
 
   .detailCard {
     padding: 1.1rem 1rem 1.25rem;
+  }
+
+  .detailRow {
+    display: table-row;
+  }
+
+  .detailCell {
+    display: table-cell;
+    width: 100%;
+    padding: 0 !important;
+  }
+
+  .detailCard {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
   }
 }

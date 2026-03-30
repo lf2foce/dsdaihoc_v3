@@ -45,7 +45,9 @@ export default async function Home() {
 
           <div className={styles.headerRight}>
             <span className={styles.updateStamp}>Cập nhật dữ liệu tới 30/3/2026</span>
-            <ThemeToggle />
+            <div className={styles.themeToggleDesktop}>
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       </header>
@@ -60,6 +62,9 @@ export default async function Home() {
           {secondaryTabs.map((tab) => (
             <HeaderTab key={tab} label={tab} />
           ))}
+          <div className={styles.themeToggleMobile}>
+            <ThemeToggle />
+          </div>
         </div>
       </nav>
 
