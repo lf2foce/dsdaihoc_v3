@@ -1,10 +1,10 @@
 import styles from "./page.module.css";
-import { loadUniversityRows } from "./university-data";
+import { loadUniversityListRows } from "./university-data";
 import UniversityBrowser from "./university-browser";
 import SiteHeader from "./site-header";
 
 export default async function Home() {
-  const rows = await loadUniversityRows();
+  const rows = await loadUniversityListRows();
 
   return (
     <div className={styles.page}>

@@ -5,7 +5,7 @@ import path from "node:path";
 import { cache } from "react";
 
 import { buildSchoolSlugs } from "./university-slug";
-import type { UniversityRow } from "./university-types";
+import type { UniversityListRow, UniversityRow } from "./university-types";
 
 type ApprovedItem = {
   id: number | string;
@@ -93,6 +93,39 @@ export const loadUniversityRows = cache(async (): Promise<UniversityRow[]> => {
   } catch {
     return [];
   }
+});
+
+export const loadUniversityListRows = cache(async (): Promise<UniversityListRow[]> => {
+  const rows = await loadUniversityRows();
+  return rows.map(
+    ({
+      rank,
+      displayOrder,
+      slug,
+      flag,
+      shortName,
+      fullName,
+      type,
+      featuredMajor,
+      description,
+      campuses,
+      tags,
+      sourceUrl,
+    }) => ({
+      rank,
+      displayOrder,
+      slug,
+      flag,
+      shortName,
+      fullName,
+      type,
+      featuredMajor,
+      description,
+      campuses,
+      tags,
+      sourceUrl,
+    }),
+  );
 });
 
 export const loadUniversityBySlug = cache(async (slug: string) => {

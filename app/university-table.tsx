@@ -5,7 +5,7 @@ import { ArrowUp } from "lucide-react";
 import { Fragment, type ReactNode, useMemo } from "react";
 import styles from "./page.module.css";
 import { getMajorChipStyle } from "./university-taxonomy";
-import type { UniversityRow } from "./university-types";
+import type { UniversityDetail, UniversityListRow } from "./university-types";
 
 function renderInlineMarkdown(text: string): ReactNode[] {
   const parts = text
@@ -175,16 +175,22 @@ export default function UniversityTable({
   rows,
   query,
   openSlug,
+  openDetail,
+  detailLoading,
+  detailError,
   onToggleRow,
 }: {
-  rows: UniversityRow[];
+  rows: UniversityListRow[];
   query: string;
   openSlug: string | null;
+  openDetail: UniversityDetail | null;
+  detailLoading: boolean;
+  detailError: string | null;
   onToggleRow: (slug: string | null) => void;
 }) {
   const openRow = rows.find((row) => row.slug === openSlug) ?? null;
 
-  function renderDetailContent(row: UniversityRow) {
+  function renderDetailContent(row: UniversityListRow) {
     const majorChipStyle = getMajorChipStyle(row.featuredMajor);
 
     return (
@@ -211,11 +217,26 @@ export default function UniversityTable({
 
         <div className={styles.detailIntro}>{row.description}</div>
 
-        <DetailSection content={row.information} />
-        <DetailSection title="Cơ sở đào tạo" content={row.campusSummary} />
-        <DetailSection title="Chương trình đào tạo" content={row.programs} />
-        <DetailSection title="Phương thức xét tuyển" content={row.admissionMethods} />
-        <DetailSection title="Điểm chuẩn" content={row.admissionScore} />
+        {detailLoading ? (
+          <p className={styles.detailStatus}>Đang tải nội dung chi tiết...</p>
+        ) : null}
+
+        {detailError ? (
+          <p className={`${styles.detailStatus} ${styles.detailStatusError}`}>{detailError}</p>
+        ) : null}
+
+        {openDetail ? (
+          <>
+            <DetailSection content={openDetail.information} />
+            <DetailSection title="Cơ sở đào tạo" content={openDetail.campusSummary} />
+            <DetailSection title="Chương trình đào tạo" content={openDetail.programs} />
+            <DetailSection
+              title="Phương thức xét tuyển"
+              content={openDetail.admissionMethods}
+            />
+            <DetailSection title="Điểm chuẩn" content={openDetail.admissionScore} />
+          </>
+        ) : null}
 
         <div className={styles.detailInlineActions}>
           {row.sourceUrl ? (

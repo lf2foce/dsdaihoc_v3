@@ -24,7 +24,7 @@ import { Button } from "@/components/ui/button";
 import styles from "./page.module.css";
 import { getMajorColor } from "./university-taxonomy";
 import UniversityTable from "./university-table";
-import type { UniversityRow } from "./university-types";
+import type { UniversityDetail, UniversityListRow } from "./university-types";
 
 function normalizeText(value: string) {
   return value.trim().toLowerCase();
@@ -298,7 +298,7 @@ function PaginationControls({
   );
 }
 
-export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
+export default function UniversityBrowser({ rows }: { rows: UniversityListRow[] }) {
   const rowsBySlug = useMemo(
     () => new Map(rows.map((row) => [row.slug, row] as const)),
     [rows],
@@ -326,6 +326,9 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
   const [openSlug, setOpenSlug] = useState<string | null>(null);
+  const [detailBySlug, setDetailBySlug] = useState<Record<string, UniversityDetail>>({});
+  const [loadingSlug, setLoadingSlug] = useState<string | null>(null);
+  const [detailError, setDetailError] = useState<string | null>(null);
   const previousOpenSlugRef = useRef<string | null>(null);
   const deferredQuery = useDeferredValue(debouncedQuery);
   const hasActiveFilters =
@@ -461,6 +464,54 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
   }, [openSlug, replaceOpenSlug, resolvedOpenSlug]);
 
   useEffect(() => {
+    if (!resolvedOpenSlug) {
+      setLoadingSlug(null);
+      setDetailError(null);
+      return;
+    }
+
+    if (detailBySlug[resolvedOpenSlug]) {
+      setLoadingSlug(null);
+      setDetailError(null);
+      return;
+    }
+
+    const controller = new AbortController();
+    const slug = resolvedOpenSlug;
+
+    async function loadDetail() {
+      try {
+        setLoadingSlug(slug);
+        setDetailError(null);
+
+        const response = await fetch(`/api/truong/${slug}`, {
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error("Không thể tải chi tiết trường.");
+        }
+
+        const payload = (await response.json()) as UniversityDetail;
+        setDetailBySlug((current) => ({
+          ...current,
+          [slug]: payload,
+        }));
+        setLoadingSlug((current) => (current === slug ? null : current));
+      } catch (error) {
+        if (controller.signal.aborted) return;
+        console.error(error);
+        setLoadingSlug((current) => (current === slug ? null : current));
+        setDetailError("Chưa tải được nội dung chi tiết. Anh thử mở lại giúp mình nhé.");
+      }
+    }
+
+    void loadDetail();
+
+    return () => controller.abort();
+  }, [detailBySlug, resolvedOpenSlug]);
+
+  useEffect(() => {
     const previousOpenSlug = previousOpenSlugRef.current;
 
     if (resolvedOpenSlug && previousOpenSlug !== resolvedOpenSlug) {
@@ -586,6 +637,9 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
         rows={paginatedRows}
         query={deferredQuery}
         openSlug={resolvedOpenSlug}
+        openDetail={resolvedOpenSlug ? detailBySlug[resolvedOpenSlug] ?? null : null}
+        detailLoading={loadingSlug === resolvedOpenSlug}
+        detailError={detailError}
         onToggleRow={handleToggleRow}
       />
 
