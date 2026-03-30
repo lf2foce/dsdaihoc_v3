@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowUp } from "lucide-react";
 import { Fragment, type ReactNode, useMemo } from "react";
 import styles from "./page.module.css";
 import { getMajorChipStyle } from "./university-taxonomy";
@@ -308,6 +309,15 @@ export default function UniversityTable({
           </tbody>
         </table>
       </div>
+      <button
+        type="button"
+        className={styles.topFab}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        aria-label="Lên đầu trang"
+        title="Lên đầu"
+      >
+        <ArrowUp />
+      </button>
       {openRow ? (
         <button
           type="button"

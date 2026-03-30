@@ -616,41 +616,6 @@
   border-color: color-mix(in srgb, var(--page-border) 48%, transparent);
 }
 
-.activeFilters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  align-items: center;
-}
-
-.filterChip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  border: 1px solid color-mix(in srgb, var(--page-border) 78%, transparent);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--page-surface) 97%, var(--page-bg) 3%);
-  color: var(--page-text);
-  padding: 0.28rem 0.72rem;
-  min-height: 2.45rem;
-  font-size: 0.82rem;
-  cursor: pointer;
-  white-space: nowrap;
-  line-height: 1;
-}
-
-.filterChip:hover {
-  background: var(--page-hover);
-}
-
-.filterChip svg {
-  width: 0.9rem;
-  height: 0.9rem;
-  color: var(--page-muted);
-  flex: 0 0 auto;
-}
-
 .filterResetButton {
   display: inline-flex;
   align-items: center;
@@ -675,7 +640,7 @@
   color: currentColor;
 }
 
-.filterResetButtonMobileOnly {
+.filterResetButtonDesktop {
   display: inline-flex;
 }
 
@@ -1079,23 +1044,43 @@
   text-decoration: underline;
 }
 
-.collapseFab {
+.collapseFab,
+.topFab {
   position: fixed;
-  right: 1.4rem;
   bottom: 5.9rem;
   z-index: 50;
   border: 1px solid color-mix(in srgb, var(--page-link) 62%, var(--page-border) 38%);
   border-radius: 999px;
   background: color-mix(in srgb, var(--page-link) 18%, var(--page-surface) 82%);
   color: var(--page-text-strong);
-  padding: 0.7rem 1rem;
   font-size: 0.86rem;
   font-weight: 600;
   box-shadow: var(--page-shadow);
   cursor: pointer;
 }
 
-.collapseFab:hover {
+.collapseFab {
+  right: 5rem;
+  padding: 0.7rem 1rem;
+}
+
+.topFab {
+  right: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  padding: 0;
+}
+
+.topFab svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.collapseFab:hover,
+.topFab:hover {
   background: color-mix(in srgb, var(--page-link) 28%, var(--page-surface) 72%);
   border-color: color-mix(in srgb, var(--page-link) 78%, var(--page-border) 22%);
 }
@@ -1248,11 +1233,7 @@
     min-width: 0;
   }
 
-  .activeFilters {
-    margin-bottom: 0.85rem;
-  }
-
-  .filterResetButtonMobileOnly {
+  .filterResetButtonDesktop {
     display: none !important;
   }
 
@@ -1310,8 +1291,16 @@
   }
 
   .collapseFab {
+    right: 4.55rem;
+    bottom: calc(6.8rem + env(safe-area-inset-bottom, 0px));
+    padding: 0.62rem 0.95rem;
+  }
+
+  .topFab {
     right: 1rem;
     bottom: calc(6.8rem + env(safe-area-inset-bottom, 0px));
+    width: 2.7rem;
+    height: 2.7rem;
   }
 
   .detailCard {

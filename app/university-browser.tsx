@@ -15,7 +15,6 @@ import {
   ChevronRight,
   RotateCcw,
   Search,
-  X,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -140,65 +139,6 @@ function CategoryDropdown({
           </div>
         </div>
       ) : null}
-    </div>
-  );
-}
-
-function ActiveFilters({
-  query,
-  selectedLocation,
-  selectedCategories,
-  totalCategories,
-  onClearQuery,
-  onClearLocation,
-  onReset,
-  mobileResetOnly = false,
-  compactResetLabel = false,
-}: {
-  query: string;
-  selectedLocation: string;
-  selectedCategories: Set<string>;
-  totalCategories: number;
-  onClearQuery: () => void;
-  onClearLocation: () => void;
-  onReset: () => void;
-  mobileResetOnly?: boolean;
-  compactResetLabel?: boolean;
-}) {
-  const hiddenCategoryCount = totalCategories - selectedCategories.size;
-
-  if (
-    !query.trim() &&
-    selectedLocation === "Tất cả tỉnh thành" &&
-    hiddenCategoryCount === 0
-  ) {
-    return null;
-  }
-
-  return (
-    <div className={styles.activeFilters}>
-      {query.trim() ? (
-        <button type="button" className={styles.filterChip} onClick={onClearQuery}>
-          <span>Từ khóa: {query.trim()}</span>
-          <X />
-        </button>
-      ) : null}
-      {selectedLocation !== "Tất cả tỉnh thành" ? (
-        <button type="button" className={styles.filterChip} onClick={onClearLocation}>
-          <span>Tỉnh thành: {selectedLocation}</span>
-          <X />
-        </button>
-      ) : null}
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        className={`${styles.filterResetButton} ${styles.controlSurface} ${mobileResetOnly ? styles.filterResetButtonMobileOnly : ""}`}
-        onClick={onReset}
-      >
-        <RotateCcw data-icon="inline-start" />
-        {compactResetLabel ? "Reset" : "Xoá bộ lọc"}
-      </Button>
     </div>
   );
 }
@@ -565,6 +505,18 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
               </option>
             ))}
           </select>
+          {hasActiveFilters ? (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className={`${styles.filterResetButton} ${styles.filterResetButtonDesktop} ${styles.controlSurface}`}
+              onClick={resetFilters}
+            >
+              <RotateCcw data-icon="inline-start" />
+              Xoá bộ lọc
+            </Button>
+          ) : null}
         </div>
 
         <PaginationControls
@@ -579,18 +531,6 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
           showReset={hasActiveFilters}
         />
       </div>
-
-      <ActiveFilters
-        query={query}
-        selectedLocation={selectedLocation}
-        selectedCategories={selectedCategories}
-        totalCategories={majorOptions.length}
-        onClearQuery={() => setQuery("")}
-        onClearLocation={() => setSelectedLocation("Tất cả tỉnh thành")}
-        onReset={resetFilters}
-        mobileResetOnly
-        compactResetLabel
-      />
 
       <UniversityTable
         rows={paginatedRows}
