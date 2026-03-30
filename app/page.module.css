@@ -1134,7 +1134,7 @@
 .collapseFab,
 .topFab {
   position: fixed;
-  bottom: 5.9rem;
+  bottom: 1.35rem;
   z-index: 50;
   border: 1px solid color-mix(in srgb, var(--page-link) 62%, var(--page-border) 38%);
   border-radius: 999px;
