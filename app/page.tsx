@@ -3,8 +3,8 @@ import path from "node:path";
 
 import ThemeToggle from "./theme-toggle";
 import styles from "./page.module.css";
-import { majorCategories } from "./university-taxonomy";
-import UniversityTable, { type UniversityRow } from "./university-table";
+import UniversityBrowser from "./university-browser";
+import { type UniversityRow } from "./university-table";
 
 type Stat = {
   icon: string;
@@ -42,14 +42,7 @@ const stats: Stat[] = [
   { icon: "📚", value: "4.800+", label: "ngành học" },
 ];
 
-const primaryTabs = [
-  "Trường",
-  "Ngành",
-  "Tỉnh thành",
-  "Loại trường",
-  "Xét tuyển",
-  "Điểm chuẩn",
-];
+const primaryTabs = ["Trường"];
 const secondaryTabs = ["FAQ", "Thêm trường"];
 
 function normalizeText(value?: string | number | null) {
@@ -121,29 +114,6 @@ function HeaderTab({
   );
 }
 
-function CategoryDropdown() {
-  return (
-    <details className={styles.multiSelectDropdown}>
-      <summary className={styles.multiSelectBtn}>
-        <span>Categories</span>
-        <span className={styles.selectedCount}>8</span>
-      </summary>
-      <div className={styles.multiSelectMenu}>
-        {majorCategories.map((category) => (
-          <label key={category.label} className={styles.multiSelectOption}>
-            <input type="checkbox" defaultChecked className={styles.checkbox} />
-            <span
-              className={styles.colorDot}
-              style={{ backgroundColor: category.color }}
-            />
-            <span className={styles.optionLabel}>{category.label}</span>
-          </label>
-        ))}
-      </div>
-    </details>
-  );
-}
-
 export default async function Home() {
   const rows = await loadRows();
 
@@ -187,50 +157,7 @@ export default async function Home() {
       </nav>
 
       <main className={styles.main}>
-        <section>
-          <div className={styles.controlsRow}>
-            <div className={styles.controls}>
-              <input
-                type="text"
-                placeholder="Tìm kiếm trường đại học..."
-                className={styles.input}
-              />
-              <CategoryDropdown />
-              <select className={`${styles.input} ${styles.select}`}>
-                <option>Tất cả tỉnh thành</option>
-                <option>Hà Nội</option>
-                <option>Hồ Chí Minh</option>
-                <option>Đà Nẵng</option>
-                <option>Cần Thơ</option>
-              </select>
-            </div>
-
-            <div className={styles.pagination}>
-              <button
-                type="button"
-                className={`${styles.pageBtn} ${styles.pageBtnDisabled}`}
-              >
-                «
-              </button>
-              <span className={styles.pageInfo}>
-                <span className={styles.pageInfoCurrent}>1</span> /{" "}
-                <span className={styles.pageInfoCurrent}>1</span>
-              </span>
-              <span className={styles.pageInfo}>({rows.length} trường)</span>
-              <button type="button" className={styles.pageBtn}>
-                »
-              </button>
-              <select className={styles.pageSizeSelect} defaultValue="100">
-                <option>50</option>
-                <option>100</option>
-                <option>200</option>
-                <option>500</option>
-              </select>
-            </div>
-          </div>
-
-          <UniversityTable rows={rows} />
-        </section>
+        <UniversityBrowser rows={rows} />
       </main>
     </div>
   );

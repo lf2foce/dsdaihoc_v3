@@ -48,6 +48,24 @@ function renderInlineMarkdown(text: string): ReactNode[] {
   });
 }
 
+function renderHighlightedText(text: string, query: string) {
+  const trimmedQuery = query.trim();
+  if (!trimmedQuery) return text;
+
+  const escapedQuery = trimmedQuery.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const parts = text.split(new RegExp(`(${escapedQuery})`, "gi"));
+
+  return parts.map((part, index) =>
+    part.toLowerCase() === trimmedQuery.toLowerCase() ? (
+      <mark key={`${part}-${index}`} className={styles.searchMark}>
+        {part}
+      </mark>
+    ) : (
+      <Fragment key={`${part}-${index}`}>{part}</Fragment>
+    ),
+  );
+}
+
 function MarkdownContent({ content }: { content: string }) {
   const blocks = useMemo(() => {
     const lines = content.split("\n");
@@ -168,7 +186,13 @@ function DetailSection({
   );
 }
 
-export default function UniversityTable({ rows }: { rows: UniversityRow[] }) {
+export default function UniversityTable({
+  rows,
+  query,
+}: {
+  rows: UniversityRow[];
+  query: string;
+}) {
   const [openRank, setOpenRank] = useState<number | null>(null);
   const openRow = rows.find((row) => row.rank === openRank) ?? null;
 
@@ -214,11 +238,15 @@ export default function UniversityTable({ rows }: { rows: UniversityRow[] }) {
                     <td className={`${styles.td} ${styles.stickyRepo}`}>
                       <div className={styles.repoCell}>
                         <div className={styles.repoOwner}>{row.shortName}</div>
-                        <div className={styles.repoName}>{row.fullName}</div>
+                        <div className={styles.repoName}>
+                          {renderHighlightedText(row.fullName, query)}
+                        </div>
                       </div>
                     </td>
                     <td className={styles.td}>
-                      <div className={styles.descCellExpanded}>{row.description}</div>
+                      <div className={styles.descCellExpanded}>
+                        {renderHighlightedText(row.description, query)}
+                      </div>
                     </td>
                     <td className={`${styles.td} ${styles.desktopOnly}`}>
                       <span className={`${styles.chip} ${styles.chipMuted}`}>{row.type}</span>
