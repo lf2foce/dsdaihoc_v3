@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { ArrowUp } from "lucide-react";
 import { Fragment, type ReactNode, useMemo } from "react";
 import styles from "./page.module.css";
@@ -216,16 +217,21 @@ export default function UniversityTable({
         <DetailSection title="Phương thức xét tuyển" content={row.admissionMethods} />
         <DetailSection title="Điểm chuẩn" content={row.admissionScore} />
 
-        {row.sourceUrl ? (
-          <a
-            href={row.sourceUrl}
-            target="_blank"
-            rel="noreferrer"
-            className={styles.detailSource}
-          >
-            Nguồn chính
-          </a>
-        ) : null}
+        <div className={styles.detailInlineActions}>
+          {row.sourceUrl ? (
+            <a
+              href={row.sourceUrl}
+              target="_blank"
+              rel="noreferrer"
+              className={styles.detailSource}
+            >
+              Nguồn chính
+            </a>
+          ) : null}
+          <Link href={`/truong/${row.slug}`} className={styles.detailPrimaryActionInline}>
+            Xem trang riêng
+          </Link>
+        </div>
       </div>
     );
   }

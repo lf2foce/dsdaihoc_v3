@@ -90,6 +90,28 @@
   gap: 1rem;
 }
 
+.detailBreadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--page-muted);
+  font-size: 0.84rem;
+}
+
+.detailBreadcrumbLink {
+  color: var(--page-link);
+  text-decoration: none;
+}
+
+.detailBreadcrumbLink:hover {
+  text-decoration: underline;
+}
+
+.detailBreadcrumbDivider,
+.detailBreadcrumbCurrent {
+  color: var(--page-muted);
+}
+
 .detailBackLink {
   color: var(--page-link);
   font-size: 0.92rem;
@@ -125,6 +147,109 @@
 
 .detailPageArticle {
   max-width: 920px;
+}
+
+.detailPageArticleSeo {
+  max-width: 1120px;
+}
+
+.detailHero {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.detailHeroMain {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1.25rem;
+}
+
+.detailHeroLead {
+  margin: 0;
+  max-width: 62ch;
+  color: var(--page-muted);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.detailHeroActions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.detailPrimaryAction,
+.detailSecondaryAction,
+.detailPrimaryActionInline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.8rem;
+  border-radius: 999px;
+  padding: 0 1rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.detailPrimaryAction,
+.detailPrimaryActionInline {
+  border: 1px solid color-mix(in srgb, var(--page-link) 76%, var(--page-border) 24%);
+  background: color-mix(in srgb, var(--page-link) 18%, var(--page-surface) 82%);
+  color: var(--page-text-strong);
+}
+
+.detailPrimaryAction:hover,
+.detailPrimaryActionInline:hover {
+  border-color: color-mix(in srgb, var(--page-link) 88%, var(--page-border) 12%);
+  background: color-mix(in srgb, var(--page-link) 28%, var(--page-surface) 72%);
+}
+
+.detailSecondaryAction {
+  border: 1px solid color-mix(in srgb, var(--page-border) 78%, transparent);
+  background: color-mix(in srgb, var(--page-surface) 96%, var(--page-bg) 4%);
+  color: var(--page-text);
+}
+
+.detailSecondaryAction:hover {
+  border-color: var(--page-border-strong);
+  background: color-mix(in srgb, var(--page-surface) 88%, var(--page-hover) 12%);
+}
+
+.detailFactGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.detailFactCard {
+  min-height: 7.25rem;
+  border: 1px solid color-mix(in srgb, var(--page-border) 72%, transparent);
+  border-radius: 1.2rem;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--page-link) 12%, transparent), transparent 38%),
+    color-mix(in srgb, var(--page-surface) 97%, var(--page-bg) 3%);
+  padding: 1rem 1.05rem;
+}
+
+.detailFactLabel {
+  margin: 0 0 0.45rem;
+  color: var(--page-muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.detailFactValue {
+  margin: 0;
+  color: var(--page-text-strong);
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.5;
 }
 
 .headerRight {
@@ -1278,6 +1403,44 @@
   padding-top: 0.95rem;
 }
 
+.detailQuickSummary {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.detailSummaryCard {
+  border: 1px solid color-mix(in srgb, var(--page-border) 72%, transparent);
+  border-radius: 1.2rem;
+  background: color-mix(in srgb, var(--page-surface) 98%, var(--page-bg) 2%);
+  padding: 1rem 1.05rem;
+}
+
+.detailSummaryTitle {
+  margin: 0 0 0.65rem;
+  color: var(--page-text-strong);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.detailSummaryText {
+  margin: 0;
+  color: var(--page-text);
+  line-height: 1.85;
+}
+
+.detailBulletList {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--page-text);
+}
+
+.detailBulletList li {
+  margin: 0.42rem 0;
+  line-height: 1.75;
+}
+
 .detailHeading {
   margin: 0 0 0.7rem;
   color: var(--page-text-strong);
@@ -1375,14 +1538,101 @@
 
 .detailSource {
   display: inline-flex;
-  margin-top: 1.1rem;
   color: var(--page-link);
   font-weight: 600;
   text-decoration: none;
 }
 
+.detailInlineActions {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  margin-top: 1.2rem;
+  padding-top: 0.95rem;
+  border-top: 1px solid color-mix(in srgb, var(--page-border) 72%, transparent);
+}
+
+.detailPrimaryActionInline {
+  margin-top: 0;
+}
+
 .detailSource:hover {
   text-decoration: underline;
+}
+
+.detailFaqList {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.detailFaqCard {
+  border: 1px solid color-mix(in srgb, var(--page-border) 70%, transparent);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--page-surface) 97%, var(--page-bg) 3%);
+  padding: 1rem 1.05rem;
+}
+
+.detailFaqQuestion {
+  margin: 0;
+  color: var(--page-text-strong);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.detailFaqAnswer {
+  margin: 0.45rem 0 0;
+  color: var(--page-text);
+  line-height: 1.8;
+}
+
+.relatedSchoolGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.relatedSchoolCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--page-border) 72%, transparent);
+  border-radius: 1.1rem;
+  background: color-mix(in srgb, var(--page-surface) 98%, var(--page-bg) 2%);
+  padding: 1rem 1.05rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.relatedSchoolCard:hover {
+  border-color: var(--page-border-strong);
+  background: color-mix(in srgb, var(--page-surface) 90%, var(--page-hover) 10%);
+}
+
+.relatedSchoolMeta {
+  margin: 0;
+  color: var(--page-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.relatedSchoolTitle {
+  margin: 0;
+  color: var(--page-text-strong);
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.relatedSchoolDesc {
+  margin: 0;
+  color: var(--page-text);
+  line-height: 1.7;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 
 .collapseFab,
@@ -1634,5 +1884,21 @@
 
   .feedbackGrid {
     grid-template-columns: 1fr;
+  }
+
+  .detailHeroMain,
+  .detailQuickSummary,
+  .detailFactGrid,
+  .relatedSchoolGrid {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .detailHeroMain {
+    align-items: flex-start;
+  }
+
+  .detailFactCard {
+    min-height: 0;
   }
 }

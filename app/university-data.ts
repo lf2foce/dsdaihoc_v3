@@ -2,6 +2,7 @@ import "server-only";
 
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { cache } from "react";
 
 import { buildSchoolSlugs } from "./university-slug";
 import type { UniversityRow } from "./university-types";
@@ -48,7 +49,7 @@ function normalizeNumber(value?: string | number | null) {
   return Number.isFinite(parsed) ? parsed : null;
 }
 
-export async function loadUniversityRows(): Promise<UniversityRow[]> {
+export const loadUniversityRows = cache(async (): Promise<UniversityRow[]> => {
   const filePath = path.join(process.cwd(), "data", "universities.approved.json");
 
   try {
@@ -92,9 +93,9 @@ export async function loadUniversityRows(): Promise<UniversityRow[]> {
   } catch {
     return [];
   }
-}
+});
 
-export async function loadUniversityBySlug(slug: string) {
+export const loadUniversityBySlug = cache(async (slug: string) => {
   const rows = await loadUniversityRows();
   return rows.find((row) => row.slug === slug) ?? null;
-}
+});
