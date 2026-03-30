@@ -141,8 +141,10 @@
 .detailPageTitle {
   margin: 0;
   color: var(--page-text-strong);
-  font-size: clamp(2rem, 4vw, 3rem);
-  line-height: 1.1;
+  max-width: 14ch;
+  font-size: clamp(2.2rem, 4.4vw, 4rem);
+  line-height: 1.02;
+  text-wrap: balance;
 }
 
 .detailPageArticle {
@@ -150,7 +152,7 @@
 }
 
 .detailPageArticleSeo {
-  max-width: 1120px;
+  max-width: 1100px;
 }
 
 .loadingTitle,
@@ -240,29 +242,36 @@
 
 .detailHero {
   display: grid;
-  gap: 1.25rem;
+  gap: 1.35rem;
+  border: 1px solid color-mix(in srgb, var(--page-border) 72%, transparent);
+  border-radius: 1.5rem;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--page-link) 14%, transparent), transparent 36%),
+    color-mix(in srgb, var(--page-surface) 98%, var(--page-bg) 2%);
+  padding: 1.25rem;
 }
 
 .detailHeroMain {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 1.25rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) auto;
+  align-items: start;
+  gap: 1.5rem;
 }
 
 .detailHeroLead {
   margin: 0;
-  max-width: 62ch;
+  max-width: 58ch;
   color: var(--page-muted);
-  font-size: 1rem;
-  line-height: 1.8;
+  font-size: 1.04rem;
+  line-height: 1.85;
 }
 
 .detailHeroActions {
   display: flex;
+  align-self: start;
   gap: 0.75rem;
-  align-items: center;
   flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .detailPrimaryAction,
@@ -311,13 +320,13 @@
 }
 
 .detailFactCard {
-  min-height: 7.25rem;
+  min-height: 6.2rem;
   border: 1px solid color-mix(in srgb, var(--page-border) 72%, transparent);
-  border-radius: 1.2rem;
+  border-radius: 1.1rem;
   background:
-    radial-gradient(circle at top right, color-mix(in srgb, var(--page-link) 12%, transparent), transparent 38%),
+    radial-gradient(circle at top right, color-mix(in srgb, var(--page-link) 10%, transparent), transparent 34%),
     color-mix(in srgb, var(--page-surface) 97%, var(--page-bg) 3%);
-  padding: 1rem 1.05rem;
+  padding: 0.95rem 1rem;
 }
 
 .detailFactLabel {
@@ -332,9 +341,9 @@
 .detailFactValue {
   margin: 0;
   color: var(--page-text-strong);
-  font-size: 1.02rem;
+  font-size: 1.08rem;
   font-weight: 700;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .headerRight {
@@ -1496,10 +1505,13 @@
 }
 
 .detailIntro {
-  margin-top: 0.75rem;
+  margin: 0 0 1.25rem;
+  max-width: 74ch;
+  border-left: 3px solid color-mix(in srgb, var(--page-link) 55%, var(--page-border) 45%);
+  padding-left: 1rem;
   color: var(--page-text);
-  font-size: 1.02rem;
-  line-height: 1.9;
+  font-size: 1.06rem;
+  line-height: 1.95;
 }
 
 .detailStatus {
@@ -1514,23 +1526,23 @@
 }
 
 .detailSection {
-  margin-top: 1.3rem;
+  margin-top: 1.6rem;
   border-top: 1px solid var(--page-border);
-  padding-top: 0.95rem;
+  padding-top: 1.05rem;
 }
 
 .detailQuickSummary {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
 }
 
 .detailSummaryCard {
   border: 1px solid color-mix(in srgb, var(--page-border) 72%, transparent);
   border-radius: 1.2rem;
   background: color-mix(in srgb, var(--page-surface) 98%, var(--page-bg) 2%);
-  padding: 1rem 1.05rem;
+  padding: 1.1rem 1.1rem;
 }
 
 .detailSummaryTitle {
@@ -1543,7 +1555,7 @@
 .detailSummaryText {
   margin: 0;
   color: var(--page-text);
-  line-height: 1.85;
+  line-height: 1.9;
 }
 
 .detailBulletList {
@@ -1569,6 +1581,7 @@
 .detailText {
   color: var(--page-text);
   padding: 0;
+  max-width: 78ch;
 }
 
 .markdownContent {
@@ -1686,7 +1699,7 @@
   border: 1px solid color-mix(in srgb, var(--page-border) 70%, transparent);
   border-radius: 1rem;
   background: color-mix(in srgb, var(--page-surface) 97%, var(--page-bg) 3%);
-  padding: 1rem 1.05rem;
+  padding: 1.05rem 1.1rem;
 }
 
 .detailFaqQuestion {
@@ -2012,6 +2025,25 @@
 
   .detailHeroMain {
     align-items: flex-start;
+  }
+
+  .detailHero {
+    padding: 1rem;
+  }
+
+  .detailPageTitle {
+    max-width: none;
+    font-size: clamp(2rem, 8vw, 3rem);
+    line-height: 1.08;
+  }
+
+  .detailHeroActions {
+    justify-content: flex-start;
+  }
+
+  .detailIntro {
+    padding-left: 0.85rem;
+    font-size: 1rem;
   }
 
   .detailFactCard {
