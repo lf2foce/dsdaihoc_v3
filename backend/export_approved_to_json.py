@@ -40,6 +40,16 @@ def _normalize_list(value: Any) -> list[str]:
     return cleaned
 
 
+def _normalize_number(value: Any) -> int | None:
+    if value in (None, ""):
+        return None
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError):
+        return None
+    return parsed
+
+
 def main() -> int:
     args = parse_args()
     setup_logging()
@@ -70,6 +80,7 @@ def main() -> int:
             {
                 "airtable_record_id": record["id"],
                 "id": fields.get(config.id_field),
+                "display_order": _normalize_number(fields.get(config.display_order_field)),
                 "short_name": fields.get(config.short_name_field, ""),
                 "name": fields.get(config.name_field, ""),
                 "school_type": fields.get(config.school_type_field, ""),
@@ -89,7 +100,14 @@ def main() -> int:
             }
         )
 
-    items.sort(key=lambda item: (str(item.get("id", "")), item.get("name", "")))
+    items.sort(
+        key=lambda item: (
+            item.get("display_order") is None,
+            item.get("display_order") if item.get("display_order") is not None else 10**9,
+            str(item.get("id", "")),
+            item.get("name", ""),
+        )
+    )
 
     payload = {
         "exported_at": utc_now_iso(),

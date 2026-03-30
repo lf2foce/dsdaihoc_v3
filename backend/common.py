@@ -40,6 +40,7 @@ class AirtableConfig:
     status_field: str
     synced_field: str
     id_field: str
+    display_order_field: str
     short_name_field: str
     name_field: str
     school_type_field: str
@@ -232,6 +233,7 @@ def load_airtable_config() -> AirtableConfig:
         status_field=os.getenv("AIRTABLE_FIELD_STATUS", "Status"),
         synced_field=os.getenv("AIRTABLE_FIELD_SYNCED", "synced_to_db"),
         id_field=os.getenv("AIRTABLE_FIELD_ID", "id"),
+        display_order_field=os.getenv("AIRTABLE_FIELD_DISPLAY_ORDER", "display_order"),
         short_name_field=os.getenv("AIRTABLE_FIELD_SHORT_NAME", "short_name"),
         name_field=os.getenv("AIRTABLE_FIELD_NAME", "Tên trường"),
         school_type_field=os.getenv("AIRTABLE_FIELD_SCHOOL_TYPE", "school_type"),
