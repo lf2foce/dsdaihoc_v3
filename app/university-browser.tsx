@@ -9,7 +9,9 @@ import {
   useState,
 } from "react";
 import {
+  ArrowUp,
   Check,
+  ChevronsUp,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -146,27 +148,45 @@ function CategoryDropdown({
 function PaginationControls({
   currentPage,
   totalPages,
-  pageSize,
   onPrev,
   onNext,
   onGoToPage,
-  onPageSizeChange,
   onReset,
   showReset,
+  showCollapse,
+  onCollapse,
+  onScrollTop,
   mobileOnly = false,
 }: {
   currentPage: number;
   totalPages: number;
-  pageSize: number;
   onPrev: () => void;
   onNext: () => void;
   onGoToPage: (page: number) => void;
-  onPageSizeChange: (nextValue: string) => void;
   onReset: () => void;
   showReset: boolean;
+  showCollapse: boolean;
+  onCollapse: () => void;
+  onScrollTop: () => void;
   mobileOnly?: boolean;
 }) {
   const pages = useMemo(() => {
+    if (mobileOnly) {
+      if (totalPages <= 3) {
+        return Array.from({ length: totalPages }, (_, index) => index + 1);
+      }
+
+      if (currentPage <= 2) {
+        return [1, 2, "ellipsis-end", totalPages] as const;
+      }
+
+      if (currentPage >= totalPages - 1) {
+        return [1, "ellipsis-start", totalPages - 1, totalPages] as const;
+      }
+
+      return [currentPage, "ellipsis-end", totalPages] as const;
+    }
+
     if (totalPages <= 5) {
       return Array.from({ length: totalPages }, (_, index) => index + 1);
     }
@@ -195,7 +215,7 @@ function PaginationControls({
       "ellipsis-end",
       totalPages,
     ] as const;
-  }, [currentPage, totalPages]);
+  }, [currentPage, mobileOnly, totalPages]);
 
   return (
     <div
@@ -238,17 +258,6 @@ function PaginationControls({
       >
         <ChevronRight />
       </button>
-      <select
-        className={styles.pageSizeSelect}
-        value={String(pageSize)}
-        onChange={(event) => onPageSizeChange(event.target.value)}
-        aria-label="Số trường mỗi trang"
-      >
-        <option value="10">10</option>
-        <option value="20">20</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
-      </select>
       {mobileOnly && showReset ? (
         <Button
           type="button"
@@ -260,6 +269,29 @@ function PaginationControls({
           <RotateCcw data-icon="inline-start" />
           Reset
         </Button>
+      ) : null}
+      {mobileOnly && showCollapse ? (
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className={`${styles.collapseBottomButton} ${styles.controlSurface}`}
+          onClick={onCollapse}
+          aria-label="Thu gọn"
+          title="Thu gọn"
+        >
+          <ChevronsUp />
+        </Button>
+      ) : null}
+      {mobileOnly ? (
+        <button
+          type="button"
+          className={`${styles.pageBtn} ${styles.pageBtnIcon} ${styles.topBottomButton}`}
+          aria-label="Lên đầu trang"
+          onClick={onScrollTop}
+        >
+          <ArrowUp />
+        </button>
       ) : null}
     </div>
   );
@@ -287,7 +319,7 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
       ),
   );
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const pageSize = 10;
   const [openSlug, setOpenSlug] = useState<string | null>(null);
   const deferredQuery = useDeferredValue(debouncedQuery);
   const hasActiveFilters =
@@ -403,15 +435,6 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
     setCurrentPage(1);
   }
 
-  function handlePageSizeChange(nextValue: string) {
-    const parsed = Number(nextValue);
-    if (!Number.isFinite(parsed) || parsed <= 0) return;
-    setOpenSlug(null);
-    replaceOpenSlug(null);
-    setPageSize(parsed);
-    setCurrentPage(1);
-  }
-
   function handleToggleRow(slug: string | null) {
     setCategoryOpen(false);
     setOpenSlug(slug);
@@ -522,13 +545,14 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
         <PaginationControls
           currentPage={effectiveCurrentPage}
           totalPages={totalPages}
-          pageSize={pageSize}
           onPrev={() => goToPage(effectiveCurrentPage - 1)}
           onNext={() => goToPage(effectiveCurrentPage + 1)}
           onGoToPage={goToPage}
-          onPageSizeChange={handlePageSizeChange}
           onReset={resetFilters}
           showReset={hasActiveFilters}
+          showCollapse={false}
+          onCollapse={() => {}}
+          onScrollTop={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         />
       </div>
 
@@ -542,13 +566,14 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
       <PaginationControls
         currentPage={effectiveCurrentPage}
         totalPages={totalPages}
-        pageSize={pageSize}
         onPrev={() => goToPage(effectiveCurrentPage - 1)}
         onNext={() => goToPage(effectiveCurrentPage + 1)}
         onGoToPage={goToPage}
-        onPageSizeChange={handlePageSizeChange}
         onReset={resetFilters}
         showReset={hasActiveFilters}
+        showCollapse={!!resolvedOpenSlug}
+        onCollapse={() => handleToggleRow(null)}
+        onScrollTop={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         mobileOnly
       />
     </section>
