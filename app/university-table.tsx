@@ -152,7 +152,7 @@ function DetailSection({
 }
 
 export default function UniversityTable({ rows }: { rows: UniversityRow[] }) {
-  const [openRank, setOpenRank] = useState<number | null>(rows[0]?.rank ?? null);
+  const [openRank, setOpenRank] = useState<number | null>(null);
   const openRow = rows.find((row) => row.rank === openRank) ?? null;
 
   return (
