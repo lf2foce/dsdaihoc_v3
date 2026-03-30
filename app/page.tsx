@@ -1,40 +1,13 @@
-import { readFile } from "node:fs/promises";
-import path from "node:path";
-
 import ThemeToggle from "./theme-toggle";
 import styles from "./page.module.css";
+import { loadUniversityRows } from "./university-data";
 import UniversityBrowser from "./university-browser";
-import { type UniversityRow } from "./university-table";
 
 type Stat = {
   icon: string;
   value: string;
   label: string;
 };
-
-type ApprovedItem = {
-  id: number | string;
-  short_name?: string;
-  name?: string;
-  school_type?: string;
-  featured_major?: string | string[];
-  description?: string;
-  information?: string;
-  campus?: string;
-  campus_locations?: string[];
-  programs?: string;
-  admission_methods?: string;
-  admission_score?: string;
-  tags?: string[];
-  source_url?: string;
-};
-
-type ApprovedPayload = {
-  count: number;
-  items: ApprovedItem[];
-};
-
-const DEFAULT_FLAG = "🇻🇳";
 
 const stats: Stat[] = [
   { icon: "🏫", value: "164", label: "trường" },
@@ -44,46 +17,6 @@ const stats: Stat[] = [
 
 const primaryTabs = ["Trường"];
 const secondaryTabs = ["FAQ", "Thêm trường"];
-
-function normalizeText(value?: string | number | null) {
-  if (value == null) return "";
-  return String(value).trim();
-}
-
-function normalizeTextList(value?: string | string[]) {
-  if (!value) return [];
-  const items = Array.isArray(value) ? value : [value];
-  return items.map(normalizeText).filter(Boolean);
-}
-
-async function loadRows(): Promise<UniversityRow[]> {
-  const filePath = path.join(process.cwd(), "data", "universities.approved.json");
-
-  try {
-    const raw = await readFile(filePath, "utf8");
-    const payload = JSON.parse(raw) as ApprovedPayload;
-
-    return (payload.items ?? []).map((item, index) => ({
-      rank: index + 1,
-      flag: DEFAULT_FLAG,
-      shortName: normalizeText(item.short_name) || `ID ${item.id}`,
-      fullName: normalizeText(item.name) || `Trường ${item.id}`,
-      type: normalizeText(item.school_type) || "Chưa rõ",
-      featuredMajor: normalizeTextList(item.featured_major)[0] || "Đa ngành",
-      description: normalizeText(item.description) || "Chưa có mô tả.",
-      campuses: (item.campus_locations ?? []).map(normalizeText).filter(Boolean),
-      campusSummary: normalizeText(item.campus),
-      information: normalizeText(item.information),
-      programs: normalizeText(item.programs),
-      admissionMethods: normalizeText(item.admission_methods),
-      admissionScore: normalizeText(item.admission_score),
-      tags: (item.tags ?? []).map(normalizeText).filter(Boolean),
-      sourceUrl: normalizeText(item.source_url),
-    }));
-  } catch {
-    return [];
-  }
-}
 
 function StatChip({ icon, value, label }: Stat) {
   return (
@@ -115,7 +48,7 @@ function HeaderTab({
 }
 
 export default async function Home() {
-  const rows = await loadRows();
+  const rows = await loadUniversityRows();
 
   return (
     <div className={styles.page}>

@@ -1,40 +1,38 @@
-export type MajorCategory = {
-  label: string;
-  color: string;
-  tone: string;
-};
-
-export const majorCategories: MajorCategory[] = [
-  { label: "Công nghệ thông tin", color: "#3b82f6", tone: "blue" },
-  { label: "Kỹ thuật – Kỹ sư", color: "#8b5cf6", tone: "violet" },
-  { label: "Kinh tế – Quản trị", color: "#ec4899", tone: "pink" },
-  { label: "Y – Dược", color: "#f43f5e", tone: "rose" },
-  { label: "Sư phạm – Giáo dục", color: "#f97316", tone: "orange" },
-  { label: "Khoa học tự nhiên", color: "#eab308", tone: "amber" },
-  { label: "Luật – Xã hội", color: "#22c55e", tone: "green" },
-  { label: "Nghệ thuật – Thiết kế", color: "#14b8a6", tone: "teal" },
+const majorPalette = [
+  { dot: "#60a5fa", background: "#1d4ed8", text: "#eff6ff" },
+  { dot: "#a78bfa", background: "#6d28d9", text: "#f5f3ff" },
+  { dot: "#f472b6", background: "#be185d", text: "#fdf2f8" },
+  { dot: "#fb7185", background: "#e11d48", text: "#fff1f2" },
+  { dot: "#fb923c", background: "#c2410c", text: "#fff7ed" },
+  { dot: "#facc15", background: "#ca8a04", text: "#422006" },
+  { dot: "#4ade80", background: "#15803d", text: "#f0fdf4" },
+  { dot: "#2dd4bf", background: "#0f766e", text: "#f0fdfa" },
+  { dot: "#38bdf8", background: "#0369a1", text: "#f0f9ff" },
+  { dot: "#c084fc", background: "#7e22ce", text: "#faf5ff" },
 ];
 
-const toneByKeyword: Array<{ keywords: string[]; tone: string }> = [
-  { keywords: ["công nghệ thông tin", "cntt", "ai", "dữ liệu", "phần mềm"], tone: "blue" },
-  { keywords: ["kỹ thuật", "kỹ sư", "xây dựng", "cơ khí", "điện", "điện tử"], tone: "violet" },
-  { keywords: ["kinh tế", "quản trị", "tài chính", "ngân hàng", "marketing"], tone: "pink" },
-  { keywords: ["y", "dược", "điều dưỡng", "sức khỏe", "y khoa"], tone: "rose" },
-  { keywords: ["sư phạm", "giáo dục", "mầm non"], tone: "orange" },
-  { keywords: ["khoa học tự nhiên", "sinh học", "toán", "vật lý", "hóa học"], tone: "amber" },
-  { keywords: ["luật", "xã hội", "chính trị", "truyền thông", "báo chí"], tone: "green" },
-  { keywords: ["nghệ thuật", "thiết kế", "kiến trúc", "mỹ thuật", "âm nhạc"], tone: "teal" },
-];
+function hashString(value: string) {
+  let hash = 0;
+  for (let index = 0; index < value.length; index += 1) {
+    hash = (hash << 5) - hash + value.charCodeAt(index);
+    hash |= 0;
+  }
+  return Math.abs(hash);
+}
 
-export function getMajorTone(featuredMajor: string) {
-  const normalized = featuredMajor.trim().toLowerCase();
-  if (!normalized) return "slate";
-
-  for (const item of toneByKeyword) {
-    if (item.keywords.some((keyword) => normalized.includes(keyword))) {
-      return item.tone;
-    }
+export function getMajorColor(label: string) {
+  const normalized = label.trim().toLowerCase();
+  if (!normalized) {
+    return { dot: "#94a3b8", background: "#475569", text: "#f8fafc" };
   }
 
-  return "slate";
+  return majorPalette[hashString(normalized) % majorPalette.length];
+}
+
+export function getMajorChipStyle(label: string) {
+  const color = getMajorColor(label);
+  return {
+    backgroundColor: color.background,
+    color: color.text,
+  };
 }

@@ -1,26 +1,9 @@
 "use client";
 
-import { Fragment, type ReactNode, useMemo, useState } from "react";
+import { Fragment, type ReactNode, useMemo } from "react";
 import styles from "./page.module.css";
-import { getMajorTone } from "./university-taxonomy";
-
-export type UniversityRow = {
-  rank: number;
-  flag: string;
-  shortName: string;
-  fullName: string;
-  type: string;
-  featuredMajor: string;
-  description: string;
-  campuses: string[];
-  campusSummary: string;
-  information: string;
-  programs: string;
-  admissionMethods: string;
-  admissionScore: string;
-  tags: string[];
-  sourceUrl: string;
-};
+import { getMajorChipStyle } from "./university-taxonomy";
+import type { UniversityRow } from "./university-types";
 
 function renderInlineMarkdown(text: string): ReactNode[] {
   const parts = text
@@ -189,12 +172,15 @@ function DetailSection({
 export default function UniversityTable({
   rows,
   query,
+  openSlug,
+  onToggleRow,
 }: {
   rows: UniversityRow[];
   query: string;
+  openSlug: string | null;
+  onToggleRow: (slug: string | null) => void;
 }) {
-  const [openRank, setOpenRank] = useState<number | null>(null);
-  const openRow = rows.find((row) => row.rank === openRank) ?? null;
+  const openRow = rows.find((row) => row.slug === openSlug) ?? null;
 
   return (
     <div className={styles.tableScrollWrapper}>
@@ -220,17 +206,13 @@ export default function UniversityTable({
           </thead>
           <tbody>
             {rows.map((row) => {
-              const isOpen = row.rank === openRank;
-              const majorTone = getMajorTone(row.featuredMajor);
-              const majorToneClass =
-                styles[
-                  `chipTone${majorTone.charAt(0).toUpperCase()}${majorTone.slice(1)}`
-                ];
+              const isOpen = row.slug === openSlug;
+              const majorChipStyle = getMajorChipStyle(row.featuredMajor);
               return (
-                <Fragment key={`${row.rank}-${row.shortName}`}>
+                <Fragment key={row.slug}>
                   <tr
                     className={`${styles.row} ${styles.clickableRow} ${isOpen ? styles.rowOpen : ""}`}
-                    onClick={() => setOpenRank(isOpen ? null : row.rank)}
+                    onClick={() => onToggleRow(isOpen ? null : row.slug)}
                   >
                     <td className={`${styles.td} ${styles.stickyFlag} ${styles.flagCell}`}>
                       {row.flag}
@@ -252,7 +234,7 @@ export default function UniversityTable({
                       <span className={`${styles.chip} ${styles.chipMuted}`}>{row.type}</span>
                     </td>
                     <td className={`${styles.td} ${styles.desktopOnly}`}>
-                      <span className={`${styles.chip} ${majorToneClass}`}>
+                      <span className={styles.chip} style={majorChipStyle}>
                         {row.featuredMajor}
                       </span>
                     </td>
@@ -289,7 +271,7 @@ export default function UniversityTable({
                                   {campus}
                                 </span>
                               ))}
-                              <span className={`${styles.chip} ${majorToneClass}`}>
+                              <span className={styles.chip} style={majorChipStyle}>
                                 {row.featuredMajor}
                               </span>
                             </div>
@@ -330,7 +312,7 @@ export default function UniversityTable({
         <button
           type="button"
           className={styles.collapseFab}
-          onClick={() => setOpenRank(null)}
+          onClick={() => onToggleRow(null)}
           aria-label={`Thu gọn ${openRow.fullName}`}
           title="Thu gọn"
         >

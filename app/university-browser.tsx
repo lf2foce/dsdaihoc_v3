@@ -1,6 +1,13 @@
 "use client";
 
-import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   Check,
   ChevronDown,
@@ -13,14 +20,16 @@ import {
 
 import { Button } from "@/components/ui/button";
 import styles from "./page.module.css";
-import { getMajorTone, majorCategories } from "./university-taxonomy";
-import UniversityTable, { type UniversityRow } from "./university-table";
+import { getMajorColor } from "./university-taxonomy";
+import UniversityTable from "./university-table";
+import type { UniversityRow } from "./university-types";
 
 function normalizeText(value: string) {
   return value.trim().toLowerCase();
 }
 
 function CategoryDropdown({
+  categories,
   open,
   search,
   selectedCategories,
@@ -31,6 +40,7 @@ function CategoryDropdown({
   onClearAll,
   onSelectAll,
 }: {
+  categories: string[];
   open: boolean;
   search: string;
   selectedCategories: Set<string>;
@@ -56,8 +66,8 @@ function CategoryDropdown({
     return () => document.removeEventListener("mousedown", handlePointerDown);
   }, [onClose, open]);
 
-  const filteredCategories = majorCategories.filter((category) =>
-    category.label.toLowerCase().includes(search.trim().toLowerCase()),
+  const filteredCategories = categories.filter((category) =>
+    category.toLowerCase().includes(search.trim().toLowerCase()),
   );
 
   return (
@@ -102,13 +112,14 @@ function CategoryDropdown({
           </div>
           <div className={styles.multiSelectList}>
             {filteredCategories.map((category) => {
-              const checked = selectedCategories.has(category.label);
+              const checked = selectedCategories.has(category);
+              const color = getMajorColor(category);
               return (
                 <button
-                  key={category.label}
+                  key={category}
                   type="button"
                   className={styles.multiSelectOption}
-                  onClick={() => onToggle(category.label)}
+                  onClick={() => onToggle(category)}
                 >
                   <span
                     className={`${styles.checkboxIcon} ${checked ? styles.checkboxIconChecked : ""}`}
@@ -117,9 +128,9 @@ function CategoryDropdown({
                   </span>
                   <span
                     className={styles.colorDot}
-                    style={{ backgroundColor: category.color }}
+                    style={{ backgroundColor: color.dot }}
                   />
-                  <span className={styles.optionLabel}>{category.label}</span>
+                  <span className={styles.optionLabel}>{category}</span>
                 </button>
               );
             })}
@@ -137,6 +148,7 @@ function ActiveFilters({
   query,
   selectedLocation,
   selectedCategories,
+  totalCategories,
   onClearQuery,
   onClearLocation,
   onReset,
@@ -144,11 +156,12 @@ function ActiveFilters({
   query: string;
   selectedLocation: string;
   selectedCategories: Set<string>;
+  totalCategories: number;
   onClearQuery: () => void;
   onClearLocation: () => void;
   onReset: () => void;
 }) {
-  const hiddenCategoryCount = majorCategories.length - selectedCategories.size;
+  const hiddenCategoryCount = totalCategories - selectedCategories.size;
 
   if (
     !query.trim() &&
@@ -187,15 +200,41 @@ function ActiveFilters({
 }
 
 export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
+  const majorOptions = useMemo(
+    () =>
+      Array.from(
+        new Set(rows.map((row) => row.featuredMajor.trim()).filter(Boolean)),
+      ).sort((a, b) => a.localeCompare(b, "vi")),
+    [rows],
+  );
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("Tất cả tỉnh thành");
   const [categorySearch, setCategorySearch] = useState("");
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
-    () => new Set(majorCategories.map((category) => category.label)),
+    () =>
+      new Set(
+        Array.from(
+          new Set(rows.map((row) => row.featuredMajor.trim()).filter(Boolean)),
+        ),
+      ),
   );
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
+  const [openSlug, setOpenSlug] = useState<string | null>(null);
   const deferredQuery = useDeferredValue(debouncedQuery);
+
+  useEffect(() => {
+    function syncSlugFromUrl() {
+      const nextSlug = new URLSearchParams(window.location.search).get("truong");
+      setOpenSlug((current) => (current === nextSlug ? current : nextSlug));
+    }
+
+    syncSlugFromUrl();
+    window.addEventListener("popstate", syncSlugFromUrl);
+    return () => window.removeEventListener("popstate", syncSlugFromUrl);
+  }, []);
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
@@ -239,16 +278,90 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
         row.campuses.some((campus) => campus === selectedLocation);
 
       const matchesCategory =
-        selectedCategories.size === 0 ||
-        majorCategories
-          .filter((category) => selectedCategories.has(category.label))
-          .some((category) => category.tone === getMajorTone(row.featuredMajor));
+        selectedCategories.size > 0 && selectedCategories.has(row.featuredMajor);
 
       return matchesQuery && matchesLocation && matchesCategory;
     });
   }, [deferredQuery, rows, selectedCategories, selectedLocation]);
 
+  const openRowIndex = useMemo(
+    () =>
+      openSlug
+        ? filteredRows.findIndex((row) => row.slug === openSlug)
+        : -1,
+    [filteredRows, openSlug],
+  );
+
+  const totalPages = Math.max(1, Math.ceil(filteredRows.length / pageSize));
+  const resolvedOpenSlug =
+    openSlug && filteredRows.some((row) => row.slug === openSlug) ? openSlug : null;
+  const effectiveCurrentPage =
+    openRowIndex >= 0
+      ? Math.floor(openRowIndex / pageSize) + 1
+      : Math.min(currentPage, totalPages);
+
+  const paginatedRows = useMemo(() => {
+    const start = (effectiveCurrentPage - 1) * pageSize;
+    return filteredRows.slice(start, start + pageSize);
+  }, [effectiveCurrentPage, filteredRows, pageSize]);
+
+  const replaceOpenSlug = useCallback(
+    (slug: string | null) => {
+      const nextParams = new URLSearchParams(window.location.search);
+      if (slug) {
+        nextParams.set("truong", slug);
+      } else {
+        nextParams.delete("truong");
+      }
+
+      const nextQuery = nextParams.toString();
+      const nextUrl = nextQuery
+        ? `${window.location.pathname}?${nextQuery}`
+        : window.location.pathname;
+      window.history.replaceState(null, "", nextUrl);
+    },
+    [],
+  );
+
+  function handleQueryChange(nextValue: string) {
+    setQuery(nextValue);
+    setCurrentPage(1);
+  }
+
+  function handleLocationChange(nextValue: string) {
+    setSelectedLocation(nextValue);
+    setCurrentPage(1);
+  }
+
+  function handlePageSizeChange(nextValue: string) {
+    const parsed = Number(nextValue);
+    if (!Number.isFinite(parsed) || parsed <= 0) return;
+    setOpenSlug(null);
+    replaceOpenSlug(null);
+    setPageSize(parsed);
+    setCurrentPage(1);
+  }
+
+  function handleToggleRow(slug: string | null) {
+    setOpenSlug(slug);
+    replaceOpenSlug(slug);
+  }
+
+  function goToPage(nextPage: number) {
+    const normalizedPage = Math.min(Math.max(nextPage, 1), totalPages);
+    setOpenSlug(null);
+    replaceOpenSlug(null);
+    setCurrentPage(normalizedPage);
+  }
+
+  useEffect(() => {
+    if (!openSlug) return;
+    if (resolvedOpenSlug) return;
+    replaceOpenSlug(null);
+  }, [openSlug, replaceOpenSlug, resolvedOpenSlug]);
+
   function toggleCategory(label: string) {
+    setCurrentPage(1);
     setSelectedCategories((current) => {
       const next = new Set(current);
       if (next.has(label)) {
@@ -266,15 +379,20 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
     setSelectedLocation("Tất cả tỉnh thành");
     setCategorySearch("");
     setCategoryOpen(false);
-    setSelectedCategories(new Set(majorCategories.map((category) => category.label)));
+    setSelectedCategories(new Set(majorOptions));
+    setCurrentPage(1);
+    setOpenSlug(null);
+    replaceOpenSlug(null);
   }
 
   function clearAllCategories() {
+    setCurrentPage(1);
     setSelectedCategories(new Set());
   }
 
   function selectAllCategories() {
-    setSelectedCategories(new Set(majorCategories.map((category) => category.label)));
+    setCurrentPage(1);
+    setSelectedCategories(new Set(majorOptions));
   }
 
   return (
@@ -284,11 +402,12 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
           <input
             type="text"
             value={query}
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={(event) => handleQueryChange(event.target.value)}
             placeholder="Tìm kiếm trường đại học..."
             className={`${styles.input} ${styles.controlSurface}`}
           />
           <CategoryDropdown
+            categories={majorOptions}
             open={categoryOpen}
             search={categorySearch}
             selectedCategories={selectedCategories}
@@ -302,7 +421,7 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
           <select
             className={`${styles.input} ${styles.select} ${styles.controlSurface}`}
             value={selectedLocation}
-            onChange={(event) => setSelectedLocation(event.target.value)}
+            onChange={(event) => handleLocationChange(event.target.value)}
           >
             {locationOptions.map((location) => (
               <option key={location} value={location}>
@@ -315,27 +434,36 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
         <div className={styles.pagination}>
           <button
             type="button"
-            className={`${styles.pageBtn} ${styles.pageBtnIcon} ${styles.pageBtnDisabled}`}
-            disabled
+            className={`${styles.pageBtn} ${styles.pageBtnIcon} ${effectiveCurrentPage <= 1 ? styles.pageBtnDisabled : ""}`}
+            disabled={effectiveCurrentPage <= 1}
             aria-label="Trang trước"
+            onClick={() => goToPage(effectiveCurrentPage - 1)}
           >
             <ChevronLeft />
           </button>
           <span className={styles.pageInfo}>
-            <span className={styles.pageInfoCurrent}>1</span> /{" "}
-            <span className={styles.pageInfoCurrent}>1</span>
+            <span className={styles.pageInfoCurrent}>{effectiveCurrentPage}</span> /{" "}
+            <span className={styles.pageInfoCurrent}>{totalPages}</span>
           </span>
           <span className={styles.pageInfo}>({filteredRows.length} trường)</span>
           <button
             type="button"
-            className={`${styles.pageBtn} ${styles.pageBtnIcon} ${styles.pageBtnDisabled}`}
-            disabled
+            className={`${styles.pageBtn} ${styles.pageBtnIcon} ${effectiveCurrentPage >= totalPages ? styles.pageBtnDisabled : ""}`}
+            disabled={effectiveCurrentPage >= totalPages}
             aria-label="Trang sau"
+            onClick={() => goToPage(effectiveCurrentPage + 1)}
           >
             <ChevronRight />
           </button>
-          <select className={styles.pageSizeSelect} defaultValue="20" disabled>
-            <option>20</option>
+          <select
+            className={styles.pageSizeSelect}
+            value={String(pageSize)}
+            onChange={(event) => handlePageSizeChange(event.target.value)}
+            aria-label="Số trường mỗi trang"
+          >
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
           </select>
         </div>
       </div>
@@ -344,12 +472,18 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
         query={query}
         selectedLocation={selectedLocation}
         selectedCategories={selectedCategories}
+        totalCategories={majorOptions.length}
         onClearQuery={() => setQuery("")}
         onClearLocation={() => setSelectedLocation("Tất cả tỉnh thành")}
         onReset={resetFilters}
       />
 
-      <UniversityTable rows={filteredRows} query={deferredQuery} />
+      <UniversityTable
+        rows={paginatedRows}
+        query={deferredQuery}
+        openSlug={resolvedOpenSlug}
+        onToggleRow={handleToggleRow}
+      />
     </section>
   );
 }

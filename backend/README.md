@@ -12,8 +12,10 @@ Python backend for:
 - `crawl_airtable_records.py`: research + populate Airtable content fields
 - `check_airtable_schema.py`: inspect Airtable columns before running the crawl
 - `export_approved_to_json.py`: export Airtable `Approved` rows to a local JSON file for UI/mock
+- `init_postgres_schema.py`: create the `schools` table and indexes in PostgreSQL/Neon
 - `sync_airtable_to_postgres.py`: sync approved Airtable rows into PostgreSQL
 - `common.py`: shared Airtable, Gemini, and PostgreSQL utilities
+- `schema.sql`: SQL schema for the `schools` table
 
 ## Install
 
@@ -45,6 +47,7 @@ AIRTABLE_TABLE_NAME=Trường
 AIRTABLE_VIEW=
 
 AIRTABLE_FIELD_ID=id
+AIRTABLE_FIELD_DISPLAY_ORDER=display_order
 AIRTABLE_FIELD_SHORT_NAME=short_name
 AIRTABLE_FIELD_NAME=Tên trường
 AIRTABLE_FIELD_SCHOOL_TYPE=school_type
@@ -110,6 +113,12 @@ Export `Approved` rows to JSON:
 python export_approved_to_json.py
 ```
 
+Initialize PostgreSQL schema:
+
+```bash
+python init_postgres_schema.py
+```
+
 Dry-run sync:
 
 ```bash
@@ -125,6 +134,8 @@ python sync_airtable_to_postgres.py --limit 10
 ## Notes
 
 - Crawl flow is: Airtable `Todo` record -> read `id` and `Tên trường` -> 4 Gemini section calls with Google Search (`information`, `programs`, `admission_methods`, `admission_score`) -> 1 lightweight metadata call (`short_name`, `school_type`, `description`, `campus`, `campus_locations`, `tags`, `source_url`, `source_urls`) -> patch Airtable fields -> set `Status=Pending`.
+- The UI currently reads from `data/universities.approved.json`, so re-run `python export_approved_to_json.py` after updating Airtable `Approved` rows.
+- `display_order` is exported to JSON and should be a numeric field in Airtable if you want explicit list ordering in the UI.
 - The crawler is async and can process multiple schools concurrently. Control parallelism with `CRAWL_CONCURRENCY`.
 - The default section model is `gemini-3.1-pro-preview`.
 - The default metadata model is `gemini-3.1-flash-lite-preview`.
@@ -137,4 +148,31 @@ python sync_airtable_to_postgres.py --limit 10
 - `short_name` should be a short text field for display in list/table views.
 - `school_type` should be a short text or single-select field, usually `Công lập` or `Tư thục`.
 - Add `campus` in Airtable as a `Long text` field for cơ sở đào tạo.
-- The sync step uses `INSERT ... ON CONFLICT (id) DO UPDATE` and now expects PostgreSQL columns `short_name`, `school_type`, `campus`, `campus_locations`, and `admission_methods`.
+- The sync step uses `INSERT ... ON CONFLICT (id) DO UPDATE` and now expects PostgreSQL columns `display_order`, `short_name`, `school_type`, `campus`, `campus_locations`, and `admission_methods`.
+
+## Neon / PostgreSQL Quick Start
+
+1. Create a Neon project and copy the connection string.
+2. Put it in `backend/.env` as:
+
+```bash
+POSTGRES_DSN=postgresql://user:password@host/dbname?sslmode=require
+```
+
+3. Initialize the schema once:
+
+```bash
+python init_postgres_schema.py
+```
+
+4. Validate before writing:
+
+```bash
+python sync_airtable_to_postgres.py --dry-run
+```
+
+5. Push approved Airtable rows into PostgreSQL:
+
+```bash
+python sync_airtable_to_postgres.py
+```
