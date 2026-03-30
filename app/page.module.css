@@ -1386,14 +1386,6 @@
   background: #262626;
 }
 
-:global(html[data-ui-theme="dark"]) .detailIntro,
-:global(html[data-ui-theme="dark"]) .detailText,
-:global(html[data-ui-theme="dark"]) .markdownParagraph,
-:global(html[data-ui-theme="dark"]) .markdownList li,
-:global(html[data-ui-theme="dark"]) .markdownOrderedList li {
-  color: #d4d4d4;
-}
-
 :global(html[data-ui-theme="dark"]) .rowOpen .td,
 :global(html[data-ui-theme="dark"]) .rowOpen .stickyFlag,
 :global(html[data-ui-theme="dark"]) .rowOpen .stickyRepo,
