@@ -183,9 +183,56 @@ export default function UniversityTable({
 }) {
   const openRow = rows.find((row) => row.slug === openSlug) ?? null;
 
+  function renderDetailContent(row: UniversityRow) {
+    const majorChipStyle = getMajorChipStyle(row.featuredMajor);
+
+    return (
+      <div className={styles.detailCard}>
+        <div className={styles.detailTop}>
+          <div className={styles.detailTitleWrap}>
+            <h2 className={styles.detailTitle}>{row.fullName}</h2>
+          </div>
+          <div className={styles.chips}>
+            <span className={`${styles.chip} ${styles.chipMuted}`}>{row.type}</span>
+            {row.campuses.map((campus) => (
+              <span
+                key={`${row.shortName}-detail-${campus}`}
+                className={`${styles.chip} ${styles.chipMuted}`}
+              >
+                {campus}
+              </span>
+            ))}
+            <span className={styles.chip} style={majorChipStyle}>
+              {row.featuredMajor}
+            </span>
+          </div>
+        </div>
+
+        <div className={styles.detailIntro}>{row.description}</div>
+
+        <DetailSection content={row.information} />
+        <DetailSection title="Cơ sở đào tạo" content={row.campusSummary} />
+        <DetailSection title="Chương trình đào tạo" content={row.programs} />
+        <DetailSection title="Phương thức xét tuyển" content={row.admissionMethods} />
+        <DetailSection title="Điểm chuẩn" content={row.admissionScore} />
+
+        {row.sourceUrl ? (
+          <a
+            href={row.sourceUrl}
+            target="_blank"
+            rel="noreferrer"
+            className={styles.detailSource}
+          >
+            Nguồn chính
+          </a>
+        ) : null}
+      </div>
+    );
+  }
+
   return (
     <div className={styles.tableScrollWrapper}>
-      <div className={styles.tableContainer}>
+      <div className={`${styles.tableContainer} ${styles.desktopTable}`}>
         <table className={styles.table}>
           <colgroup>
             <col className={styles.colFlag} />
@@ -255,51 +302,7 @@ export default function UniversityTable({
                   {isOpen ? (
                     <tr className={styles.detailRow}>
                       <td className={styles.detailCell} colSpan={6}>
-                        <div className={styles.detailCard}>
-                          <div className={styles.detailTop}>
-                            <div className={styles.detailTitleWrap}>
-                              <h2 className={styles.detailTitle}>{row.fullName}</h2>
-                            </div>
-                            <div className={styles.chips}>
-                              <span className={`${styles.chip} ${styles.chipMuted}`}>
-                                {row.type}
-                              </span>
-                              {row.campuses.map((campus) => (
-                                <span
-                                  key={`${row.shortName}-detail-${campus}`}
-                                  className={`${styles.chip} ${styles.chipMuted}`}
-                                >
-                                  {campus}
-                                </span>
-                              ))}
-                              <span className={styles.chip} style={majorChipStyle}>
-                                {row.featuredMajor}
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className={styles.detailIntro}>{row.description}</div>
-
-                          <DetailSection content={row.information} />
-                          <DetailSection title="Cơ sở đào tạo" content={row.campusSummary} />
-                          <DetailSection title="Chương trình đào tạo" content={row.programs} />
-                          <DetailSection
-                            title="Phương thức xét tuyển"
-                            content={row.admissionMethods}
-                          />
-                          <DetailSection title="Điểm chuẩn" content={row.admissionScore} />
-
-                          {row.sourceUrl ? (
-                            <a
-                              href={row.sourceUrl}
-                              target="_blank"
-                              rel="noreferrer"
-                              className={styles.detailSource}
-                            >
-                              Nguồn chính
-                            </a>
-                          ) : null}
-                        </div>
+                        {renderDetailContent(row)}
                       </td>
                     </tr>
                   ) : null}
@@ -308,6 +311,38 @@ export default function UniversityTable({
             })}
           </tbody>
         </table>
+      </div>
+      <div className={styles.mobileList}>
+        {rows.map((row) => {
+          const isOpen = row.slug === openSlug;
+
+          return (
+            <div key={`mobile-${row.slug}`} className={styles.mobileItem}>
+              <button
+                type="button"
+                className={`${styles.mobileRow} ${isOpen ? styles.mobileRowOpen : ""}`}
+                onClick={() => onToggleRow(isOpen ? null : row.slug)}
+              >
+                <div className={styles.mobileRowSchool}>
+                  <div className={styles.repoOwner}>{row.shortName}</div>
+                  <div className={styles.repoName}>
+                    {renderHighlightedText(row.fullName, query)}
+                  </div>
+                </div>
+                <div className={styles.mobileRowDesc}>
+                  <div className={styles.descCellExpanded}>
+                    {renderHighlightedText(row.description, query)}
+                  </div>
+                </div>
+              </button>
+              {isOpen ? (
+                <div className={styles.mobileDetailWrap}>
+                  {renderDetailContent(row)}
+                </div>
+              ) : null}
+            </div>
+          );
+        })}
       </div>
       <button
         type="button"
