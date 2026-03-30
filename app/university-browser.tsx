@@ -18,6 +18,7 @@ import {
   RotateCcw,
   Search,
 } from "lucide-react";
+import { track } from "@vercel/analytics";
 
 import { Button } from "@/components/ui/button";
 import styles from "./page.module.css";
@@ -298,6 +299,10 @@ function PaginationControls({
 }
 
 export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
+  const rowsBySlug = useMemo(
+    () => new Map(rows.map((row) => [row.slug, row] as const)),
+    [rows],
+  );
   const majorOptions = useMemo(
     () =>
       Array.from(
@@ -321,6 +326,7 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
   const [openSlug, setOpenSlug] = useState<string | null>(null);
+  const previousOpenSlugRef = useRef<string | null>(null);
   const deferredQuery = useDeferredValue(debouncedQuery);
   const hasActiveFilters =
     !!query.trim() ||
@@ -453,6 +459,26 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
     if (resolvedOpenSlug) return;
     replaceOpenSlug(null);
   }, [openSlug, replaceOpenSlug, resolvedOpenSlug]);
+
+  useEffect(() => {
+    const previousOpenSlug = previousOpenSlugRef.current;
+
+    if (resolvedOpenSlug && previousOpenSlug !== resolvedOpenSlug) {
+      const row = rowsBySlug.get(resolvedOpenSlug);
+      if (row) {
+        track("Opened School Detail", {
+          slug: row.slug,
+          school_name: row.fullName,
+          school_type: row.type,
+          featured_major: row.featuredMajor,
+          campus_count: row.campuses.length,
+          view_mode: "inline",
+        });
+      }
+    }
+
+    previousOpenSlugRef.current = resolvedOpenSlug;
+  }, [resolvedOpenSlug, rowsBySlug]);
 
   function toggleCategory(label: string) {
     setCurrentPage(1);
