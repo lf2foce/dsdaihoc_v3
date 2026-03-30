@@ -3,6 +3,7 @@ import path from "node:path";
 
 import ThemeToggle from "./theme-toggle";
 import styles from "./page.module.css";
+import { majorCategories } from "./university-taxonomy";
 import UniversityTable, { type UniversityRow } from "./university-table";
 
 type Stat = {
@@ -33,11 +34,6 @@ type ApprovedPayload = {
   items: ApprovedItem[];
 };
 
-type CategoryOption = {
-  label: string;
-  color: string;
-};
-
 const DEFAULT_FLAG = "🇻🇳";
 
 const stats: Stat[] = [
@@ -55,17 +51,6 @@ const primaryTabs = [
   "Điểm chuẩn",
 ];
 const secondaryTabs = ["FAQ", "Thêm trường"];
-
-const categories: CategoryOption[] = [
-  { label: "Công nghệ thông tin", color: "#6366f1" },
-  { label: "Kỹ thuật – Kỹ sư", color: "#8b5cf6" },
-  { label: "Kinh tế – Quản trị", color: "#ec4899" },
-  { label: "Y – Dược", color: "#f43f5e" },
-  { label: "Sư phạm – Giáo dục", color: "#f97316" },
-  { label: "Khoa học tự nhiên", color: "#eab308" },
-  { label: "Luật – Xã hội", color: "#22c55e" },
-  { label: "Nghệ thuật – Thiết kế", color: "#14b8a6" },
-];
 
 function normalizeText(value?: string | number | null) {
   if (value == null) return "";
@@ -144,7 +129,7 @@ function CategoryDropdown() {
         <span className={styles.selectedCount}>8</span>
       </summary>
       <div className={styles.multiSelectMenu}>
-        {categories.map((category) => (
+        {majorCategories.map((category) => (
           <label key={category.label} className={styles.multiSelectOption}>
             <input type="checkbox" defaultChecked className={styles.checkbox} />
             <span

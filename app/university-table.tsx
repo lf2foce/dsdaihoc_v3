@@ -2,6 +2,7 @@
 
 import { Fragment, type ReactNode, useMemo, useState } from "react";
 import styles from "./page.module.css";
+import { getMajorTone } from "./university-taxonomy";
 
 export type UniversityRow = {
   rank: number;
@@ -22,7 +23,9 @@ export type UniversityRow = {
 };
 
 function renderInlineMarkdown(text: string): ReactNode[] {
-  const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`|\*[^*]+\*)/g).filter(Boolean);
+  const parts = text
+    .split(/(\*\*[^*]+\*\*|`[^`]+`|\*[^*]+\*|https?:\/\/[^\s)]+(?:\([^\s)]*\))?)/g)
+    .filter(Boolean);
 
   return parts.map((part, index) => {
     if (part.startsWith("**") && part.endsWith("**")) {
@@ -34,6 +37,13 @@ function renderInlineMarkdown(text: string): ReactNode[] {
     if (part.startsWith("`") && part.endsWith("`")) {
       return <code key={index}>{part.slice(1, -1)}</code>;
     }
+    if (/^https?:\/\//.test(part)) {
+      return (
+        <a key={index} href={part} target="_blank" rel="noreferrer">
+          {part}
+        </a>
+      );
+    }
     return <Fragment key={index}>{part}</Fragment>;
   });
 }
@@ -43,12 +53,13 @@ function MarkdownContent({ content }: { content: string }) {
     const lines = content.split("\n");
     const parsed: Array<
       | { type: "heading"; level: number; text: string }
-      | { type: "list"; items: string[] }
+      | { type: "list"; ordered: boolean; items: string[] }
       | { type: "paragraph"; text: string }
     > = [];
 
     let paragraphBuffer: string[] = [];
     let listBuffer: string[] = [];
+    let listOrdered = false;
 
     const flushParagraph = () => {
       if (!paragraphBuffer.length) return;
@@ -58,8 +69,9 @@ function MarkdownContent({ content }: { content: string }) {
 
     const flushList = () => {
       if (!listBuffer.length) return;
-      parsed.push({ type: "list", items: listBuffer });
+      parsed.push({ type: "list", ordered: listOrdered, items: listBuffer });
       listBuffer = [];
+      listOrdered = false;
     };
 
     for (const rawLine of lines) {
@@ -86,6 +98,7 @@ function MarkdownContent({ content }: { content: string }) {
       const listMatch = line.match(/^([-*]|\d+\.)\s+(.*)$/);
       if (listMatch) {
         flushParagraph();
+        listOrdered = /^\d+\.$/.test(listMatch[1]);
         listBuffer.push(listMatch[2].trim());
         continue;
       }
@@ -113,12 +126,16 @@ function MarkdownContent({ content }: { content: string }) {
         }
 
         if (block.type === "list") {
+          const ListTag = block.ordered ? "ol" : "ul";
+          const listClassName = block.ordered
+            ? styles.markdownOrderedList
+            : styles.markdownList;
           return (
-            <ul key={index} className={styles.markdownList}>
+            <ListTag key={index} className={listClassName}>
               {block.items.map((item, itemIndex) => (
                 <li key={itemIndex}>{renderInlineMarkdown(item)}</li>
               ))}
-            </ul>
+            </ListTag>
           );
         }
 
@@ -160,7 +177,6 @@ export default function UniversityTable({ rows }: { rows: UniversityRow[] }) {
       <div className={styles.tableContainer}>
         <table className={styles.table}>
           <colgroup>
-            <col className={styles.colRank} />
             <col className={styles.colFlag} />
             <col className={styles.colSchool} />
             <col className={styles.colDescription} />
@@ -170,26 +186,31 @@ export default function UniversityTable({ rows }: { rows: UniversityRow[] }) {
           </colgroup>
           <thead>
             <tr>
-              <th className={`${styles.th} ${styles.stickyRank}`}>#</th>
-              <th className={`${styles.th} ${styles.stickyFlag}`} />
+              <th className={`${styles.th} ${styles.stickyFlag} ${styles.flagCell}`} />
               <th className={`${styles.th} ${styles.stickyRepo}`}>Trường</th>
               <th className={styles.th}>Mô tả</th>
-              <th className={styles.th}>Loại trường</th>
-              <th className={styles.th}>Ngành nổi bật</th>
-              <th className={styles.th}>Campus</th>
+              <th className={`${styles.th} ${styles.desktopOnly}`}>Loại trường</th>
+              <th className={`${styles.th} ${styles.desktopOnly}`}>Ngành nổi bật</th>
+              <th className={`${styles.th} ${styles.desktopOnly}`}>Campus</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((row) => {
               const isOpen = row.rank === openRank;
+              const majorTone = getMajorTone(row.featuredMajor);
+              const majorToneClass =
+                styles[
+                  `chipTone${majorTone.charAt(0).toUpperCase()}${majorTone.slice(1)}`
+                ];
               return (
                 <Fragment key={`${row.rank}-${row.shortName}`}>
                   <tr
                     className={`${styles.row} ${styles.clickableRow} ${isOpen ? styles.rowOpen : ""}`}
                     onClick={() => setOpenRank(isOpen ? null : row.rank)}
                   >
-                    <td className={`${styles.td} ${styles.stickyRank}`}>{row.rank}</td>
-                    <td className={`${styles.td} ${styles.stickyFlag}`}>{row.flag}</td>
+                    <td className={`${styles.td} ${styles.stickyFlag} ${styles.flagCell}`}>
+                      {row.flag}
+                    </td>
                     <td className={`${styles.td} ${styles.stickyRepo}`}>
                       <div className={styles.repoCell}>
                         <div className={styles.repoOwner}>{row.shortName}</div>
@@ -199,15 +220,15 @@ export default function UniversityTable({ rows }: { rows: UniversityRow[] }) {
                     <td className={styles.td}>
                       <div className={styles.descCellExpanded}>{row.description}</div>
                     </td>
-                    <td className={styles.td}>
+                    <td className={`${styles.td} ${styles.desktopOnly}`}>
                       <span className={`${styles.chip} ${styles.chipMuted}`}>{row.type}</span>
                     </td>
-                    <td className={styles.td}>
-                      <span className={`${styles.chip} ${styles.chipMuted}`}>
+                    <td className={`${styles.td} ${styles.desktopOnly}`}>
+                      <span className={`${styles.chip} ${majorToneClass}`}>
                         {row.featuredMajor}
                       </span>
                     </td>
-                    <td className={styles.td}>
+                    <td className={`${styles.td} ${styles.desktopOnly}`}>
                       <div className={styles.chips}>
                         {row.campuses.map((campus) => (
                           <span
@@ -222,11 +243,10 @@ export default function UniversityTable({ rows }: { rows: UniversityRow[] }) {
                   </tr>
                   {isOpen ? (
                     <tr className={styles.detailRow}>
-                      <td className={styles.detailCell} colSpan={7}>
+                      <td className={styles.detailCell} colSpan={6}>
                         <div className={styles.detailCard}>
                           <div className={styles.detailTop}>
                             <div className={styles.detailTitleWrap}>
-                              <span className={styles.detailBadge}>#{row.rank}</span>
                               <h2 className={styles.detailTitle}>{row.fullName}</h2>
                             </div>
                             <div className={styles.chips}>
@@ -241,7 +261,7 @@ export default function UniversityTable({ rows }: { rows: UniversityRow[] }) {
                                   {campus}
                                 </span>
                               ))}
-                              <span className={`${styles.chip} ${styles.chipMuted}`}>
+                              <span className={`${styles.chip} ${majorToneClass}`}>
                                 {row.featuredMajor}
                               </span>
                             </div>

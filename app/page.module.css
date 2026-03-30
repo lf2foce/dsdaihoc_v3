@@ -357,23 +357,20 @@
 
 .tableScrollWrapper {
   position: relative;
+  overflow-x: hidden;
 }
 
 .tableContainer {
   max-width: 100%;
-  overflow-x: auto;
+  overflow-x: hidden;
 }
 
 .table {
   width: 100%;
-  min-width: 980px;
+  min-width: 0;
   border-collapse: collapse;
   table-layout: fixed;
   font-size: 0.85rem;
-}
-
-.colRank {
-  width: 42px;
 }
 
 .colFlag {
@@ -381,23 +378,23 @@
 }
 
 .colSchool {
-  width: 240px;
+  width: 19%;
 }
 
 .colDescription {
-  width: 430px;
+  width: 37%;
 }
 
 .colType {
-  width: 120px;
+  width: 10%;
 }
 
 .colMajor {
-  width: 190px;
+  width: 14%;
 }
 
 .colCampus {
-  width: 210px;
+  width: 14%;
 }
 
 .th,
@@ -430,16 +427,8 @@
   z-index: 1;
 }
 
-.stickyRank {
-  left: 0;
-  width: 20px;
-  padding: 0.6rem 0.2rem;
-  text-align: center;
-  font-size: 0.75rem;
-}
-
 .stickyFlag {
-  left: 20px;
+  left: 0;
   width: 24px;
   max-width: 24px;
   padding: 0.6rem 0.2rem;
@@ -447,17 +436,15 @@
 }
 
 .stickyRepo {
-  left: 44px;
+  left: 24px;
   box-shadow: var(--page-sticky-shadow);
 }
 
-.row:hover .stickyRank,
 .row:hover .stickyFlag,
 .row:hover .stickyRepo {
   background: var(--page-hover);
 }
 
-.rowOpen .stickyRank,
 .rowOpen .stickyFlag,
 .rowOpen .stickyRepo {
   background: color-mix(in srgb, var(--page-hover) 70%, var(--page-surface) 30%);
@@ -548,6 +535,51 @@
   color: var(--page-chip-muted-text);
 }
 
+.chipToneBlue {
+  background: #2563eb;
+  color: #eff6ff;
+}
+
+.chipToneViolet {
+  background: #7c3aed;
+  color: #f5f3ff;
+}
+
+.chipTonePink {
+  background: #db2777;
+  color: #fdf2f8;
+}
+
+.chipToneRose {
+  background: #f43f5e;
+  color: #fff1f2;
+}
+
+.chipToneOrange {
+  background: #f97316;
+  color: #fff7ed;
+}
+
+.chipToneAmber {
+  background: #eab308;
+  color: #422006;
+}
+
+.chipToneGreen {
+  background: #16a34a;
+  color: #f0fdf4;
+}
+
+.chipToneTeal {
+  background: #0f766e;
+  color: #f0fdfa;
+}
+
+.chipToneSlate {
+  background: #475569;
+  color: #f8fafc;
+}
+
 .dateCell,
 .contributorsCell {
   color: var(--page-muted);
@@ -557,6 +589,10 @@
   cursor: pointer;
 }
 
+.desktopOnly {
+  display: table-cell;
+}
+
 .detailRow .td,
 .detailCell {
   padding: 0;
@@ -564,15 +600,18 @@
 }
 
 .detailCell {
-  background: color-mix(in srgb, var(--page-surface) 88%, var(--page-bg) 12%);
+  background: color-mix(in srgb, var(--page-surface) 94%, var(--page-bg) 6%);
 }
 
 .detailCard {
   margin: 0;
   border-top: 1px solid color-mix(in srgb, var(--page-link) 45%, var(--page-border) 55%);
   border-bottom: 1px solid var(--page-border);
-  background: color-mix(in srgb, var(--page-surface) 94%, var(--page-bg) 6%);
+  background: transparent;
   padding: 1.35rem 1.5rem 1.6rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .detailTop {
@@ -582,22 +621,7 @@
 }
 
 .detailTitleWrap {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  flex-wrap: wrap;
-}
-
-.detailBadge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--page-link) 22%, transparent);
-  color: var(--page-text-strong);
-  font-weight: 700;
+  display: block;
 }
 
 .detailTitle {
@@ -664,14 +688,20 @@
 
 .markdownList {
   margin: 0;
-  padding-left: 1.1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
+  padding-left: 1.35rem;
+  list-style: disc;
 }
 
-.markdownList li {
+.markdownOrderedList {
+  margin: 0;
+  padding-left: 1.5rem;
+  list-style: decimal;
+}
+
+.markdownList li,
+.markdownOrderedList li {
   line-height: 1.8;
+  margin: 0.35rem 0;
 }
 
 .markdownContent strong {
@@ -689,6 +719,12 @@
   padding: 0.08rem 0.35rem;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.92em;
+}
+
+.markdownContent a {
+  color: var(--page-link);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 
 .detailSource {
@@ -754,8 +790,61 @@
     width: min(100%, 220px);
   }
 
+  .desktopOnly {
+    display: none;
+  }
+
+  .table {
+    width: 100%;
+    table-layout: auto;
+  }
+
+  .table colgroup {
+    display: none;
+  }
+
+  .table > thead > tr,
+  .table > tbody > tr:not(.detailRow) {
+    display: grid;
+    grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+    width: 100%;
+  }
+
+  .th,
+  .td {
+    min-width: 0;
+  }
+
+  .stickyFlag,
+  .stickyRepo {
+    position: static;
+    box-shadow: none;
+  }
+
+  .flagCell {
+    display: none;
+  }
+
+  .repoCell {
+    max-width: none;
+    padding-right: 0.5rem;
+  }
+
+  .repoName {
+    font-size: 0.92rem;
+    overflow-wrap: anywhere;
+  }
+
+  .descCellExpanded {
+    -webkit-line-clamp: 6;
+  }
+
   .collapseFab {
     right: 1rem;
     bottom: 1rem;
+  }
+
+  .detailCard {
+    padding: 1.1rem 1rem 1.25rem;
   }
 }
