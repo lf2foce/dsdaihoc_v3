@@ -199,6 +199,66 @@ function ActiveFilters({
   );
 }
 
+function PaginationControls({
+  currentPage,
+  totalPages,
+  totalItems,
+  pageSize,
+  onPrev,
+  onNext,
+  onPageSizeChange,
+  mobileOnly = false,
+}: {
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  pageSize: number;
+  onPrev: () => void;
+  onNext: () => void;
+  onPageSizeChange: (nextValue: string) => void;
+  mobileOnly?: boolean;
+}) {
+  return (
+    <div
+      className={`${styles.pagination} ${mobileOnly ? styles.paginationMobileOnly : styles.paginationDesktopOnly}`}
+    >
+      <button
+        type="button"
+        className={`${styles.pageBtn} ${styles.pageBtnIcon} ${currentPage <= 1 ? styles.pageBtnDisabled : ""}`}
+        disabled={currentPage <= 1}
+        aria-label="Trang trước"
+        onClick={onPrev}
+      >
+        <ChevronLeft />
+      </button>
+      <span className={styles.pageInfo}>
+        <span className={styles.pageInfoCurrent}>{currentPage}</span> /{" "}
+        <span className={styles.pageInfoCurrent}>{totalPages}</span>
+      </span>
+      <span className={styles.pageInfo}>({totalItems} trường)</span>
+      <button
+        type="button"
+        className={`${styles.pageBtn} ${styles.pageBtnIcon} ${currentPage >= totalPages ? styles.pageBtnDisabled : ""}`}
+        disabled={currentPage >= totalPages}
+        aria-label="Trang sau"
+        onClick={onNext}
+      >
+        <ChevronRight />
+      </button>
+      <select
+        className={styles.pageSizeSelect}
+        value={String(pageSize)}
+        onChange={(event) => onPageSizeChange(event.target.value)}
+        aria-label="Số trường mỗi trang"
+      >
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+  );
+}
+
 export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
   const majorOptions = useMemo(
     () =>
@@ -431,41 +491,15 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
           </select>
         </div>
 
-        <div className={styles.pagination}>
-          <button
-            type="button"
-            className={`${styles.pageBtn} ${styles.pageBtnIcon} ${effectiveCurrentPage <= 1 ? styles.pageBtnDisabled : ""}`}
-            disabled={effectiveCurrentPage <= 1}
-            aria-label="Trang trước"
-            onClick={() => goToPage(effectiveCurrentPage - 1)}
-          >
-            <ChevronLeft />
-          </button>
-          <span className={styles.pageInfo}>
-            <span className={styles.pageInfoCurrent}>{effectiveCurrentPage}</span> /{" "}
-            <span className={styles.pageInfoCurrent}>{totalPages}</span>
-          </span>
-          <span className={styles.pageInfo}>({filteredRows.length} trường)</span>
-          <button
-            type="button"
-            className={`${styles.pageBtn} ${styles.pageBtnIcon} ${effectiveCurrentPage >= totalPages ? styles.pageBtnDisabled : ""}`}
-            disabled={effectiveCurrentPage >= totalPages}
-            aria-label="Trang sau"
-            onClick={() => goToPage(effectiveCurrentPage + 1)}
-          >
-            <ChevronRight />
-          </button>
-          <select
-            className={styles.pageSizeSelect}
-            value={String(pageSize)}
-            onChange={(event) => handlePageSizeChange(event.target.value)}
-            aria-label="Số trường mỗi trang"
-          >
-            <option value="20">20</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
-        </div>
+        <PaginationControls
+          currentPage={effectiveCurrentPage}
+          totalPages={totalPages}
+          totalItems={filteredRows.length}
+          pageSize={pageSize}
+          onPrev={() => goToPage(effectiveCurrentPage - 1)}
+          onNext={() => goToPage(effectiveCurrentPage + 1)}
+          onPageSizeChange={handlePageSizeChange}
+        />
       </div>
 
       <ActiveFilters
@@ -483,6 +517,17 @@ export default function UniversityBrowser({ rows }: { rows: UniversityRow[] }) {
         query={deferredQuery}
         openSlug={resolvedOpenSlug}
         onToggleRow={handleToggleRow}
+      />
+
+      <PaginationControls
+        currentPage={effectiveCurrentPage}
+        totalPages={totalPages}
+        totalItems={filteredRows.length}
+        pageSize={pageSize}
+        onPrev={() => goToPage(effectiveCurrentPage - 1)}
+        onNext={() => goToPage(effectiveCurrentPage + 1)}
+        onPageSizeChange={handlePageSizeChange}
+        mobileOnly
       />
     </section>
   );

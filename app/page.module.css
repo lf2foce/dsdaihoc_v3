@@ -45,8 +45,9 @@
 .headerBar {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
+  width: 100%;
 }
 
 .headerLeft {
@@ -54,6 +55,7 @@
   flex-direction: column;
   gap: 0.25rem;
   min-width: 0;
+  flex: 1 1 auto;
 }
 
 .logoLink {
@@ -127,28 +129,19 @@
 
 .headerRight {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: flex-end;
   gap: 0.5rem;
+  margin-left: auto;
+  flex: 0 0 auto;
+  align-self: flex-start;
 }
 
-.headerChip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.35rem 0.6rem;
-  border: 1px solid var(--page-border);
-  border-radius: 999px;
-  background: var(--page-surface);
-  color: var(--page-text);
+.updateStamp {
+  color: var(--page-muted);
+  font-size: 0.82rem;
   white-space: nowrap;
-  text-decoration: none;
-}
-
-.headerChip:hover {
-  border-color: var(--page-border-strong);
-  text-decoration: none;
 }
 
 .followChip {
@@ -156,8 +149,22 @@
 }
 
 .themeToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--page-border) 72%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--page-surface) 96%, var(--page-bg) 4%);
   cursor: pointer;
   transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.themeToggle:hover {
+  border-color: var(--page-border-strong);
+  background: color-mix(in srgb, var(--page-surface) 90%, var(--page-hover) 10%);
 }
 
 .themeToggle svg {
@@ -165,34 +172,18 @@
   flex: 0 0 auto;
 }
 
-.chipEmoji {
-  font-size: 1.1rem;
-  line-height: 1;
-}
-
-.chipText {
-  display: inline-flex;
-  flex-direction: column;
-  line-height: 1.1;
-}
-
-.chipValue {
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.chipLabel {
-  color: var(--page-muted);
-  font-size: 0.75rem;
-}
-
 .tabsBar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
   padding: 0 2rem;
   border-bottom: 1px solid var(--page-border);
+  background: color-mix(in srgb, var(--page-bg) 94%, var(--page-surface) 6%);
+  backdrop-filter: blur(10px);
 }
 
 .tabs,
@@ -467,6 +458,32 @@
   gap: 0.75rem;
   flex: 0 0 auto;
   margin-left: auto;
+}
+
+.paginationDesktopOnly {
+  display: flex;
+}
+
+.paginationMobileOnly {
+  display: none;
+  margin-top: 1rem;
+}
+
+@media (max-width: 1200px) {
+  .controlsRow {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .controls {
+    flex: 1 1 100%;
+  }
+
+  .pagination {
+    width: 100%;
+    margin-left: 0;
+    justify-content: flex-end;
+  }
 }
 
 .pageBtn {
@@ -1008,10 +1025,16 @@
     padding-left: 1rem;
   }
 
-  .headerBar,
   .controlsRow {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .headerBar {
+    width: 100%;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: nowrap;
   }
 
   .tabsBar {
@@ -1034,10 +1057,20 @@
     flex-wrap: nowrap;
   }
 
-  .headerRight,
+  .headerRight {
+    margin-left: auto;
+    align-self: flex-start;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+  }
+
   .pagination {
-    justify-content: flex-start;
-    margin-left: 0;
+    justify-content: flex-end;
+  }
+
+  .subtitle,
+  .updateStamp {
+    display: none;
   }
 
   .controls {
@@ -1060,6 +1093,17 @@
   .controls > .input.select {
     width: 100%;
     min-width: 0;
+  }
+
+  .paginationDesktopOnly {
+    display: none;
+  }
+
+  .paginationMobileOnly {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-left: 0;
   }
 
   .multiSelectTrigger,

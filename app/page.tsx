@@ -3,32 +3,8 @@ import styles from "./page.module.css";
 import { loadUniversityRows } from "./university-data";
 import UniversityBrowser from "./university-browser";
 
-type Stat = {
-  icon: string;
-  value: string;
-  label: string;
-};
-
-const stats: Stat[] = [
-  { icon: "🏫", value: "164", label: "trường" },
-  { icon: "👩‍🎓", value: "2.3M", label: "sinh viên" },
-  { icon: "📚", value: "4.800+", label: "ngành học" },
-];
-
 const primaryTabs = ["Trường"];
 const secondaryTabs = ["FAQ", "Thêm trường"];
-
-function StatChip({ icon, value, label }: Stat) {
-  return (
-    <div className={styles.headerChip}>
-      <span className={styles.chipEmoji}>{icon}</span>
-      <span className={styles.chipText}>
-        <span className={styles.chipValue}>{value}</span>
-        <span className={styles.chipLabel}>{label}</span>
-      </span>
-    </div>
-  );
-}
 
 function HeaderTab({
   label,
@@ -60,7 +36,7 @@ export default async function Home() {
               className={styles.logoLink}
               aria-label="Danh sách đại học Việt Nam"
             >
-              <span className={styles.logoText}>🎓 Đại học VN</span>
+              <span className={styles.logoText}>🎓 Danh sách Đại học</span>
             </a>
             <p className={styles.subtitle}>
               Tìm thông tin trường đại học Việt Nam dễ dàng
@@ -68,9 +44,7 @@ export default async function Home() {
           </div>
 
           <div className={styles.headerRight}>
-            {stats.map((stat) => (
-              <StatChip key={stat.label} {...stat} />
-            ))}
+            <span className={styles.updateStamp}>Cập nhật dữ liệu tới 30/3/2026</span>
             <ThemeToggle />
           </div>
         </div>

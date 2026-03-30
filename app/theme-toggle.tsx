@@ -18,7 +18,7 @@ export default function ThemeToggle() {
   return (
     <button
       type="button"
-      className={`${styles.headerChip} ${styles.themeToggle}`}
+      className={styles.themeToggle}
       onClick={() => {
         startTransition(() => {
           setTheme(isLight ? "dark" : "light");
