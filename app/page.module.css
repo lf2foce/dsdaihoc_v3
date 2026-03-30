@@ -1373,6 +1373,34 @@
   background: color-mix(in srgb, var(--page-surface) 94%, var(--page-bg) 6%);
 }
 
+:global(html[data-ui-theme="dark"]) .detailCell {
+  background: #262626;
+}
+
+:global(html[data-ui-theme="dark"]) .detailCard {
+  border-top-color: color-mix(in srgb, var(--page-link) 35%, #404040 65%);
+}
+
+:global(html[data-ui-theme="dark"]) .mobileDetailWrap {
+  border-top-color: color-mix(in srgb, var(--page-link) 35%, #404040 65%);
+  background: #262626;
+}
+
+:global(html[data-ui-theme="dark"]) .detailIntro,
+:global(html[data-ui-theme="dark"]) .detailText,
+:global(html[data-ui-theme="dark"]) .markdownParagraph,
+:global(html[data-ui-theme="dark"]) .markdownList li,
+:global(html[data-ui-theme="dark"]) .markdownOrderedList li {
+  color: #d4d4d4;
+}
+
+:global(html[data-ui-theme="dark"]) .rowOpen .td,
+:global(html[data-ui-theme="dark"]) .rowOpen .stickyFlag,
+:global(html[data-ui-theme="dark"]) .rowOpen .stickyRepo,
+:global(html[data-ui-theme="dark"]) .mobileRowOpen {
+  background: #232323;
+}
+
 .detailTop {
   display: flex;
   flex-direction: column;
