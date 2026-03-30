@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import styles from "../../page.module.css";
 import { getMajorChipStyle } from "../../university-taxonomy";
 import {
+  loadUniversityBySlug,
   loadUniversityRows,
 } from "../../university-data";
 import type { UniversityRow } from "../../university-types";
@@ -12,6 +13,8 @@ import type { UniversityRow } from "../../university-types";
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
+
+export const dynamicParams = false;
 
 function renderInlineMarkdown(text: string) {
   const parts = text
@@ -303,8 +306,7 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const rows = await loadUniversityRows();
-  const school = rows.find((row) => row.slug === slug) ?? null;
+  const school = await loadUniversityBySlug(slug);
 
   if (!school) {
     return {
@@ -346,8 +348,8 @@ export async function generateMetadata({
 
 export default async function SchoolDetailPage({ params }: PageProps) {
   const { slug } = await params;
+  const school = await loadUniversityBySlug(slug);
   const rows = await loadUniversityRows();
-  const school = rows.find((row) => row.slug === slug) ?? null;
 
   if (!school) {
     notFound();
