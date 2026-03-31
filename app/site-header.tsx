@@ -4,12 +4,13 @@ import ThemeToggle from "./theme-toggle";
 import styles from "./page.module.css";
 
 type SiteHeaderProps = {
-  activeTab: "Trường" | "FAQs" | "Góp ý";
+  activeTab: "Trường" | "Quiz" | "FAQs" | "Góp ý";
 };
 
 const primaryTabs = [{ label: "Trường", href: "/" }] as const;
 
 const secondaryTabs = [
+  { label: "Quiz", href: "/quiz" },
   { label: "FAQs", href: "/faqs" },
   { label: "Góp ý", href: "/gop-y" },
 ] as const;
