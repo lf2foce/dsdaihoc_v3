@@ -1,4 +1,5 @@
 import styles from "./page.module.css";
+import HomeSponsor from "./home-sponsor";
 import { loadUniversityListRows } from "./university-data";
 import UniversityBrowser from "./university-browser";
 import SiteHeader from "./site-header";
@@ -11,6 +12,7 @@ export default async function Home() {
       <SiteHeader activeTab="Trường" />
 
       <main className={styles.main}>
+        <HomeSponsor />
         <UniversityBrowser rows={rows} />
       </main>
     </div>
