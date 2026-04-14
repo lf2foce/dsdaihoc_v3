@@ -320,62 +320,64 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className={cn(styles.sectionContainer, styles.bgMesh, "block")}>
-      <div className="text-center max-w-3xl mx-auto mb-24">
-        <motion.p 
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="text-primary font-bold uppercase tracking-[0.3em] text-xs mb-6"
-        >
-          Dịch vụ chuyên nghiệp
-        </motion.p>
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="text-5xl md:text-6xl font-heading font-extrabold mb-8"
-        >
-          Giải pháp <span className={styles.textGradient}>Đột phá</span> cho Doanh nghiệp
-        </motion.h2>
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="text-xl text-muted-foreground"
-        >
-          Chúng tôi cung cấp hệ sinh thái dịch vụ đa dạng, được thiết kế riêng để giải quyết những thách thức đặc thù của từng doanh nghiệp.
-        </motion.p>
-      </div>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {services.map((service, idx) => (
-          <motion.div
-            key={service.title}
-            initial={{ opacity: 0, y: 30 }}
+    <section id="services" className={cn(styles.bgMesh, "w-full relative")}>
+      <div className={cn(styles.sectionContainer)}>
+        <div className="text-center max-w-3xl mx-auto mb-24">
+          <motion.p 
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: idx * 0.1 }}
-            viewport={{ once: true }}
-            whileHover={{ y: -10 }}
-            className="group"
+            className="text-primary font-bold uppercase tracking-[0.3em] text-xs mb-6"
           >
-            <div className={cn(styles.glassPanel, "h-full rounded-[2.5rem] p-8 transition-all duration-500 hover:bg-white/90 relative overflow-hidden")}>
-              <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${service.gradient} opacity-5 rounded-bl-[5rem] transition-all duration-500 group-hover:opacity-10 group-hover:scale-110`} />
-              
-              <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center text-white mb-8 shadow-lg shadow-primary/10 group-hover:scale-110 transition-transform duration-500`}>
-                {service.icon}
+            Dịch vụ chuyên nghiệp
+          </motion.p>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-5xl md:text-6xl font-heading font-extrabold mb-8"
+          >
+            Giải pháp <span className={styles.textGradient}>Đột phá</span> cho Doanh nghiệp
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-xl text-muted-foreground"
+          >
+            Chúng tôi cung cấp hệ sinh thái dịch vụ đa dạng, được thiết kế riêng để giải quyết những thách thức đặc thù của từng doanh nghiệp.
+          </motion.p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {services.map((service, idx) => (
+            <motion.div
+              key={service.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -10 }}
+              className="group"
+            >
+              <div className={cn(styles.glassPanel, "h-full rounded-[2.5rem] p-8 transition-all duration-500 hover:bg-white/90 relative overflow-hidden")}>
+                <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${service.gradient} opacity-5 rounded-bl-[5rem] transition-all duration-500 group-hover:opacity-10 group-hover:scale-110`} />
+                
+                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center text-white mb-8 shadow-lg shadow-primary/10 group-hover:scale-110 transition-transform duration-500`}>
+                  {service.icon}
+                </div>
+                
+                <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">{service.title}</h3>
+                <p className="text-muted-foreground mb-8 leading-relaxed">
+                  {service.desc}
+                </p>
+                
+                <Button variant="ghost" className="p-0 hover:bg-transparent text-primary font-bold group/btn">
+                  Xem chi tiết <ArrowRight size={18} className="ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                </Button>
               </div>
-              
-              <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">{service.title}</h3>
-              <p className="text-muted-foreground mb-8 leading-relaxed">
-                {service.desc}
-              </p>
-              
-              <Button variant="ghost" className="p-0 hover:bg-transparent text-primary font-bold group/btn">
-                Xem chi tiết <ArrowRight size={18} className="ml-2 group-hover/btn:translate-x-1 transition-transform" />
-              </Button>
-            </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -412,7 +414,7 @@ const Contact = () => {
         >
           <h2 className="text-5xl md:text-7xl font-heading font-extrabold mb-8 leading-[0.95]">
             Sẵn sàng để <br />
-            <span className="text-white">Bứt phá?</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Bứt phá?</span>
           </h2>
           <p className="text-xl text-white/70 mb-12 leading-relaxed max-w-md">
             Hãy để Genv giúp bạn hiện thực hóa những ý tưởng táo bạo nhất. Liên hệ ngay hôm nay để nhận tư vấn miễn phí.

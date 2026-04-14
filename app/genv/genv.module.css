@@ -146,9 +146,3 @@
 .page ::-webkit-scrollbar-thumb:hover {
   background: oklch(0.45 0.18 255 / 0.4);
 }
-
-/* Selection highlight */
-.page ::selection {
-  background: oklch(0.45 0.18 255 / 0.1);
-  color: oklch(0.45 0.18 255);
-}
