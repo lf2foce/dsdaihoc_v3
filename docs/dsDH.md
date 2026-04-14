@@ -258,6 +258,33 @@ ERROR: failed to sync school_456
 
 The script must support:
 
+---
+
+## SEO Notes
+
+Các cải tiến SEO đã triển khai cho `dsdaihoc.com`:
+
+* Homepage metadata trong `app/layout.tsx` đã được cập nhật để mô tả rõ hơn nội dung trang chủ.
+* Homepage có thêm `h1` ẩn trong `app/page.tsx` để heading structure rõ ràng hơn cho bot và screen reader.
+* Homepage có thêm structured data JSON-LD trong `app/page.tsx` theo dạng `WebSite` và `CollectionPage` để giúp công cụ tìm kiếm hiểu đây là trang tổng hợp danh sách trường.
+* `sitemap.xml` trong `app/sitemap.ts` đã bỏ route `/gop-y` khi mục này không còn hiển thị trên navigation.
+
+Những điểm nên cân nhắc làm tiếp:
+
+* Dùng mốc dữ liệu thật cho `lastModified` trong sitemap thay vì `new Date()` cho mọi trang.
+* Thêm ảnh `openGraph` và `twitter` cho homepage và các trang trường để tăng CTR khi chia sẻ link.
+* Tiếp tục giữ dữ liệu tuyển sinh tươi bằng quy trình `crawl -> review -> export`.
+
+Việc cần làm ngoài code:
+
+* Deploy bản mới sau khi thay đổi metadata, sitemap hoặc nội dung quan trọng.
+* Submit lại `https://dsdaihoc.com/sitemap.xml` trong Google Search Console.
+* Dùng URL Inspection để request indexing cho homepage và các trang quan trọng như `/truong/...` hoặc `/ai4sd`.
+* Theo dõi mục Coverage, Page indexing và Enhancements trong Search Console để phát hiện lỗi crawl hoặc structured data.
+* Khi snippet Google chưa đổi ngay, chờ Google crawl lại thay vì tiếp tục sửa description nhiều lần trong thời gian ngắn.
+* Tăng internal link giữa homepage, trang trường, FAQ, quiz và các landing page liên quan để bot crawl sâu hơn.
+* Bổ sung backlink thật từ các nguồn liên quan giáo dục, tuyển sinh hoặc hệ sinh thái VNU nếu có thể.
+
 Manual run
 
 and

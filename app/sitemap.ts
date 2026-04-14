@@ -27,12 +27,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.6,
     },
-    {
-      url: `${baseUrl}/gop-y`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.5,
-    },
   ];
 
   const schoolRoutes: MetadataRoute.Sitemap = rows.map((row) => ({
