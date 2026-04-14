@@ -12,7 +12,6 @@ const primaryTabs = [{ label: "Trường", href: "/" }] as const;
 const secondaryTabs = [
   { label: "Quiz", href: "/quiz" },
   { label: "FAQs", href: "/faqs" },
-  { label: "Góp ý", href: "/gop-y" },
 ] as const;
 
 function NavigationTab({

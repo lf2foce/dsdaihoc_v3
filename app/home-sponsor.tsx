@@ -6,26 +6,26 @@ export default function HomeSponsor() {
   return (
     <aside className={styles.sponsorRail} aria-label="Nội dung tài trợ">
       <div className={styles.sponsorBadgeWrap}>
-        <span className={styles.sponsorAudience}>Dành cho sinh viên</span>
+        <span className={styles.sponsorAudience}>Tạo website free</span>
       </div>
 
       <div className={styles.sponsorCopy}>
         <p className={styles.sponsorEyebrow}>Phê Nâu</p>
-        <p className={styles.sponsorTitle}>Chat với kho dữ liệu AI để hỏi nhanh về trường, ngành và hướng đi phù hợp.</p>
+        <p className={styles.sponsorTitle}>Tạo website free cực nhanh.</p>
         <p className={styles.sponsorDescription}>
-          Một trợ lý học tập giúp sinh viên và học sinh tra cứu, đối chiếu và đặt câu hỏi tự nhiên
-          trên dữ liệu riêng của bạn.
+          Dùng AI để lên nội dung, dựng landing page và xuất bản website trong vài phút mà không cần
+          code.
         </p>
       </div>
 
       <div className={styles.sponsorActions}>
         <Link
-          href="https://phenau.com"
+          href="https://web.phenau.com"
           target="_blank"
           rel="noreferrer"
           className={styles.sponsorLink}
         >
-          Khám phá Phê Nâu
+          Tạo website miễn phí
         </Link>
       </div>
     </aside>
