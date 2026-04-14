@@ -235,8 +235,8 @@ const AboutUs = () => {
         >
           <div className="aspect-square rounded-[4rem] overflow-hidden shadow-2xl relative">
             <img 
-              src="https://picsum.photos/seed/team/800/800" 
-              alt="Our Team" 
+              src="/genv_about_us_team.png" 
+              alt="Genv Team" 
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
             />
