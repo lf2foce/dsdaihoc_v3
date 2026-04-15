@@ -10,7 +10,7 @@ const baseUrl =
 export const metadata: Metadata = {
   title: "Danh sách đại học | Tìm Trường Đại Học Phù Hợp",
   description:
-    "Tìm kiếm và so sánh các trường đại học tại Việt Nam để chọn nơi học phù hợp nhất với bạn. Bao gồm Viện Nghiên cứu ứng dụng Trí tuệ nhân tạo trong phát triển bền vững (VNU - AI4SD).",
+    "Tìm kiếm và so sánh các trường đại học tại Việt Nam. Bao gồm AI4SD - Viện Nghiên cứu ứng dụng Trí tuệ nhân tạo trong phát triển bền vững.",
   metadataBase: new URL(baseUrl),
   alternates: {
     canonical: "/",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Danh sách đại học | Tìm Trường Đại Học Phù Hợp",
     description:
-      "Tìm kiếm và so sánh các trường đại học tại Việt Nam để chọn nơi học phù hợp nhất với bạn. Bao gồm Viện Nghiên cứu ứng dụng Trí tuệ nhân tạo trong phát triển bền vững (VNU - AI4SD).",
+      "Tìm kiếm và so sánh các trường đại học tại Việt Nam. Bao gồm AI4SD - Viện Nghiên cứu ứng dụng Trí tuệ nhân tạo trong phát triển bền vững.",
     url: baseUrl,
     siteName: "Danh sách đại học",
     locale: "vi_VN",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Danh sách đại học | Tìm Trường Đại Học Phù Hợp",
     description:
-      "Tìm kiếm và so sánh các trường đại học tại Việt Nam để chọn nơi học phù hợp nhất với bạn. Bao gồm Viện Nghiên cứu ứng dụng Trí tuệ nhân tạo trong phát triển bền vững (VNU - AI4SD).",
+      "Tìm kiếm và so sánh các trường đại học tại Việt Nam. Bao gồm AI4SD - Viện Nghiên cứu ứng dụng Trí tuệ nhân tạo trong phát triển bền vững.",
   },
   robots: {
     index: true,
