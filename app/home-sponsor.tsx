@@ -11,21 +11,21 @@ export default function HomeSponsor() {
 
       <div className={styles.sponsorCopy}>
         <p className={styles.sponsorEyebrow}>Phê Nâu</p>
-        <p className={styles.sponsorTitle}>Tạo website free cực nhanh.</p>
+        <p className={styles.sponsorTitle}>Build landing page và email marketing dưới 5 phút.</p>
         <p className={styles.sponsorDescription}>
-          Dùng AI để lên nội dung, dựng landing page và xuất bản website trong vài phút mà không cần
+          Dùng AI để lên nội dung, dựng landing page, viết email và xuất bản nhanh mà không cần
           code.
         </p>
       </div>
 
       <div className={styles.sponsorActions}>
         <Link
-          href="https://web.phenau.com"
+          href="https://www.facebook.com/people/Ph%C3%AA-N%C3%A2u/61587880370874"
           target="_blank"
           rel="noreferrer"
           className={styles.sponsorLink}
         >
-          Tạo website miễn phí
+          Xem Phê Nâu trên Facebook
         </Link>
       </div>
     </aside>

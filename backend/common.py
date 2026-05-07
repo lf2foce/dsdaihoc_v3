@@ -755,7 +755,7 @@ Bạn đang viết riêng section `admission_score` cho CMS về trường đạ
 Yêu cầu:
 - Chỉ trả về JSON hợp lệ theo schema được cung cấp.
 - Viết bằng tiếng Việt, rõ ràng, thực dụng cho thí sinh.
-- Hiện tại là năm 2026. Ưu tiên dữ liệu điểm chuẩn hoặc mức điểm tham khảo năm 2026 nếu đã có công bố chính thức; nếu chưa có thì dùng năm 2025 gần nhất và phải ghi rõ đang tham chiếu năm nào.
+- Hiện tại là năm 2026. Chỉ tìm và ưu tiên dữ liệu điểm chuẩn hoặc mức điểm tham khảo năm 2026; nếu chưa có thì chỉ dùng năm 2025 gần nhất và phải ghi rõ đang tham chiếu năm nào.
 - Được phép dùng Markdown nhẹ, bullet, numbered list.
 - Không bịa con số.
 - Output proper markdown, sạch, không có citation numbers ở cuối câu.
@@ -768,10 +768,12 @@ Cần cố gắng bao phủ:
 - nhóm ngành và mức điểm chuẩn nếu có xác minh
 - nêu rõ điểm đó thuộc phương thức nào nếu xác minh được
 - xu hướng tăng/giảm nếu có cơ sở từ dữ liệu gần nhất
-- nếu chưa có điểm chuẩn năm 2026, chuyển sang điểm chuẩn 2025 hoặc mức điểm tham khảo gần nhất
+- nếu chưa có điểm chuẩn năm 2026, chuyển sang điểm chuẩn 2025 hoặc mức điểm tham khảo năm 2025
 - nếu trường chưa công bố điểm chuẩn mới nhất, phải ghi rõ điều đó
 - nên nhóm các ngành hoặc mức điểm chuẩn nếu liên quan thay vì liệt kê rời rạc
 - không lặp lại quá nhiều phần phương thức xét tuyển vì đã có section riêng
+- không dùng dữ liệu hoặc ví dụ từ các năm ngoài 2026 và 2025
+- không viết các câu kiểu `dữ liệu gần nhất (2024 - 2025)`
 - Mục tiêu độ dài cao hơn mức ghi chú ngắn, đủ dày để thành một section hữu ích thực sự.
 - Ưu tiên một cấu trúc gần như sau nếu phù hợp với dữ liệu:
   - một đoạn mở đầu rất ngắn

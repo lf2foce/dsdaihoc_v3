@@ -62,15 +62,13 @@ INSTRUCTIONS:
 -------
 Ngành và điểm chuẩn 2026 prompt
 
-Chi tiết các ngành và điểm chuẩn năm 2025 của {{ $('Airtable12').item.json["Tên trường"] }} theo thứ tự như sau:
+Chi tiết các ngành và điểm chuẩn cho kỳ tuyển sinh 2026 của {{ $('Airtable12').item.json["Tên trường"] }} theo thứ tự như sau:
 
 INSTRUCTIONS:
 - đi vào ý chính luôn 
 - tìm những bài viết đăng trong năm 2026. nếu không tìm được những bài gần nhất thì tìm năm 2025.
+- chỉ dùng dữ liệu từ 2026 hoặc 2025.
 - nhóm các ngành lại nếu liên quan đến nhau 
 - chi tiết, đầy đủ và gạch đầu dòng nhiều cho dễ đọc. cũng như cần ngắn gọn nhưng đầy đủ
 - output proper markdown for me. don't add any reference citations numbers at the end of any paragraph. It should look like a clean article.
-
-
-
 
