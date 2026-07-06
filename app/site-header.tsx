@@ -45,7 +45,7 @@ export default function SiteHeader({ activeTab }: SiteHeaderProps) {
           </div>
 
           <div className={styles.headerRight}>
-            <span className={styles.updateStamp}>Cập nhật dữ liệu tới 07/05/2026</span>
+            <span className={styles.updateStamp}>Cập nhật dữ liệu tới 06/07/2026</span>
             <div className={styles.themeToggleDesktop}>
               <ThemeToggle />
             </div>
