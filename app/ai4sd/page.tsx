@@ -67,7 +67,7 @@ const studentProjects = [
     category: "AI Agent & E-Commerce",
     tagColor: "bg-teal-50 text-teal-800 border-teal-200",
     title: "Trợ lý AI chăm sóc khách hàng và tư vấn bán hàng đa kênh",
-    subtitle: "Xử lý hàng nghìn cuộc hội thoại, tự động tra cứu kho tri thức và chốt đơn 24/7",
+    subtitle: "Trả lời hội thoại liên tục, tự động tra cứu kho tri thức và chốt đơn 24/7",
     problem:
       "Doanh nghiệp tốn nhiều chi phí duy trì nhân sự trực ca đêm, trả lời chậm trễ dẫn đến mất khách hàng tiềm năng, thông tin chính sách sản phẩm thường bị nhầm lẫn.",
     solution:
@@ -89,7 +89,7 @@ const studentProjects = [
     title: "Bảng điều khiển tài chính và dự báo kinh doanh",
     subtitle: "Trực quan hóa chỉ số tài chính, dự báo dòng tiền và cảnh báo rủi ro bằng AI Insights",
     problem:
-      "Dữ liệu doanh thu, chi phí và tồn kho nằm rải rác trên hàng chục file Excel độc lập, mất hàng giờ tổng hợp mỗi tuần và không kịp thời phát hiện rủi ro thâm hụt dòng tiền.",
+      "Dữ liệu doanh thu, chi phí và tồn kho nằm rải rác trên nhiều file Excel độc lập, mất nhiều thời gian tổng hợp mỗi tuần và không kịp thời phát hiện rủi ro thâm hụt dòng tiền.",
     solution:
       "Dashboard thời gian thực tự động kết nối nguồn dữ liệu, vẽ biểu đồ trực quan kèm trợ lý AI tóm tắt tình hình tài chính bằng văn bản, tự động cảnh báo khi chi phí vượt ngưỡng an toàn.",
     impact: [
@@ -107,7 +107,7 @@ const studentProjects = [
     category: "Marketing & Growth",
     tagColor: "bg-amber-50 text-amber-800 border-amber-200",
     title: "Cỗ máy sáng tạo nội dung và tự động đăng bài đa kênh",
-    subtitle: "Từ phân tích xu hướng nóng đến tạo 30 bài viết chuẩn SEO và lịch đăng tự động",
+    subtitle: "Từ phân tích xu hướng đến soạn bài chuẩn SEO và lên lịch đăng tự động",
     problem:
       "Đội ngũ marketing nhỏ bị quá tải khi phải liên tục duy trì nội dung trên Facebook, TikTok, LinkedIn và Website; chất lượng nội dung không đồng đều và lịch đăng hay bị đứt quãng.",
     solution:
@@ -167,7 +167,7 @@ const coreAdvantages = [
     icon: <Presentation className="size-6 text-rose-700" />,
     title: "Hồ sơ năng lực chuyên nghiệp",
     description:
-      "Đóng gói toàn bộ quá trình giải quyết bài toán thành bộ hồ sơ năng lực tiêu chuẩn quốc tế, giúp bạn gây ấn tượng vượt bậc trong các vòng phỏng vấn tuyển dụng hoặc gọi vốn.",
+      "Đóng gói toàn bộ quá trình giải quyết bài toán thành một bộ hồ sơ năng lực đầy đủ, giúp bạn gây ấn tượng trong các vòng phỏng vấn tuyển dụng hoặc gọi vốn.",
   },
 ];
 
@@ -176,7 +176,7 @@ const detailedRoadmap = [
     phase: "Giai đoạn 1",
     tag: "Tuần 1 – 2",
     title: "AI Literacy for Business & kỹ năng viết prompt",
-    headline: "Khai phóng tư duy sản phẩm AI & Tự động hóa quy trình nghiệp vụ",
+    headline: "Hiểu AI làm được gì cho công việc, và tự động hóa quy trình nghiệp vụ",
     bullets: [
       "Toàn cảnh ứng dụng Generative AI & AI Agents trong Marketing, Tài chính, Bán hàng và Vận hành.",
       "Viết prompt hiệu quả: mô tả bối cảnh, đặc tả yêu cầu, cho ví dụ, ràng buộc và cách đánh giá kết quả.",
@@ -219,12 +219,12 @@ const detailedRoadmap = [
     title: "Demo Day, hồ sơ năng lực & Startup Pitch",
     headline: "Gây ấn tượng với nhà tuyển dụng bằng sản phẩm bạn tự làm",
     bullets: [
-      "Viết Case Study chi tiết theo chuẩn quốc tế: Vấn đề (Problem) – Giải pháp AI (Solution) – Kết quả đo lường (Metrics).",
+      "Viết case study theo cấu trúc: Vấn đề (Problem) – Giải pháp AI (Solution) – Kết quả đo lường (Metrics).",
       "Xây dựng trang Portfolio cá nhân chuyên nghiệp trên GitHub / LinkedIn để đính kèm CV.",
       "Huấn luyện kỹ năng thuyết trình sản phẩm (Product Pitch) theo chuẩn các cuộc thi khởi nghiệp và vòng phỏng vấn cấp cao.",
       "Tham gia ngày hội Demo Day: Trình diễn sản phẩm trước Hội đồng chuyên gia của Viện VNU - AI4SD và đại diện các doanh nghiệp đối tác.",
     ],
-    highlight: "Sản phẩm mốc 4: Bộ Portfolio cá nhân + Chứng nhận AI Product Builder",
+    highlight: "Sản phẩm mốc 4: Hồ sơ năng lực cá nhân + Chứng nhận AI Product Builder",
   },
 ];
 
@@ -239,7 +239,7 @@ const programOutcomes = [
     badge: "Sản phẩm hoàn chỉnh",
   },
   {
-    title: "Hồ sơ năng lực chuẩn quốc tế",
+    title: "Hồ sơ năng lực có chiều sâu",
     description:
       "Bộ tài liệu và Case Study chi tiết miêu tả toàn bộ quá trình từ phát hiện nỗi đau thị trường, thiết kế giải pháp AI đến kết quả đo lường thực tế — thứ giúp bạn vượt trội hoàn toàn khi phỏng vấn xin việc.",
     icon: <Presentation className="size-8 text-amber-700" />,
@@ -270,7 +270,7 @@ const programOutcomes = [
 const faqs = [
   {
     q: "Tôi là sinh viên khối ngành Kinh tế/Marketing/Ngoại ngữ, chưa từng biết gì về lập trình thì có học được không?",
-    a: "Hoàn toàn học được và đây chính là đối tượng chương trình hướng tới! Với sự phát triển của Vibe Coding và các AI Agent thông minh hiện nay, bạn không cần phải học cú pháp lập trình phức tạp. Lợi thế lớn nhất của bạn chính là sự thấu hiểu nghiệp vụ, tâm lý khách hàng và tư duy quy trình. Phần kỹ thuật sẽ được hướng dẫn qua các công cụ AI trợ giúp từng bước một.",
+    a: "Học được, và đây chính là nhóm chương trình hướng tới. Với sự phát triển của Vibe Coding và các AI Agent thông minh hiện nay, bạn không cần phải học cú pháp lập trình phức tạp. Lợi thế lớn nhất của bạn chính là sự thấu hiểu nghiệp vụ, tâm lý khách hàng và tư duy quy trình. Phần kỹ thuật sẽ được hướng dẫn qua các công cụ AI trợ giúp từng bước một.",
   },
   {
     q: "Phương pháp 'Vibe Coding' tại AI4SD có gì khác so với việc tôi tự xem hướng dẫn trên mạng?",
@@ -318,22 +318,22 @@ export default function AI4SDPage() {
 
           <nav className="hidden items-center gap-8 text-sm font-semibold text-slate-600 md:flex">
             <a href="#about" className="transition-colors hover:text-teal-900">
-              Tổng Quan
+              Tổng quan
             </a>
             <a href="#showcase" className="transition-colors hover:text-teal-900">
-              Sản Phẩm Mẫu
+              Sản phẩm mẫu
             </a>
             <a href="#method" className="transition-colors hover:text-teal-900">
-              Phương Pháp
+              Phương pháp
             </a>
             <a href="#roadmap" className="transition-colors hover:text-teal-900">
-              Lộ Trình 10 Tuần
+              Lộ trình 10 Tuần
             </a>
             <a href="#vien" className="transition-colors hover:text-teal-900">
               Về Viện VNU
             </a>
             <a href="#faq" className="transition-colors hover:text-teal-900">
-              Hỏi Đáp
+              Hỏi đáp
             </a>
           </nav>
 
@@ -366,7 +366,7 @@ export default function AI4SDPage() {
             </h1>
 
             <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">
-              Khóa thực chiến 10 tuần độc quyền từ <strong className="font-semibold text-slate-900">Viện VNU - AI4SD</strong>. 
+              Khóa thực chiến 10 tuần từ <strong className="font-semibold text-slate-900">Viện VNU - AI4SD</strong>. 
               Dành riêng cho sinh viên &amp; nhân sự khối Kinh tế, Marketing, Quản trị: Chuyển hóa ý tưởng thành sản phẩm số hoàn chỉnh, 
               vận hành thực tế trên Internet mà <strong className="font-semibold text-teal-800">không cần nền tảng lập trình</strong>.
             </p>
@@ -376,7 +376,7 @@ export default function AI4SDPage() {
                 href="#register"
                 className="group inline-flex items-center justify-center gap-3 rounded-full border border-teal-900 bg-teal-900 px-8 py-4 text-base font-semibold text-white shadow-[0_12px_28px_rgba(15,118,110,0.25)] transition-all hover:bg-teal-800 hover:shadow-teal-900/35 hover:-translate-y-0.5 active:scale-95"
               >
-                <span>Đăng Ký Tư Vấn &amp; Giữ Chỗ</span>
+                <span>Đăng Ký Tư vấn &amp; Giữ chỗ</span>
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
               </a>
               <a
@@ -384,7 +384,7 @@ export default function AI4SDPage() {
                 className="group inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-7 py-4 text-base font-semibold text-slate-800 shadow-sm transition-all hover:border-teal-400 hover:bg-teal-50/50 hover:text-teal-950"
               >
                 <Bot className="size-5 text-teal-700" />
-                <span>Xem Sản Phẩm Học Viên</span>
+                <span>Xem sản phẩm học viên</span>
               </a>
             </div>
 
@@ -392,18 +392,18 @@ export default function AI4SDPage() {
             <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-4">
               <div className="rounded-2xl border border-slate-200/90 bg-white/90 p-4 shadow-[0_12px_30px_rgba(15,23,42,0.04)] backdrop-blur">
                 <div className="text-2xl font-extrabold text-teal-900 sm:text-3xl">10 Tuần</div>
-                <div className="mt-1 text-xs font-medium text-slate-500">Từ bài toán thực tế đến sản phẩm được triển khai</div>
+                <div className="mt-1 text-xs font-medium text-slate-500">8 buổi học chính, cộng các phiên cố vấn 1:1</div>
               </div>
               <div className="rounded-2xl border border-slate-200/90 bg-white/90 p-4 shadow-[0_12px_30px_rgba(15,23,42,0.04)] backdrop-blur">
-                <div className="text-2xl font-extrabold text-amber-700 sm:text-3xl">01 Sản Phẩm</div>
+                <div className="text-2xl font-extrabold text-amber-700 sm:text-3xl">01 Sản phẩm</div>
                 <div className="mt-1 text-xs font-medium text-slate-500">Do chính bạn lựa chọn và phát triển</div>
               </div>
               <div className="rounded-2xl border border-slate-200/90 bg-white/90 p-4 shadow-[0_12px_30px_rgba(15,23,42,0.04)] backdrop-blur">
-                <div className="text-2xl font-extrabold text-blue-800 sm:text-3xl">Không Yêu Cầu</div>
+                <div className="text-2xl font-extrabold text-blue-800 sm:text-3xl">Không yêu cầu</div>
                 <div className="mt-1 text-xs font-medium text-slate-500">Kinh nghiệm lập trình đầu vào</div>
               </div>
               <div className="rounded-2xl border border-slate-200/90 bg-white/90 p-4 shadow-[0_12px_30px_rgba(15,23,42,0.04)] backdrop-blur">
-                <div className="text-2xl font-extrabold text-emerald-800 sm:text-3xl">Chứng Nhận</div>
+                <div className="text-2xl font-extrabold text-emerald-800 sm:text-3xl">Chứng nhận</div>
                 <div className="mt-1 text-xs font-medium text-slate-500">Do Viện VNU - AI4SD cấp sau khi hoàn thành</div>
               </div>
             </div>
@@ -454,7 +454,7 @@ export default function AI4SDPage() {
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-1 text-xs font-bold uppercase tracking-wider text-amber-900">
             <Flame className="size-3.5 text-amber-600" />
-            Bước Ngoặt Công Nghệ 2026
+            Bước ngoặt công nghệ 2026
           </div>
           <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
             Người hiểu bài toán kinh doanh sẽ làm chủ cuộc chơi AI.
@@ -648,7 +648,7 @@ export default function AI4SDPage() {
         </div>
       </Section>
 
-      {/* Section: Phương Pháp Đào Tạo Đột Phá */}
+      {/* Section: Phương pháp Đào Tạo Đột Phá */}
       <Section id="method" className="relative z-10 border-t border-slate-200/80 bg-gradient-to-b from-slate-50 to-white">
         <div className="grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <div>
@@ -730,13 +730,13 @@ export default function AI4SDPage() {
         </div>
       </Section>
 
-      {/* Section: Lộ Trình 10 Tuần Thực Chiến */}
+      {/* Section: Lộ trình 10 Tuần Thực Chiến */}
       <Section id="roadmap" className="relative z-10 border-t border-slate-200/80">
         <div className="grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-1 text-xs font-bold uppercase tracking-wider text-amber-900">
               <Layers className="size-3.5 text-amber-600" />
-              Lộ Trình Tăng Tốc 10 Tuần
+              Lộ trình tăng tốc 10 Tuần
             </div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
               4 Giai đoạn bài bản, từ số 0 tới Live Product.
@@ -762,10 +762,10 @@ export default function AI4SDPage() {
 
             <div className="mt-10 rounded-3xl border border-teal-200 bg-teal-50/70 p-6">
               <div className="text-xs font-bold uppercase tracking-wider text-teal-900">
-                Khung Năng Lực Quốc Gia
+                Khung năng lực quốc gia
               </div>
               <p className="mt-2 text-sm text-teal-950 font-medium">
-                Chương trình được thiết kế chuẩn hóa theo định hướng Chuyển đổi số giáo dục đại học và Khung năng lực số quốc tế.
+                Chương trình được thiết kế chuẩn hóa theo định hướng Chuyển đổi số giáo dục đại học.
               </p>
             </div>
           </div>
@@ -814,13 +814,13 @@ export default function AI4SDPage() {
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 px-4 py-1 text-xs font-bold uppercase tracking-wider text-teal-900">
             <Award className="size-3.5 text-teal-700" />
-            Tài Sản Bạn Mang Về
+            Bạn mang gì về
           </div>
           <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
             Đầu ra thực chất, khẳng định vị thế nghề nghiệp.
           </h2>
           <p className="mt-5 text-lg leading-8 text-slate-600">
-            Kết thúc 10 tuần, bạn không chỉ có kiến thức mà nắm giữ những tài sản cụ thể để bứt phá trong kỷ nguyên AI.
+            Kết thúc 10 tuần, bạn không chỉ có kiến thức mà còn có những thứ cụ thể mang đi được.
           </p>
         </div>
 
@@ -855,7 +855,7 @@ export default function AI4SDPage() {
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 px-4 py-1 text-xs font-bold uppercase tracking-wider text-teal-900">
               <Building2 className="size-3.5 text-teal-700" />
-              Đơn Vị Chủ Trì Đào Tạo
+              Đơn vị chủ trì đào Tạo
             </div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
               Viện Nghiên cứu ứng dụng Trí tuệ nhân tạo trong phát triển bền vững (VNU - AI4SD)
@@ -882,15 +882,15 @@ export default function AI4SDPage() {
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
             {[
-              { label: "Cơ Quan Chủ Quản", value: "Đại học Quốc gia Hà Nội (VNU)" },
-              { label: "Ngày Thành Lập", value: "15/05/2025 · QĐ 2418/QĐ-ĐHQGHN" },
-              { label: "Trụ Sở Chính", value: "Đô thị ĐHQGHN, Hòa Lạc, Hà Nội" },
+              { label: "Cơ quan chủ quản", value: "Đại học Quốc gia Hà Nội (VNU)" },
+              { label: "Ngày thành lập", value: "15/05/2025 · QĐ 2418/QĐ-ĐHQGHN" },
+              { label: "Trụ sở chính", value: "Đô thị ĐHQGHN, Hòa Lạc, Hà Nội" },
               {
                 label: "Hướng Ứng Dụng",
                 value: "AI cho Giáo dục, Kinh tế số, Doanh nghiệp & Xã hội",
               },
               {
-                label: "Mô Hình Đào Tạo",
+                label: "Mô hình đào tạo",
                 value: "Build First · Vibe Coding · Chuyển giao sản phẩm",
               },
             ].map((item) => (
@@ -913,7 +913,7 @@ export default function AI4SDPage() {
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-1 text-xs font-bold uppercase tracking-wider text-slate-800">
             <HelpCircle className="size-3.5 text-teal-700" />
-            Giải Đáp Thắc Mắc
+            Giải đáp thắc mắc
           </div>
           <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
             Câu hỏi thường gặp về chương trình AI4SD
@@ -951,7 +951,7 @@ export default function AI4SDPage() {
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-teal-200 bg-white/80 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-teal-950">
                   <Sparkles className="size-3.5 text-amber-500" />
-                  Tuyển Sinh Khóa Mới · Số Lượng Giới Hạn
+                  Tuyển sinh khóa mới · Số lượng giới hạn
                 </div>
 
                 <h2 className="mt-5 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
