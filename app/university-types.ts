@@ -4,7 +4,6 @@ export type UniversityListRow = {
   rank: number;
   displayOrder: number | null;
   slug: string;
-  flag: string;
   shortName: string;
   fullName: string;
   type: string;

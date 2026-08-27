@@ -15,17 +15,19 @@ export type ToggleResult = {
 };
 
 /**
+ * Fetched once per page and shared through FavoritesProvider. Asking per school
+ * would mean one round trip for every row in a 176-row table.
+ *
  * Errors are caught rather than thrown. An uncaught server action rejection
  * takes down the whole page with "This page couldn't load"; a star that fails
- * to save should not cost the reader the article they were reading.
+ * to save should not cost the reader the page they were reading.
  */
-export async function isFavorite(schoolId: string): Promise<ToggleResult> {
+export async function listMyFavoriteIds(): Promise<string[]> {
   try {
-    const ids = await getFavoriteSchoolIds();
-    return { favorited: ids.has(schoolId), signedIn: true };
+    return [...(await getFavoriteSchoolIds())];
   } catch (error) {
-    console.error("[favorites] không đọc được trạng thái đã lưu", error);
-    return { favorited: false, signedIn: true, failed: true };
+    console.error("[favorites] không đọc được danh sách đã lưu", error);
+    return [];
   }
 }
 
@@ -41,7 +43,7 @@ export async function toggleFavorite(
 
     if (!ok) return { favorited: !nextFavorited, signedIn: false };
 
-    revalidatePath("/truong-cua-toi");
+    revalidatePath("/my-schools");
     return { favorited: nextFavorited, signedIn: true };
   } catch (error) {
     console.error("[favorites] không lưu được trường", error);

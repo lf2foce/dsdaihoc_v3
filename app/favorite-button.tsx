@@ -1,17 +1,16 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
-import { Star } from "lucide-react";
 import Link from "next/link";
-import { SignInButton, useAuth } from "@clerk/nextjs";
+import { useState, useTransition } from "react";
+import { Star } from "lucide-react";
+import { SignInButton } from "@clerk/nextjs";
 
 import styles from "./page.module.css";
-import { isFavorite, toggleFavorite } from "./favorite-actions";
+import { useFavorites } from "./favorites-context";
 
 /**
- * School pages are statically generated, so the favourite state cannot be part
- * of the HTML — it is resolved on the client once Clerk knows who is signed in.
- * The page's markup, and everything crawlers read, is unaffected.
+ * The labelled star on a school page. State comes from FavoritesProvider, which
+ * fetched it once, so this component makes no request of its own.
  */
 export default function FavoriteButton({
   schoolId,
@@ -22,28 +21,11 @@ export default function FavoriteButton({
   schoolSlug: string;
   schoolName: string;
 }) {
-  const { isLoaded, isSignedIn } = useAuth();
-  // null means "not looked up yet" — deriving `resolved` from it avoids a
-  // synchronous setState inside the effect, which cascades renders.
-  const [favorited, setFavorited] = useState<boolean | null>(null);
+  const { ids, isSignedIn, authLoaded, toggle } = useFavorites();
   const [failed, setFailed] = useState(false);
   const [pending, startTransition] = useTransition();
-  const resolved = favorited !== null;
 
-  useEffect(() => {
-    if (!isLoaded || !isSignedIn) return;
-
-    let active = true;
-    isFavorite(schoolId)
-      .then((result) => active && setFavorited(result.favorited))
-      .catch(() => active && setFavorited(false));
-
-    return () => {
-      active = false;
-    };
-  }, [isLoaded, isSignedIn, schoolId]);
-
-  if (!isLoaded) {
+  if (!authLoaded) {
     return <span className={styles.favoriteButtonPlaceholder} aria-hidden />;
   }
 
@@ -61,16 +43,13 @@ export default function FavoriteButton({
     );
   }
 
-  const isOn = favorited === true;
+  const isOn = ids?.has(schoolId) ?? false;
 
   function onToggle() {
-    const next = !isOn;
-    setFavorited(next); // optimistic
     setFailed(false);
     startTransition(async () => {
-      const result = await toggleFavorite(schoolId, schoolSlug, next);
-      setFavorited(result.favorited);
-      setFailed(Boolean(result.failed));
+      const ok = await toggle(schoolId, schoolSlug);
+      setFailed(!ok);
     });
   }
 
@@ -79,7 +58,7 @@ export default function FavoriteButton({
       <button
         type="button"
         onClick={onToggle}
-        disabled={!resolved || pending}
+        disabled={ids === null || pending}
         aria-pressed={isOn}
         aria-label={isOn ? `Bỏ lưu ${schoolName}` : `Lưu ${schoolName} vào trường của tôi`}
         className={`${styles.favoriteButton} ${
@@ -94,7 +73,7 @@ export default function FavoriteButton({
           Chưa lưu được, bạn thử lại nhé.
         </span>
       ) : isOn ? (
-        <Link href="/truong-cua-toi" className={styles.favoriteSavedLink}>
+        <Link href="/my-schools" className={styles.favoriteSavedLink}>
           Xem trường của tôi →
         </Link>
       ) : null}

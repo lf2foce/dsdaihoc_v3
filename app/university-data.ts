@@ -2,6 +2,7 @@ import "server-only";
 
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { PHASE_PRODUCTION_BUILD } from "next/constants";
 import { cache } from "react";
 
 import { hasDatabase, sql } from "./db";
@@ -36,8 +37,6 @@ type ApprovedPayload = {
   count: number;
   items: ApprovedItem[];
 };
-
-const DEFAULT_FLAG = "🇻🇳";
 
 function normalizeText(value?: string | number | null) {
   if (value == null) return "";
@@ -172,7 +171,7 @@ async function readApprovedItems(): Promise<ApprovedItem[]> {
   return readApprovedFromJson();
 }
 
-export const loadUniversityRows = cache(async (): Promise<UniversityRow[]> => {
+async function computeUniversityRows(): Promise<UniversityRow[]> {
   try {
     const items = await readApprovedItems();
     const sortedItems = items
@@ -214,7 +213,6 @@ export const loadUniversityRows = cache(async (): Promise<UniversityRow[]> => {
         rank: index + 1,
         displayOrder: normalizeNumber(item.display_order),
         slug: slugs[index],
-        flag: DEFAULT_FLAG,
         shortName: normalizeText(item.short_name) || `ID ${item.id}`,
         fullName: normalizeText(item.name) || `Trường ${item.id}`,
         type: normalizeText(item.school_type) || "Chưa rõ",
@@ -236,6 +234,26 @@ export const loadUniversityRows = cache(async (): Promise<UniversityRow[]> => {
   } catch {
     return [];
   }
+}
+
+/**
+ * `readApprovedItems` hits Postgres, and React's `cache()` is scoped to one
+ * render — so a production build ran this once per prerendered page, roughly
+ * 540 round-trips for a single dataset, which is what pushed pages past the
+ * 60s prerender timeout. The data is fixed for the length of a build, so share
+ * one promise per worker process. A warm server would pin stale rows the same
+ * way, so this applies only while prerendering; at runtime each render loads
+ * as it did before.
+ */
+let prerenderedRows: Promise<UniversityRow[]> | null = null;
+
+export const loadUniversityRows = cache(async (): Promise<UniversityRow[]> => {
+  if (process.env.NEXT_PHASE !== PHASE_PRODUCTION_BUILD) {
+    return computeUniversityRows();
+  }
+
+  prerenderedRows ??= computeUniversityRows();
+  return prerenderedRows;
 });
 
 export const loadUniversityListRows = cache(async (): Promise<UniversityListRow[]> => {
@@ -246,7 +264,6 @@ export const loadUniversityListRows = cache(async (): Promise<UniversityListRow[
       rank,
       displayOrder,
       slug,
-      flag,
       shortName,
       fullName,
       type,
@@ -263,7 +280,6 @@ export const loadUniversityListRows = cache(async (): Promise<UniversityListRow[
       rank,
       displayOrder,
       slug,
-      flag,
       shortName,
       fullName,
       type,

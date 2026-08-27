@@ -2958,3 +2958,50 @@
   font-size: 0.82rem;
   font-weight: 600;
 }
+
+/* --- Compact star in the list, reclaiming the flag column --- */
+
+.starButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--page-muted);
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.starButton svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.starButton:hover:not(:disabled) {
+  background: var(--page-hover);
+  color: #b45309;
+}
+
+.starButton:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.starButtonOn {
+  color: #d97706;
+}
+
+.starPlaceholder {
+  display: inline-block;
+  width: 1.9rem;
+  height: 1.9rem;
+}
+
+.mobileStar {
+  float: left;
+  margin: -0.15rem 0.35rem 0 -0.3rem;
+}

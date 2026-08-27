@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from '@vercel/analytics/next';
 import { ClerkProvider } from "@clerk/nextjs";
+import { FavoritesProvider } from "./favorites-context";
 
 import {
   absoluteUrl,
@@ -102,6 +103,7 @@ export default function RootLayout({
           }}
         />
         <ClerkProvider>
+          <FavoritesProvider>
           <ThemeProvider
             attribute="data-ui-theme"
             defaultTheme="light"
@@ -110,6 +112,7 @@ export default function RootLayout({
           >
             {children}
           </ThemeProvider>
+          </FavoritesProvider>
         </ClerkProvider>
         <Analytics />
       </body>

@@ -32,7 +32,7 @@ export default function HeaderAuth({ active }: { active: boolean }) {
   return (
     <>
       <Link
-        href="/truong-cua-toi"
+        href="/my-schools"
         className={`${styles.tab} ${active ? styles.tabActive : ""}`.trim()}
         aria-current={active ? "page" : undefined}
       >

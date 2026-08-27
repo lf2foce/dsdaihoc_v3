@@ -6,6 +6,7 @@ import { ArrowUp } from "lucide-react";
 import { Fragment } from "react";
 import styles from "./page.module.css";
 import { getMajorChipStyle } from "./university-taxonomy";
+import FavoriteStar from "./favorite-star";
 import type { UniversityListRow } from "./university-types";
 
 function renderHighlightedText(text: string, query: string) {
@@ -96,7 +97,11 @@ export default function UniversityTable({
                   onClick={() => openSchool(row)}
                 >
                   <td className={`${styles.td} ${styles.stickyFlag} ${styles.flagCell}`}>
-                    {row.flag}
+                    <FavoriteStar
+                      schoolId={row.id}
+                      schoolSlug={row.slug}
+                      schoolName={row.fullName}
+                    />
                   </td>
                   <td className={`${styles.td} ${styles.stickyRepo}`}>
                     <div className={styles.repoCell}>
@@ -160,6 +165,13 @@ export default function UniversityTable({
           >
             <div className={styles.mobileRow} onClick={() => openSchool(row)}>
               <div className={styles.mobileRowSchool}>
+                <span className={styles.mobileStar}>
+                  <FavoriteStar
+                    schoolId={row.id}
+                    schoolSlug={row.slug}
+                    schoolName={row.fullName}
+                  />
+                </span>
                 <div className={styles.repoOwner}>{row.shortName}</div>
                 <div className={styles.repoName}>
                   <Link
