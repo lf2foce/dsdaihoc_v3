@@ -1,9 +1,16 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 // Next 16 renamed `middleware.ts` to `proxy.ts`; Clerk 7.8+ recognises both.
-// No route is protected here — the whole site stays public and only the
-// favourite actions check for a signed-in user.
-export default clerkMiddleware();
+const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
+
+/**
+ * The site stays public; only /admin demands a session here. Being signed in is
+ * not enough to *be* an admin — the email allowlist is checked again inside the
+ * admin layout, because this proxy guards navigation but not server actions.
+ */
+export default clerkMiddleware(async (auth, request) => {
+  if (isAdminRoute(request)) await auth.protect();
+});
 
 export const config = {
   matcher: [
