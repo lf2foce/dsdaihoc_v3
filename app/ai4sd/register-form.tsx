@@ -45,83 +45,10 @@ export default function RegisterForm({ schools }: { schools: string[] }) {
         <legend className="sr-only">Đăng ký chương trình AI4SD</legend>
 
         {/* Mục đích đăng ký */}
-        <div>
-          <span className={labelClass}>Bạn muốn</span>
-          <div className="grid gap-2 sm:grid-cols-2">
-            {[
-              { value: "giu-cho", label: "Đăng ký giữ chỗ" },
-              { value: "tu-van", label: "Nhận tư vấn lộ trình 1:1" },
-            ].map((option, index) => (
-              <label
-                key={option.value}
-                className="flex cursor-pointer items-center gap-2.5 rounded-2xl border border-slate-300 px-4 py-3 text-sm font-medium text-slate-800 transition-colors has-[:checked]:border-teal-700 has-[:checked]:bg-teal-50 has-[:checked]:text-teal-900"
-              >
-                <input
-                  type="radio"
-                  name="intent"
-                  value={option.value}
-                  defaultChecked={index === 0}
-                  className="size-4 accent-teal-800"
-                />
-                {option.label}
-              </label>
-            ))}
-          </div>
-          {state.errors?.intent ? (
-            <p className={errorClass}>{state.errors.intent[0]}</p>
-          ) : null}
-        </div>
-
-        {/* Chọn gói đăng ký & Ưu đãi nhóm 5 người giảm 30% */}
-        <div>
-          <div className="flex items-center justify-between mb-1.5">
-            <span className={labelClass}>Hình thức tham gia (Lớp tối đa 20 học viên)</span>
-            <span className="text-[11px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full">
-              🔥 Nhóm 5 người giảm 30%
-            </span>
-          </div>
-          <div className="space-y-2">
-            {[
-              {
-                value: "Nhom 5 nguoi (Giam 30%)",
-                label: "Nhóm 5+ người (Squad Team)",
-                badge: "Tiết kiệm 30% · 4.480.000 ₫ / bạn",
-                defaultChecked: true,
-              },
-              {
-                value: "Nhom 2-4 nguoi (Giam 15%)",
-                label: "Nhóm 2–4 người (Team 3)",
-                badge: "Giảm 15% · 5.440.000 ₫ / bạn",
-                defaultChecked: false,
-              },
-              {
-                value: "Ca nhan (1 nguoi)",
-                label: "Cá nhân (1 học viên)",
-                badge: "6.400.000 ₫ (8 buổi)",
-                defaultChecked: false,
-              },
-            ].map((pkg) => (
-              <label
-                key={pkg.value}
-                className="flex cursor-pointer items-center justify-between gap-3 rounded-2xl border border-slate-200 px-4 py-2.5 text-xs font-medium text-slate-800 transition-all has-[:checked]:border-teal-700 has-[:checked]:bg-teal-50/80 has-[:checked]:text-teal-950"
-              >
-                <div className="flex items-center gap-2.5">
-                  <input
-                    type="radio"
-                    name="package_type"
-                    value={pkg.value}
-                    defaultChecked={pkg.defaultChecked}
-                    className="size-3.5 accent-teal-800"
-                  />
-                  <span className="font-semibold">{pkg.label}</span>
-                </div>
-                <span className="text-[11px] font-bold text-teal-800 bg-white/90 border border-slate-200 px-2 py-0.5 rounded-lg shadow-2xs">
-                  {pkg.badge}
-                </span>
-              </label>
-            ))}
-          </div>
-        </div>
+        {/* The radio was dropped from the form; every submission is a signup, so
+            `intent` keeps a fixed value rather than leaving the column meaningless
+            for rows created from here on. */}
+        <input type="hidden" name="intent" value="giu-cho" />
 
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
