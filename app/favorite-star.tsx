@@ -29,11 +29,9 @@ export default function FavoriteStar({
     event.preventDefault();
   }
 
-  if (!authLoaded) {
-    return <span className={styles.starPlaceholder} aria-hidden />;
-  }
-
-  if (!isSignedIn) {
+  // Same as FavoriteButton: an unloaded Clerk degrades to the signed-out star
+  // rather than 176 dead placeholders down the table.
+  if (!authLoaded || !isSignedIn) {
     return (
       <span onClick={stop}>
         <SignInButton mode="modal">

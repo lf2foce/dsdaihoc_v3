@@ -25,11 +25,10 @@ export default function FavoriteButton({
   const [failed, setFailed] = useState(false);
   const [pending, startTransition] = useTransition();
 
-  if (!authLoaded) {
-    return <span className={styles.favoriteButtonPlaceholder} aria-hidden />;
-  }
-
-  if (!isSignedIn) {
+  // While Clerk is loading — and if it never loads, e.g. the publishable key is
+  // missing on the host — fall through to the signed-out button. A misconfigured
+  // deploy then shows something usable instead of a dead grey pill.
+  if (!authLoaded || !isSignedIn) {
     return (
       <SignInButton mode="modal">
         <button
