@@ -27,18 +27,22 @@ const answerEngineAgents = [
   "YouBot",
 ];
 
+/** Signed-in and admin surfaces. /admin already 401s, this just keeps it out
+ *  of crawl logs entirely. */
+const PRIVATE_PATHS = ["/api/", "/admin", "/my-schools"];
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/"],
+        disallow: PRIVATE_PATHS,
       },
       ...answerEngineAgents.map((userAgent) => ({
         userAgent,
         allow: "/",
-        disallow: ["/api/"],
+        disallow: PRIVATE_PATHS,
       })),
     ],
     sitemap: `${siteUrl}/sitemap.xml`,
