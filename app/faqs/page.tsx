@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import styles from "../page.module.css";
 import SiteHeader from "../site-header";
+import { absoluteUrl, defaultOgImages, siteName, siteUrl } from "../site-config";
 
 const faqGroups = [
   {
@@ -68,16 +69,61 @@ export const metadata: Metadata = {
     canonical: "/faqs",
   },
   openGraph: {
+    images: defaultOgImages,
     title: "FAQs | Danh sách đại học",
     description:
       "Các câu hỏi thường gặp về dữ liệu, cách sử dụng và phạm vi thông tin trên Danh sách Đại học.",
+    url: "/faqs",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "FAQs | Danh sách đại học",
+    description:
+      "Các câu hỏi thường gặp về dữ liệu, cách sử dụng và phạm vi thông tin trên Danh sách Đại học.",
+    images: defaultOgImages,
+  },
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "FAQPage",
+      "@id": `${absoluteUrl("/faqs")}#faq`,
+      url: absoluteUrl("/faqs"),
+      name: "Câu hỏi thường gặp khi tra cứu trường đại học",
+      inLanguage: "vi-VN",
+      isPartOf: { "@id": `${siteUrl}/#website` },
+      publisher: { "@id": `${siteUrl}/#organization` },
+      mainEntity: faqGroups.flatMap((group) =>
+        group.items.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          answerCount: 1,
+          acceptedAnswer: { "@type": "Answer", text: item.answer },
+        })),
+      ),
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: siteName, item: absoluteUrl("/") },
+        { "@type": "ListItem", position: 2, name: "FAQs", item: absoluteUrl("/faqs") },
+      ],
+    },
+  ],
 };
 
 export default function FaqsPage() {
   return (
     <div className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <SiteHeader activeTab="FAQs" />
 
       <main className={styles.main}>

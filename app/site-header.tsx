@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import ThemeToggle from "./theme-toggle";
 import styles from "./page.module.css";
+import { formatVnDate } from "./site-config";
+import { loadDatasetMeta } from "./university-data";
 
 type SiteHeaderProps = {
   activeTab: "Trường" | "Quiz" | "FAQs" | "Góp ý";
@@ -32,7 +34,11 @@ function NavigationTab({
   );
 }
 
-export default function SiteHeader({ activeTab }: SiteHeaderProps) {
+export default async function SiteHeader({ activeTab }: SiteHeaderProps) {
+  // Read the stamp from the data itself; a hardcoded date silently goes stale
+  // the moment the crawler refreshes the dataset.
+  const { lastModified } = await loadDatasetMeta();
+
   return (
     <>
       <header className={styles.header}>
@@ -45,7 +51,10 @@ export default function SiteHeader({ activeTab }: SiteHeaderProps) {
           </div>
 
           <div className={styles.headerRight}>
-            <span className={styles.updateStamp}>Cập nhật dữ liệu tới 06/07/2026</span>
+            <span className={styles.updateStamp}>
+              Cập nhật dữ liệu tới{" "}
+              <time dateTime={lastModified.slice(0, 10)}>{formatVnDate(lastModified)}</time>
+            </span>
             <div className={styles.themeToggleDesktop}>
               <ThemeToggle />
             </div>

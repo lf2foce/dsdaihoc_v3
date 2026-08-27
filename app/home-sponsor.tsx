@@ -4,28 +4,25 @@ import styles from "./page.module.css";
 
 export default function HomeSponsor() {
   return (
-    <aside className={styles.sponsorRail} aria-label="Nội dung tài trợ">
+    <aside className={styles.sponsorRail} aria-label="Chương trình nổi bật">
       <div className={styles.sponsorBadgeWrap}>
-        <span className={styles.sponsorAudience}>Tạo website free</span>
+        <span className={styles.sponsorAudience}>Học AI</span>
       </div>
 
       <div className={styles.sponsorCopy}>
-        <p className={styles.sponsorEyebrow}>Phê Nâu</p>
-        <p className={styles.sponsorTitle}>Build landing page và email marketing dưới 5 phút.</p>
+        <p className={styles.sponsorEyebrow}>AI4SD</p>
+        <p className={styles.sponsorTitle}>
+          Dân kinh tế, marketing vẫn tự dựng được sản phẩm số.
+        </p>
         <p className={styles.sponsorDescription}>
-          Dùng AI để lên nội dung, dựng landing page, viết email và xuất bản nhanh mà không cần
-          code.
+          Lộ trình dành riêng cho sinh viên non-tech: dùng AI thay cho lộ trình học code truyền
+          thống.
         </p>
       </div>
 
       <div className={styles.sponsorActions}>
-        <Link
-          href="https://www.facebook.com/people/Ph%C3%AA-N%C3%A2u/61587880370874"
-          target="_blank"
-          rel="noreferrer"
-          className={styles.sponsorLink}
-        >
-          Xem Phê Nâu trên Facebook
+        <Link href="/ai4sd" className={styles.sponsorLink}>
+          Tìm hiểu AI4SD
         </Link>
       </div>
     </aside>

@@ -11,6 +11,12 @@ export type UniversityListRow = {
   campuses: string[];
   tags: string[];
   sourceUrl: string;
+  /** Every source the record was built from, primary one first. */
+  sourceUrls: string[];
+  /** Subset of sourceUrls on the school's own domain — safe for schema sameAs. */
+  officialUrls: string[];
+  /** ISO timestamp of the last data refresh, or "" when unknown. */
+  lastModified: string;
 };
 
 export type UniversityDetail = {
@@ -22,3 +28,9 @@ export type UniversityDetail = {
 };
 
 export type UniversityRow = UniversityListRow & UniversityDetail;
+
+export type DatasetMeta = {
+  count: number;
+  /** ISO timestamp of the most recently refreshed record. */
+  lastModified: string;
+};

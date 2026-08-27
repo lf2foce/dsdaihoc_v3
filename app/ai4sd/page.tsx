@@ -10,10 +10,28 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import styles from "./page.module.css";
+import { defaultOgImages } from "../site-config";
 
 export const metadata: Metadata = {
   title: "AI4SD — Định hình Product Builder Tương lai",
-  description: "Trở thành Product Builder bằng AI dành riêng cho sinh viên non-tech.",
+  description:
+    "AI4SD là chương trình giúp sinh viên non-tech trở thành Product Builder bằng AI: tận dụng tư duy kinh doanh, marketing và vận hành để dựng sản phẩm số mà không cần đi qua lộ trình lập trình truyền thống.",
+  alternates: { canonical: "/ai4sd" },
+  openGraph: {
+    images: defaultOgImages,
+    title: "AI4SD — Định hình Product Builder Tương lai",
+    description:
+      "Chương trình giúp sinh viên non-tech trở thành Product Builder bằng AI.",
+    url: "/ai4sd",
+    type: "website",
+  },
+  twitter: {
+      images: defaultOgImages,
+    card: "summary_large_image",
+    title: "AI4SD — Định hình Product Builder Tương lai",
+    description:
+      "Chương trình giúp sinh viên non-tech trở thành Product Builder bằng AI.",
+  },
 };
 
 const Section = ({

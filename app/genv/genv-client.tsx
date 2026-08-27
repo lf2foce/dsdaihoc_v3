@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { 
@@ -172,11 +173,13 @@ const Hero = () => {
           className="relative hidden lg:block"
         >
           <div className="relative z-10 rounded-[3rem] overflow-hidden shadow-[0_32px_64px_rgba(0,0,0,0.1)] border-[12px] border-white/50 backdrop-blur-sm">
-            <img 
+            <Image
               src="/genv_hero_professional.png"
-              alt="Innovation" 
+              alt="Đội ngũ Genv triển khai giải pháp số cho doanh nghiệp"
+              width={1200}
+              height={900}
+              sizes="(max-width: 1024px) 0px, 50vw"
               className="w-full h-auto scale-105 hover:scale-100 transition-transform duration-1000"
-              referrerPolicy="no-referrer"
             />
           </div>
           
@@ -234,11 +237,13 @@ const AboutUs = () => {
           className="relative"
         >
           <div className="aspect-square rounded-[4rem] overflow-hidden shadow-2xl relative">
-            <img 
-              src="/genv_about_us_team.png" 
-              alt="Genv Team" 
+            <Image
+              src="/genv_about_us_team.png"
+              alt="Đội ngũ Genv"
+              width={1200}
+              height={1200}
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent" />
           </div>

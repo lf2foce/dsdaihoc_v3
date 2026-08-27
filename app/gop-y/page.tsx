@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import styles from "../page.module.css";
 import SiteHeader from "../site-header";
 import FeedbackForm from "./feedback-form";
+import { defaultOgImages } from "../site-config";
 
 export const metadata: Metadata = {
   title: "Góp ý | Danh sách đại học",
@@ -11,10 +12,19 @@ export const metadata: Metadata = {
     canonical: "/gop-y",
   },
   openGraph: {
+    images: defaultOgImages,
     title: "Góp ý | Danh sách đại học",
     description:
       "Gửi góp ý để bổ sung dữ liệu, báo lỗi giao diện hoặc đề xuất cải thiện cho Danh sách Đại học.",
+    url: "/gop-y",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Góp ý | Danh sách đại học",
+    description:
+      "Gửi góp ý để bổ sung dữ liệu, báo lỗi giao diện hoặc đề xuất cải thiện cho Danh sách Đại học.",
+    images: defaultOgImages,
   },
 };
 

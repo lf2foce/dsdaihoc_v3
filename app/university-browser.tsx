@@ -1,17 +1,9 @@
 "use client";
 
-import {
-  useCallback,
-  useDeferredValue,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowUp,
   Check,
-  ChevronsUp,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -24,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import styles from "./page.module.css";
 import { getMajorColor } from "./university-taxonomy";
 import UniversityTable from "./university-table";
-import type { UniversityDetail, UniversityListRow } from "./university-types";
+import type { UniversityListRow } from "./university-types";
 
 function normalizeText(value: string) {
   return value.trim().toLowerCase();
@@ -154,8 +146,6 @@ function PaginationControls({
   onGoToPage,
   onReset,
   showReset,
-  showCollapse,
-  onCollapse,
   onScrollTop,
   mobileOnly = false,
 }: {
@@ -166,8 +156,6 @@ function PaginationControls({
   onGoToPage: (page: number) => void;
   onReset: () => void;
   showReset: boolean;
-  showCollapse: boolean;
-  onCollapse: () => void;
   onScrollTop: () => void;
   mobileOnly?: boolean;
 }) {
@@ -271,19 +259,6 @@ function PaginationControls({
           Reset
         </Button>
       ) : null}
-      {mobileOnly && showCollapse ? (
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          className={`${styles.collapseBottomButton} ${styles.controlSurface}`}
-          onClick={onCollapse}
-          aria-label="Thu gọn"
-          title="Thu gọn"
-        >
-          <ChevronsUp />
-        </Button>
-      ) : null}
       {mobileOnly ? (
         <button
           type="button"
@@ -299,10 +274,6 @@ function PaginationControls({
 }
 
 export default function UniversityBrowser({ rows }: { rows: UniversityListRow[] }) {
-  const rowsBySlug = useMemo(
-    () => new Map(rows.map((row) => [row.slug, row] as const)),
-    [rows],
-  );
   const majorOptions = useMemo(
     () =>
       Array.from(
@@ -325,27 +296,11 @@ export default function UniversityBrowser({ rows }: { rows: UniversityListRow[] 
   );
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
-  const [openSlug, setOpenSlug] = useState<string | null>(null);
-  const [detailBySlug, setDetailBySlug] = useState<Record<string, UniversityDetail>>({});
-  const [loadingSlug, setLoadingSlug] = useState<string | null>(null);
-  const [detailError, setDetailError] = useState<string | null>(null);
-  const previousOpenSlugRef = useRef<string | null>(null);
   const deferredQuery = useDeferredValue(debouncedQuery);
   const hasActiveFilters =
     !!query.trim() ||
     selectedLocation !== "Tất cả tỉnh thành" ||
     selectedCategories.size !== majorOptions.length;
-
-  useEffect(() => {
-    function syncSlugFromUrl() {
-      const nextSlug = new URLSearchParams(window.location.search).get("truong");
-      setOpenSlug((current) => (current === nextSlug ? current : nextSlug));
-    }
-
-    syncSlugFromUrl();
-    window.addEventListener("popstate", syncSlugFromUrl);
-    return () => window.removeEventListener("popstate", syncSlugFromUrl);
-  }, []);
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
@@ -395,44 +350,12 @@ export default function UniversityBrowser({ rows }: { rows: UniversityListRow[] 
     });
   }, [deferredQuery, rows, selectedCategories, selectedLocation]);
 
-  const openRowIndex = useMemo(
-    () =>
-      openSlug
-        ? filteredRows.findIndex((row) => row.slug === openSlug)
-        : -1,
-    [filteredRows, openSlug],
-  );
-
   const totalPages = Math.max(1, Math.ceil(filteredRows.length / pageSize));
-  const resolvedOpenSlug =
-    openSlug && filteredRows.some((row) => row.slug === openSlug) ? openSlug : null;
-  const effectiveCurrentPage =
-    openRowIndex >= 0
-      ? Math.floor(openRowIndex / pageSize) + 1
-      : Math.min(currentPage, totalPages);
-
-  const paginatedRows = useMemo(() => {
-    const start = (effectiveCurrentPage - 1) * pageSize;
-    return filteredRows.slice(start, start + pageSize);
-  }, [effectiveCurrentPage, filteredRows, pageSize]);
-
-  const replaceOpenSlug = useCallback(
-    (slug: string | null) => {
-      const nextParams = new URLSearchParams(window.location.search);
-      if (slug) {
-        nextParams.set("truong", slug);
-      } else {
-        nextParams.delete("truong");
-      }
-
-      const nextQuery = nextParams.toString();
-      const nextUrl = nextQuery
-        ? `${window.location.pathname}?${nextQuery}`
-        : window.location.pathname;
-      window.history.replaceState(null, "", nextUrl);
-    },
-    [],
-  );
+  const effectiveCurrentPage = Math.min(currentPage, totalPages);
+  // The table renders every filtered row and hides the ones outside this window,
+  // so the page window is a range rather than a slice.
+  const pageStart = (effectiveCurrentPage - 1) * pageSize;
+  const pageEnd = pageStart + pageSize;
 
   function handleQueryChange(nextValue: string) {
     setQuery(nextValue);
@@ -444,92 +367,21 @@ export default function UniversityBrowser({ rows }: { rows: UniversityListRow[] 
     setCurrentPage(1);
   }
 
-  function handleToggleRow(slug: string | null) {
-    setCategoryOpen(false);
-    setOpenSlug(slug);
-    replaceOpenSlug(slug);
-  }
-
   function goToPage(nextPage: number) {
-    const normalizedPage = Math.min(Math.max(nextPage, 1), totalPages);
-    setOpenSlug(null);
-    replaceOpenSlug(null);
-    setCurrentPage(normalizedPage);
+    setCurrentPage(Math.min(Math.max(nextPage, 1), totalPages));
   }
 
-  useEffect(() => {
-    if (!openSlug) return;
-    if (resolvedOpenSlug) return;
-    replaceOpenSlug(null);
-  }, [openSlug, replaceOpenSlug, resolvedOpenSlug]);
-
-  useEffect(() => {
-    if (!resolvedOpenSlug) {
-      setLoadingSlug(null);
-      setDetailError(null);
-      return;
-    }
-
-    if (detailBySlug[resolvedOpenSlug]) {
-      setLoadingSlug(null);
-      setDetailError(null);
-      return;
-    }
-
-    const controller = new AbortController();
-    const slug = resolvedOpenSlug;
-
-    async function loadDetail() {
-      try {
-        setLoadingSlug(slug);
-        setDetailError(null);
-
-        const response = await fetch(`/api/truong/${slug}`, {
-          signal: controller.signal,
-        });
-
-        if (!response.ok) {
-          throw new Error("Không thể tải chi tiết trường.");
-        }
-
-        const payload = (await response.json()) as UniversityDetail;
-        setDetailBySlug((current) => ({
-          ...current,
-          [slug]: payload,
-        }));
-        setLoadingSlug((current) => (current === slug ? null : current));
-      } catch (error) {
-        if (controller.signal.aborted) return;
-        console.error(error);
-        setLoadingSlug((current) => (current === slug ? null : current));
-        setDetailError("Chưa tải được nội dung chi tiết. Anh thử mở lại giúp mình nhé.");
-      }
-    }
-
-    void loadDetail();
-
-    return () => controller.abort();
-  }, [detailBySlug, resolvedOpenSlug]);
-
-  useEffect(() => {
-    const previousOpenSlug = previousOpenSlugRef.current;
-
-    if (resolvedOpenSlug && previousOpenSlug !== resolvedOpenSlug) {
-      const row = rowsBySlug.get(resolvedOpenSlug);
-      if (row) {
-        track("Opened School Detail", {
-          slug: row.slug,
-          school_name: row.fullName,
-          school_type: row.type,
-          featured_major: row.featuredMajor,
-          campus_count: row.campuses.length,
-          view_mode: "inline",
-        });
-      }
-    }
-
-    previousOpenSlugRef.current = resolvedOpenSlug;
-  }, [resolvedOpenSlug, rowsBySlug]);
+  function handleSelectRow(row: UniversityListRow) {
+    setCategoryOpen(false);
+    track("Opened School Detail", {
+      slug: row.slug,
+      school_name: row.fullName,
+      school_type: row.type,
+      featured_major: row.featuredMajor,
+      campus_count: row.campuses.length,
+      view_mode: "page",
+    });
+  }
 
   function toggleCategory(label: string) {
     setCurrentPage(1);
@@ -552,8 +404,6 @@ export default function UniversityBrowser({ rows }: { rows: UniversityListRow[] 
     setCategoryOpen(false);
     setSelectedCategories(new Set(majorOptions));
     setCurrentPage(1);
-    setOpenSlug(null);
-    replaceOpenSlug(null);
   }
 
   function clearAllCategories() {
@@ -627,20 +477,16 @@ export default function UniversityBrowser({ rows }: { rows: UniversityListRow[] 
           onGoToPage={goToPage}
           onReset={resetFilters}
           showReset={hasActiveFilters}
-          showCollapse={false}
-          onCollapse={() => {}}
           onScrollTop={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         />
       </div>
 
       <UniversityTable
-        rows={paginatedRows}
+        rows={filteredRows}
         query={deferredQuery}
-        openSlug={resolvedOpenSlug}
-        openDetail={resolvedOpenSlug ? detailBySlug[resolvedOpenSlug] ?? null : null}
-        detailLoading={loadingSlug === resolvedOpenSlug}
-        detailError={detailError}
-        onToggleRow={handleToggleRow}
+        pageStart={pageStart}
+        pageEnd={pageEnd}
+        onSelect={handleSelectRow}
       />
 
       <PaginationControls
@@ -651,8 +497,6 @@ export default function UniversityBrowser({ rows }: { rows: UniversityListRow[] 
         onGoToPage={goToPage}
         onReset={resetFilters}
         showReset={hasActiveFilters}
-        showCollapse={!!resolvedOpenSlug}
-        onCollapse={() => handleToggleRow(null)}
         onScrollTop={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         mobileOnly
       />

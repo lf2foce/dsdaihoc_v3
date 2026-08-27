@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import styles from "../page.module.css";
 import SiteHeader from "../site-header";
 import QuizClient from "./quiz-client";
+import { defaultOgImages } from "../site-config";
 
 export const metadata: Metadata = {
   title: "Quiz hướng nghiệp | Danh sách đại học",
@@ -12,10 +13,19 @@ export const metadata: Metadata = {
     canonical: "/quiz",
   },
   openGraph: {
+    images: defaultOgImages,
     title: "Quiz hướng nghiệp | Danh sách đại học",
     description:
       "Làm bài test hướng nghiệp gồm 15 câu để xem anh/chị phù hợp hơn với nhóm ngành nào khi chọn trường đại học.",
+    url: "/quiz",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Quiz hướng nghiệp | Danh sách đại học",
+    description:
+      "Làm bài test hướng nghiệp gồm 15 câu để xem anh/chị phù hợp hơn với nhóm ngành nào khi chọn trường đại học.",
+    images: defaultOgImages,
   },
 };
 

@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import styles from "../../page.module.css";
 import { getMajorChipStyle } from "../../university-taxonomy";
+import { absoluteUrl, formatVnDate, siteName, siteUrl } from "../../site-config";
 import {
   loadUniversityBySlug,
   loadUniversityRows,
@@ -56,14 +57,38 @@ function stripMarkdown(text: string) {
     .trim();
 }
 
+/** Trim on a word boundary so snippets never end mid-word. */
+function truncateAtWord(text: string, limit: number) {
+  if (text.length <= limit) return text;
+  const cut = text.slice(0, limit);
+  const lastSpace = cut.lastIndexOf(" ");
+  return `${(lastSpace > limit * 0.6 ? cut.slice(0, lastSpace) : cut).replace(/[,;:.\s]+$/, "")}…`;
+}
+
 function buildSeoDescription(school: UniversityRow) {
   const parts = [
-    school.description,
+    stripMarkdown(school.description),
     school.featuredMajor ? `Ngành nổi bật: ${school.featuredMajor}.` : "",
     school.campuses.length ? `Campus: ${school.campuses.join(", ")}.` : "",
   ].filter(Boolean);
 
-  return parts.join(" ").slice(0, 320);
+  return truncateAtWord(parts.join(" "), 300);
+}
+
+/**
+ * A self-contained answer of ~50 words placed above everything else: LLM
+ * retrieval scores passages independently, so the top passage has to resolve
+ * "what is this school" without the reader scrolling.
+ */
+function buildTldr(school: UniversityRow) {
+  const where = school.campuses.length
+    ? `có cơ sở đào tạo tại ${school.campuses.join(", ")}`
+    : "chưa có dữ liệu campus chi tiết trên hệ thống";
+  const source = school.sourceUrl
+    ? ` Thông tin được đối chiếu với nguồn công bố chính thức tại ${getSourceHost(school.sourceUrl)}.`
+    : "";
+
+  return `${school.fullName} (${school.shortName}) là ${school.type.toLowerCase()}, ${where}, với ngành đào tạo nổi bật là ${school.featuredMajor.toLowerCase()}. Trang này tổng hợp phương thức xét tuyển, điểm chuẩn tham chiếu, chương trình đào tạo và hệ thống campus của trường.${source}`;
 }
 
 function getSourceHost(sourceUrl: string) {
@@ -93,6 +118,17 @@ function createFactItems(school: UniversityRow) {
   ].filter((item) => item.value);
 }
 
+/** Section headings phrased the way people actually ask the question. */
+function createSectionTitles(school: UniversityRow) {
+  return {
+    overview: `${school.shortName} là trường đại học như thế nào?`,
+    programs: `${school.shortName} đào tạo những ngành nào?`,
+    admission: `${school.shortName} xét tuyển bằng những phương thức nào?`,
+    score: `Điểm chuẩn ${school.shortName} khoảng bao nhiêu?`,
+    campus: `${school.shortName} có những cơ sở đào tạo nào?`,
+  };
+}
+
 function createFaqItems(school: UniversityRow) {
   return [
     {
@@ -119,15 +155,21 @@ function createFaqItems(school: UniversityRow) {
 }
 
 function buildJsonLd(school: UniversityRow, faqs: ReturnType<typeof createFaqItems>) {
-  const pageUrl = `https://dsdaihoc.com/truong/${school.slug}`;
+  const pageUrl = absoluteUrl(`/truong/${school.slug}`);
+  const description = buildSeoDescription(school);
+  const officialUrls = school.officialUrls;
+
   const organization = {
-    "@context": "https://schema.org",
     "@type": "CollegeOrUniversity",
+    "@id": `${pageUrl}#school`,
     name: school.fullName,
     alternateName: school.shortName,
-    description: buildSeoDescription(school),
-    url: pageUrl,
-    sameAs: school.sourceUrl || undefined,
+    description,
+    // The entity's own url is its official site; this page is the document
+    // *about* it, linked through mainEntityOfPage.
+    url: officialUrls[0] || pageUrl,
+    sameAs: officialUrls.length ? officialUrls : undefined,
+    mainEntityOfPage: { "@id": `${pageUrl}#webpage` },
     address: school.campuses.length
       ? {
           "@type": "PostalAddress",
@@ -144,15 +186,29 @@ function buildJsonLd(school: UniversityRow, faqs: ReturnType<typeof createFaqIte
     knowsAbout: [school.featuredMajor, ...school.tags].filter(Boolean),
   };
 
+  const webPage = {
+    "@type": "WebPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: `${school.fullName} | Tuyển sinh, ngành học, campus`,
+    description,
+    inLanguage: "vi-VN",
+    dateModified: school.lastModified || undefined,
+    about: { "@id": `${pageUrl}#school` },
+    breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
+    isPartOf: { "@id": `${siteUrl}/#website` },
+    publisher: { "@id": `${siteUrl}/#organization` },
+  };
+
   const breadcrumb = {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
+    "@id": `${pageUrl}#breadcrumb`,
     itemListElement: [
       {
         "@type": "ListItem",
         position: 1,
-        name: "Danh sách đại học",
-        item: "https://dsdaihoc.com/",
+        name: siteName,
+        item: absoluteUrl("/"),
       },
       {
         "@type": "ListItem",
@@ -164,8 +220,9 @@ function buildJsonLd(school: UniversityRow, faqs: ReturnType<typeof createFaqIte
   };
 
   const faqPage = {
-    "@context": "https://schema.org",
     "@type": "FAQPage",
+    "@id": `${pageUrl}#faq`,
+    isPartOf: { "@id": `${pageUrl}#webpage` },
     mainEntity: faqs.map((item) => ({
       "@type": "Question",
       name: item.question,
@@ -176,7 +233,10 @@ function buildJsonLd(school: UniversityRow, faqs: ReturnType<typeof createFaqIte
     })),
   };
 
-  return [organization, breadcrumb, faqPage];
+  return {
+    "@context": "https://schema.org",
+    "@graph": [webPage, organization, breadcrumb, faqPage],
+  };
 }
 
 function MarkdownContent({ content }: { content: string }) {
@@ -246,10 +306,11 @@ function MarkdownContent({ content }: { content: string }) {
         if (block.type === "heading") {
           const className =
             block.level <= 2 ? styles.markdownHeadingLg : styles.markdownHeadingSm;
+          // h3 keeps the document outline valid under the section's own h2.
           return (
-            <h2 key={index} className={className}>
+            <h3 key={index} className={className}>
               {renderInlineMarkdown(block.text)}
-            </h2>
+            </h3>
           );
         }
 
@@ -316,9 +377,10 @@ export async function generateMetadata({
 
   const description = buildSeoDescription(school);
   const canonical = `/truong/${school.slug}`;
+  const title = `${school.fullName} | Tuyển sinh, ngành học, campus`;
 
   return {
-    title: `${school.fullName} | Tuyển sinh, ngành học, campus`,
+    title,
     description,
     keywords: [
       school.fullName,
@@ -330,14 +392,15 @@ export async function generateMetadata({
       "hoc phi",
     ],
     openGraph: {
-      title: `${school.fullName} | Tuyển sinh, ngành học, campus`,
+      title,
       description,
       url: canonical,
       type: "article",
+      modifiedTime: school.lastModified || undefined,
     },
     twitter: {
       card: "summary_large_image",
-      title: `${school.fullName} | Tuyển sinh, ngành học, campus`,
+      title,
       description,
     },
     alternates: {
@@ -374,12 +437,14 @@ export default async function SchoolDetailPage({ params }: PageProps) {
   const majorChipStyle = getMajorChipStyle(school.featuredMajor);
   const factItems = createFactItems(school);
   const faqItems = createFaqItems(school);
+  const sectionTitles = createSectionTitles(school);
   const jsonLd = buildJsonLd(school, faqItems);
   const overviewText = stripMarkdown(school.information || school.description);
   const campusText = stripMarkdown(school.campusSummary);
   const programsText = stripMarkdown(school.programs);
   const admissionText = stripMarkdown(school.admissionMethods);
   const scoreText = stripMarkdown(school.admissionScore);
+  const updatedLabel = formatVnDate(school.lastModified);
 
   return (
     <div className={styles.page}>
@@ -394,7 +459,7 @@ export default async function SchoolDetailPage({ params }: PageProps) {
         <div className={styles.detailPageHeader}>
           <nav className={styles.detailBreadcrumb} aria-label="Breadcrumb">
             <Link href="/" className={styles.detailBreadcrumbLink}>
-              Danh sách đại học
+              {siteName}
             </Link>
             <span className={styles.detailBreadcrumbDivider}>/</span>
             <span className={styles.detailBreadcrumbCurrent}>{school.shortName}</span>
@@ -459,6 +524,16 @@ export default async function SchoolDetailPage({ params }: PageProps) {
 
       <main className={styles.main}>
         <article className={styles.detailPageArticleSeo}>
+          <p className={styles.detailTldr}>
+            {buildTldr(school)}
+            {updatedLabel ? (
+              <span className={styles.detailUpdated}>
+                Dữ liệu cập nhật tới{" "}
+                <time dateTime={school.lastModified.slice(0, 10)}>{updatedLabel}</time>.
+              </span>
+            ) : null}
+          </p>
+
           <p className={styles.detailIntro}>{school.description}</p>
 
           <section className={styles.detailQuickSummary}>
@@ -480,14 +555,14 @@ export default async function SchoolDetailPage({ params }: PageProps) {
             </div>
           </section>
 
-          <DetailSection title="Tổng quan trường" content={school.information} />
-          <DetailSection title="Ngành học và chương trình đào tạo" content={school.programs} />
-          <DetailSection title="Thông tin tuyển sinh" content={school.admissionMethods} />
-          <DetailSection title="Điểm chuẩn tham khảo" content={school.admissionScore} />
-          <DetailSection title="Campus và khu vực đào tạo" content={school.campusSummary} />
+          <DetailSection title={sectionTitles.overview} content={school.information} />
+          <DetailSection title={sectionTitles.programs} content={school.programs} />
+          <DetailSection title={sectionTitles.admission} content={school.admissionMethods} />
+          <DetailSection title={sectionTitles.score} content={school.admissionScore} />
+          <DetailSection title={sectionTitles.campus} content={school.campusSummary} />
 
           <section className={styles.detailSection}>
-            <h2 className={styles.detailHeading}>Câu hỏi thường gặp</h2>
+            <h2 className={styles.detailHeading}>Câu hỏi thường gặp về {school.shortName}</h2>
             <div className={styles.detailFaqList}>
               {faqItems.map((item) => (
                 <article key={item.question} className={styles.detailFaqCard}>
