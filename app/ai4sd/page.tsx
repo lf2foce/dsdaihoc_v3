@@ -27,13 +27,13 @@ import { loadUniversityListRows } from "../university-data";
 import { defaultOgImages } from "../site-config";
 
 export const metadata: Metadata = {
-  title: "AI4SD — Khóa Học Vibe Coding & Tạo Sản Phẩm Số Bằng AI | VNU - ĐHQGHN",
+  title: "AI4SD — Chương trình thực hành phát triển sản phẩm số cùng AI | VNU - AI4SD",
   description:
     "Chương trình đào tạo thực chiến 10 tuần từ Viện VNU - AI4SD (Đại học Quốc gia Hà Nội). Dành cho người không chuyên CNTT: Tự tay làm chủ AI, dựng chatbot CSKH, dashboard tài chính và ứng dụng số chạy online thực tế.",
   alternates: { canonical: "/ai4sd" },
   openGraph: {
     images: defaultOgImages,
-    title: "AI4SD — Khóa Học Vibe Coding & Tạo Sản Phẩm Số Bằng AI | VNU - ĐHQGHN",
+    title: "AI4SD — Chương trình thực hành phát triển sản phẩm số cùng AI | VNU - AI4SD",
     description:
       "Chương trình đào tạo thực chiến 10 tuần từ Viện VNU - AI4SD (Đại học Quốc gia Hà Nội). Xây dựng sản phẩm số bằng AI từ con số 0.",
     url: "/ai4sd",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   twitter: {
     images: defaultOgImages,
     card: "summary_large_image",
-    title: "AI4SD — Khóa Học Vibe Coding & Tạo Sản Phẩm Số Bằng AI | VNU - ĐHQGHN",
+    title: "AI4SD — Chương trình thực hành phát triển sản phẩm số cùng AI | VNU - AI4SD",
     description:
       "Chương trình đào tạo thực chiến 10 tuần từ Viện VNU - AI4SD (Đại học Quốc gia Hà Nội). Xây dựng sản phẩm số bằng AI từ con số 0.",
   },
@@ -74,8 +74,8 @@ const studentProjects = [
     solution:
       "Hệ thống AI Chatbot tích hợp RAG nạp trọn bộ tài liệu sản phẩm và bảng giá, tự động giải đáp bằng ngôn ngữ tự nhiên, phân loại khách hàng tiềm năng và đẩy dữ liệu đơn hàng về CRM/Google Sheets tức thì.",
     impact: [
-      "Phản hồi tin nhắn tức thì < 2 giây",
-      "Tự động giải quyết > 85% câu hỏi thường gặp",
+      "Phản hồi tin nhắn ngay khi khách gửi",
+      "Tự trả lời phần lớn câu hỏi thường gặp",
       "Hoạt động 24/7 không cần nhân sự trực đêm",
     ],
     techStack: ["AI Agent RAG", "Vector Database", "Webhook CRM", "OpenAI / Claude"],
@@ -94,8 +94,8 @@ const studentProjects = [
     solution:
       "Dashboard thời gian thực tự động kết nối nguồn dữ liệu, vẽ biểu đồ trực quan kèm trợ lý AI tóm tắt tình hình tài chính bằng văn bản, tự động cảnh báo khi chi phí vượt ngưỡng an toàn.",
     impact: [
-      "Tiết kiệm 15+ giờ làm báo cáo thủ công mỗi tuần",
-      "Phân tích xu hướng dòng tiền với độ chuẩn xác cao",
+      "Rút ngắn thời gian tổng hợp báo cáo thủ công",
+      "Theo dõi xu hướng dòng tiền theo thời gian",
       "Báo cáo tự động bằng ngôn ngữ tự nhiên",
     ],
     techStack: ["Interactive Dashboard", "AI Predictive Insights", "Data Pipeline", "Chart.js"],
@@ -114,8 +114,8 @@ const studentProjects = [
     solution:
       "Workflow AI tự động quét từ khóa xu hướng ngành, sinh kịch bản video ngắn và bài viết chuẩn SEO theo đúng giọng điệu thương hiệu (Brand Voice), sau đó tự động lên lịch xuất bản đa nền tảng.",
     impact: [
-      "Tăng gấp 5 lần số lượng bài viết chất lượng",
-      "Tiết kiệm 80% thời gian sáng tạo & phân phối",
+      "Duy trì lịch đăng đều đặn trên nhiều kênh",
+      "Giảm thời gian sáng tạo và phân phối nội dung",
       "Đồng bộ nhận diện thương hiệu trên mọi kênh",
     ],
     techStack: ["Prompt Engineering", "LLM Content Chains", "Notion API", "Multi-channel Auto-post"],
@@ -134,9 +134,9 @@ const studentProjects = [
     solution:
       "Web App tự phục vụ cho phép khách hàng chủ động chọn dịch vụ và thanh toán cọc online; hệ thống AI tự động phân luồng nhân sự, gửi tin nhắn nhắc hẹn và sinh hóa đơn điện tử tự động.",
     impact: [
-      "Giảm tỷ lệ hủy hẹn không báo trước xuống dưới 5%",
-      "Tối ưu 100% công suất làm việc của chuyên gia",
-      "Tự động hóa hoàn toàn quy trình đặt lịch & thanh toán",
+      "Giảm số lượt hủy hẹn không báo trước",
+      "Sử dụng hiệu quả hơn khung giờ của chuyên gia",
+      "Tự động hóa quy trình đặt lịch và thanh toán",
     ],
     techStack: ["Vibe Coding Web App", "Smart Calendar Sync", "Automated Zalo/SMS", "Supabase DB"],
     image: "/ai4sd/mock-chatbot.svg",
@@ -148,13 +148,13 @@ const studentProjects = [
 const coreAdvantages = [
   {
     icon: <Sparkles className="size-6 text-teal-700" />,
-    title: "Vibe Coding — kỷ nguyên mới",
+    title: "Xây dựng sản phẩm cùng AI",
     description:
       "Không cần học thuộc cú pháp lập trình phức tạp. Bạn sử dụng tư duy logic và ngôn ngữ tự nhiên để chỉ đạo các AI Agent (Cursor, Claude, Lovable) xây dựng toàn bộ ứng dụng từ A đến Z.",
   },
   {
     icon: <Zap className="size-6 text-amber-700" />,
-    title: "Học qua làm thật",
+    title: "Học qua thực hành",
     description:
       "Tạm biệt những giờ học lý thuyết trừu tượng. Mỗi tuần học là một chặng đua thực chiến, từng module đều cho ra một tính năng hoạt động thực tế trên trình duyệt.",
   },
@@ -162,7 +162,7 @@ const coreAdvantages = [
     icon: <Globe className="size-6 text-blue-700" />,
     title: "Sản phẩm online với tên miền riêng",
     description:
-      "Sản phẩm cuối khóa được triển khai trực tiếp lên môi trường Internet, kết nối cơ sở dữ liệu thật và sẵn sàng cho hàng trăm người dùng truy cập trải nghiệm.",
+      "Sản phẩm cuối khóa được triển khai trực tiếp lên môi trường Internet, kết nối cơ sở dữ liệu và sẵn sàng cho hàng trăm người dùng truy cập trải nghiệm.",
   },
   {
     icon: <Presentation className="size-6 text-rose-700" />,
@@ -180,7 +180,7 @@ const detailedRoadmap = [
     headline: "Khai phóng tư duy sản phẩm AI & Tự động hóa quy trình nghiệp vụ",
     bullets: [
       "Toàn cảnh ứng dụng Generative AI & AI Agents trong Marketing, Tài chính, Bán hàng và Vận hành.",
-      "Làm chủ kỹ nghệ Prompt Engineering nâng cao: Chain-of-Thought, Few-Shot, System Prompting.",
+      "Viết prompt hiệu quả: mô tả bối cảnh, đặc tả yêu cầu, cho ví dụ, ràng buộc và cách đánh giá kết quả.",
       "Chuyển đổi các quy trình làm việc thủ công (nhập liệu, viết báo cáo, phân loại khách) thành chuỗi tự động hóa thông minh.",
       "Kết quả mốc 1: Bản thiết kế giải pháp (Product Spec) và luồng tự động hóa đầu tiên vận hành mượt mà.",
     ],
@@ -198,17 +198,17 @@ const detailedRoadmap = [
       "Kết nối cơ sở dữ liệu (Database) và lưu trữ dữ liệu người dùng thực tế.",
       "Kết quả mốc 2: Ứng dụng web hoàn chỉnh có giao diện đẹp mắt và tính năng tương tác AI ổn định.",
     ],
-    highlight: "Sản phẩm mốc 2: Bản MVP chạy tương tác với cơ sở dữ liệu thật",
+    highlight: "Sản phẩm mốc 2: Bản MVP chạy tương tác với cơ sở dữ liệu",
   },
   {
     phase: "Giai đoạn 3",
     tag: "Tuần 7 – 8",
-    title: "Cloud Deployment & kiểm thử với người dùng thật",
+    title: "Cloud Deployment & kiểm thử với người dùng",
     headline: "Đưa sản phẩm lên Internet, đo lường chỉ số và tối ưu hóa trải nghiệm",
     bullets: [
       "Triển khai sản phẩm lên nền tảng đám mây (Vercel / Cloudflare) với tên miền riêng (Custom Domain).",
       "Thiết lập cơ chế bảo mật API Key, kiểm soát chi phí sử dụng AI và quản lý dữ liệu an toàn.",
-      "Tổ chức chiến dịch User Testing: Mời người dùng thật trải nghiệm, thu thập dữ liệu hành vi và phản hồi.",
+      "Tổ chức chiến dịch User Testing: Mời người dùng mục tiêu trải nghiệm, thu thập dữ liệu hành vi và phản hồi.",
       "Tối ưu hóa giao diện và tốc độ phản hồi dựa trên số liệu thực tế.",
       "Kết quả mốc 3: Sản phẩm số hoạt động 24/7 trên môi trường Production với phản hồi tích cực từ người dùng.",
     ],
@@ -231,13 +231,13 @@ const detailedRoadmap = [
 
 const programOutcomes = [
   {
-    title: "01 sản phẩm số vận hành thật",
+    title: "01 sản phẩm số được triển khai",
     description:
       "Không phải bài tập lý thuyết nộp rồi bỏ. Bạn sở hữu một ứng dụng số hoàn chỉnh, chạy 24/7 trên Internet với đường dẫn riêng để bất kỳ ai cũng có thể vào dùng.",
     icon: <Rocket className="size-8 text-teal-700" />,
     bg: "from-teal-50/80 via-white to-teal-100/30",
     border: "border-teal-200/80",
-    badge: "Sản phẩm thật",
+    badge: "Sản phẩm hoàn chỉnh",
   },
   {
     title: "Hồ sơ năng lực chuẩn quốc tế",
@@ -249,7 +249,7 @@ const programOutcomes = [
     badge: "Tài sản sự nghiệp",
   },
   {
-    title: "Làm chủ tư duy Vibe Coding & AI automation",
+    title: "Một quy trình có thể tái sử dụng",
     description:
       "Nắm vững phương pháp sử dụng AI thế hệ mới để tự động hóa công việc kinh doanh, tự tin xây dựng thêm nhiều sản phẩm số khác mà không còn bị giới hạn bởi rào cản kỹ thuật.",
     icon: <Brain className="size-8 text-blue-700" />,
@@ -264,7 +264,7 @@ const programOutcomes = [
     icon: <ShieldCheck className="size-8 text-emerald-700" />,
     bg: "from-emerald-50/80 via-white to-emerald-100/30",
     border: "border-emerald-200/80",
-    badge: "Uy tín ĐHQGHN",
+    badge: "Do Viện cấp",
   },
 ];
 
@@ -275,7 +275,7 @@ const faqs = [
   },
   {
     q: "Phương pháp 'Vibe Coding' tại AI4SD có gì khác so với việc tôi tự xem hướng dẫn trên mạng?",
-    a: "Tự xem video trên mạng thường chỉ giúp bạn thử nghiệm vài dòng lệnh rời rạc hoặc dùng ChatGPT ở mức cơ bản. Tại AI4SD, bạn được học theo một chu trình phát triển sản phẩm chuẩn (Product Lifecycle): từ khảo sát nỗi đau thị trường, thiết kế giao diện, kết nối cơ sở dữ liệu thật, kiểm soát chi phí API đến triển khai online và bảo vệ sản phẩm trước hội đồng chuyên gia.",
+    a: "Tự xem video trên mạng thường chỉ giúp bạn thử nghiệm vài dòng lệnh rời rạc hoặc dùng ChatGPT ở mức cơ bản. Tại AI4SD, bạn được học theo một chu trình phát triển sản phẩm chuẩn (Product Lifecycle): từ khảo sát nỗi đau thị trường, thiết kế giao diện, kết nối cơ sở dữ liệu, kiểm soát chi phí API đến triển khai online và bảo vệ sản phẩm trước hội đồng chuyên gia.",
   },
   {
     q: "Tôi cần chuẩn bị laptop hoặc thiết bị như thế nào để tham gia khóa học?",
@@ -283,7 +283,7 @@ const faqs = [
   },
   {
     q: "Sản phẩm làm ra sau khóa học thuộc quyền sở hữu của ai? Tôi có thể mang đi kinh doanh không?",
-    a: "Sản phẩm 100% thuộc quyền sở hữu trí tuệ của bạn! Bạn hoàn toàn có quyền mang sản phẩm này đi gọi vốn khởi nghiệp, kinh doanh thực tế, làm đồ án tốt nghiệp đại học hoặc đính kèm vào hồ sơ xin học bổng và CV ứng tuyển việc làm.",
+    a: "Sản phẩm thuộc quyền sở hữu trí tuệ của bạn. Bạn hoàn toàn có quyền mang sản phẩm này đi gọi vốn khởi nghiệp, kinh doanh thực tế, làm đồ án tốt nghiệp đại học hoặc đính kèm vào hồ sơ xin học bổng và CV ứng tuyển việc làm.",
   },
   {
     q: "Khóa học được tổ chức theo hình thức nào và lịch học ra sao?",
@@ -395,19 +395,19 @@ export default async function AI4SDPage() {
             <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-4">
               <div className="rounded-2xl border border-slate-200/90 bg-white/90 p-4 shadow-[0_12px_30px_rgba(15,23,42,0.04)] backdrop-blur">
                 <div className="text-2xl font-extrabold text-teal-900 sm:text-3xl">10 Tuần</div>
-                <div className="mt-1 text-xs font-medium text-slate-500">Thực chiến từ con số 0 đến Live Product</div>
+                <div className="mt-1 text-xs font-medium text-slate-500">Từ bài toán thực tế đến sản phẩm được triển khai</div>
               </div>
               <div className="rounded-2xl border border-slate-200/90 bg-white/90 p-4 shadow-[0_12px_30px_rgba(15,23,42,0.04)] backdrop-blur">
-                <div className="text-2xl font-extrabold text-amber-700 sm:text-3xl">100%</div>
-                <div className="mt-1 text-xs font-medium text-slate-500">Học viên có sản phẩm chạy online thực tế</div>
+                <div className="text-2xl font-extrabold text-amber-700 sm:text-3xl">01 Sản Phẩm</div>
+                <div className="mt-1 text-xs font-medium text-slate-500">Do chính bạn lựa chọn và phát triển</div>
               </div>
               <div className="rounded-2xl border border-slate-200/90 bg-white/90 p-4 shadow-[0_12px_30px_rgba(15,23,42,0.04)] backdrop-blur">
-                <div className="text-2xl font-extrabold text-blue-800 sm:text-3xl">0 Cần Code</div>
-                <div className="mt-1 text-xs font-medium text-slate-500">Làm chủ công nghệ qua Vibe Coding</div>
+                <div className="text-2xl font-extrabold text-blue-800 sm:text-3xl">Không Yêu Cầu</div>
+                <div className="mt-1 text-xs font-medium text-slate-500">Kinh nghiệm lập trình đầu vào</div>
               </div>
               <div className="rounded-2xl border border-slate-200/90 bg-white/90 p-4 shadow-[0_12px_30px_rgba(15,23,42,0.04)] backdrop-blur">
-                <div className="text-2xl font-extrabold text-emerald-800 sm:text-3xl">ĐHQGHN</div>
-                <div className="mt-1 text-xs font-medium text-slate-500">Chứng nhận chính thức từ Viện VNU-AI4SD</div>
+                <div className="text-2xl font-extrabold text-emerald-800 sm:text-3xl">Chứng Nhận</div>
+                <div className="mt-1 text-xs font-medium text-slate-500">Do Viện VNU - AI4SD cấp sau khi hoàn thành</div>
               </div>
             </div>
           </div>
@@ -444,7 +444,7 @@ export default async function AI4SDPage() {
                   </div>
                 </div>
                 <div className="mt-2 text-base font-semibold text-slate-950 sm:text-lg">
-                  Không học lý thuyết suông. Bạn bước vào lớp với một ý tưởng và bước ra với một sản phẩm hoàn chỉnh đang chạy online.
+                  Bắt đầu từ một bài toán thực tế bạn hiểu rõ. Kiến thức được đưa vào đúng lúc bạn cần dùng để giải nó.
                 </div>
               </div>
             </div>
@@ -486,7 +486,7 @@ export default async function AI4SDPage() {
               </li>
               <li className="flex items-start gap-3">
                 <span className="mt-1 flex size-5 shrink-0 items-center justify-center rounded-full bg-rose-100 text-rose-600 text-xs font-bold">✕</span>
-                <span>Mất 2-3 năm chật vật học cú pháp lập trình, thuật toán phức tạp nhưng không thể tự dựng nổi một sản phẩm hoàn chỉnh.</span>
+                <span>Có ý tưởng nhưng phụ thuộc hoàn toàn vào đội ngũ kỹ thuật để hiện thực hoàn chỉnh.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="mt-1 flex size-5 shrink-0 items-center justify-center rounded-full bg-rose-100 text-rose-600 text-xs font-bold">✕</span>
@@ -504,7 +504,7 @@ export default async function AI4SDPage() {
               <div className="flex size-10 items-center justify-center rounded-xl bg-teal-800 text-amber-300 font-bold text-sm">
                 MỚI
               </div>
-              <h3 className="text-xl font-bold text-amber-50">Làm chủ Vibe Coding &amp; Kiến tạo sản phẩm cùng AI4SD</h3>
+              <h3 className="text-xl font-bold text-amber-50">Biến hiểu biết chuyên môn thành sản phẩm số cùng AI</h3>
             </div>
             <ul className="mt-7 space-y-4 text-slate-200">
               <li className="flex items-start gap-3">
@@ -517,7 +517,7 @@ export default async function AI4SDPage() {
               </li>
               <li className="flex items-start gap-3">
                 <span className="mt-1 flex size-5 shrink-0 items-center justify-center rounded-full bg-teal-500/30 text-teal-300 text-xs font-bold">✓</span>
-                <span>Sở hữu Portfolio có Live Product URL và Case Study ấn tượng, ghi điểm tuyệt đối trong mắt nhà tuyển dụng và đối tác.</span>
+                <span>Có đường dẫn sản phẩm và case study để giới thiệu với nhà tuyển dụng, đối tác hoặc khách hàng.</span>
               </li>
             </ul>
           </div>
@@ -545,14 +545,15 @@ export default async function AI4SDPage() {
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 px-4 py-1 text-xs font-bold uppercase tracking-wider text-teal-900">
             <Bot className="size-3.5 text-teal-700" />
-            Student Capstone Showcase
+            Một chương trình — nhiều hướng sản phẩm
           </div>
           <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
-            Những sản phẩm đột phá bạn sẽ tự tay làm ra.
+            Bạn chọn một bài toán. Bạn làm một sản phẩm.
           </h2>
           <p className="mt-5 text-lg leading-8 text-slate-600">
-            Không phải bài tập nộp rồi cất vào ngăn kéo. Đây là những giải pháp số giải quyết bài toán thật, 
-            sẵn sàng đưa vào vận hành kinh doanh hoặc trình diễn trong buổi phỏng vấn.
+            Bạn không cần làm tất cả các hướng dưới đây. Mỗi học viên lựa chọn một bài toán
+            phù hợp với chuyên môn, sở thích hoặc định hướng nghề nghiệp của mình — đây là bốn
+            hướng thường được chọn.
           </p>
         </div>
 
@@ -612,7 +613,7 @@ export default async function AI4SDPage() {
                 {/* Measurable impact */}
                 <div className="mt-6">
                   <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2.5">
-                    Chỉ số tác động thực tế
+                    Mục tiêu có thể đo lường
                   </div>
                   <div className="space-y-2">
                     {project.impact.map((point) => (
@@ -659,11 +660,11 @@ export default async function AI4SDPage() {
               Phương pháp sư phạm khác biệt
             </div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
-              &quot;Build First – Learn Through Creation&quot;
+              Build First — học qua quá trình tạo ra sản phẩm
             </h2>
             <p className="mt-5 text-lg leading-8 text-slate-600">
-              Chúng tôi không bắt bạn phải học thuộc lòng thuật toán hay cú pháp lập trình hàn lâm. 
-              Chương trình đưa kiến thức và công cụ vào đúng thời điểm bạn cần để xây dựng từng tính năng của sản phẩm.
+              Chương trình được tổ chức theo mô hình học qua dự án. Kiến thức được đưa vào đúng
+              thời điểm bạn cần sử dụng để giải quyết vấn đề trong sản phẩm của mình.
             </p>
 
             <div className="mt-8 space-y-4">
@@ -672,9 +673,9 @@ export default async function AI4SDPage() {
                   1
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900">Bắt đầu từ vấn đề thực tế (Problem-First)</h4>
+                  <h4 className="font-bold text-slate-900">Define — Xác định đúng vấn đề</h4>
                   <p className="mt-1 text-sm text-slate-600">
-                    Lựa chọn một bài toán kinh doanh, marketing hoặc nhu cầu cá nhân có thật để giải quyết.
+                    Hiểu người dùng, phân tích quy trình hiện tại và chọn một bài toán đủ cụ thể để giải trong 10 tuần.
                   </p>
                 </div>
               </div>
@@ -684,9 +685,9 @@ export default async function AI4SDPage() {
                   2
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900">Vibe Coding &amp; Dựng MVP siêu tốc</h4>
+                  <h4 className="font-bold text-slate-900">Build — Xây dựng cùng AI</h4>
                   <p className="mt-1 text-sm text-slate-600">
-                    Dùng ngôn ngữ tự nhiên kết hợp AI Agents để biến ý tưởng thành ứng dụng có giao diện và tính năng trong vài ngày.
+                    Chuyển yêu cầu thành luồng sản phẩm, giao diện, dữ liệu và các chức năng có thể hoạt động.
                   </p>
                 </div>
               </div>
@@ -696,9 +697,21 @@ export default async function AI4SDPage() {
                   3
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900">Triển khai thực tế (Real Deployment)</h4>
+                  <h4 className="font-bold text-slate-900">Test — Kiểm thử và cải tiến</h4>
                   <p className="mt-1 text-sm text-slate-600">
-                    Đưa sản phẩm lên môi trường Internet, kết nối dữ liệu thật và mời người dùng trải nghiệm thực tế.
+                    Đưa sản phẩm cho người dùng trải nghiệm, thu thập phản hồi và điều chỉnh dựa trên bằng chứng.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-900 font-bold">
+                  4
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-900">Ship — Triển khai và trình bày</h4>
+                  <p className="mt-1 text-sm text-slate-600">
+                    Đưa sản phẩm lên Internet, hoàn thiện case study và trình bày tại Demo Day.
                   </p>
                 </div>
               </div>
@@ -738,7 +751,7 @@ export default async function AI4SDPage() {
             <div className="mt-9 space-y-4">
               <div className="flex gap-3 text-base font-medium text-slate-700">
                 <CheckCircle2 className="size-5 text-teal-700 shrink-0 mt-0.5" />
-                <span>Không có bài kiểm tra lý thuyết — Đánh giá 100% dựa trên sản phẩm thực tế.</span>
+                <span>Đánh giá dựa trên quá trình thực hành và mức độ hoàn thiện của sản phẩm.</span>
               </div>
               <div className="flex gap-3 text-base font-medium text-slate-700">
                 <CheckCircle2 className="size-5 text-teal-700 shrink-0 mt-0.5" />
@@ -947,7 +960,7 @@ export default async function AI4SDPage() {
                 </h2>
 
                 <p className="mt-6 text-lg leading-8 text-slate-600">
-                  Đừng để cơ hội kỷ nguyên AI trôi qua. Để lại thông tin ngay hôm nay để nhận trọn bộ <strong>Lộ trình chi tiết</strong>, 
+                  Để lại thông tin để nhận <strong>Lộ trình chi tiết</strong>, 
                   <strong>chính sách học bổng</strong> và được <strong>cố vấn 1:1 xác định ý tưởng sản phẩm</strong> trước ngày khai giảng.
                 </p>
 
@@ -958,7 +971,7 @@ export default async function AI4SDPage() {
                   </div>
                   <div className="flex items-center gap-3 text-sm font-semibold text-slate-800">
                     <Check className="size-5 text-emerald-600 shrink-0" />
-                    <span>Cam kết 100% học viên hoàn thành sản phẩm số chạy online thực tế</span>
+                    <span>Mỗi học viên hoàn thành một sản phẩm số được triển khai lên Internet</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm font-semibold text-slate-800">
                     <Check className="size-5 text-emerald-600 shrink-0" />
