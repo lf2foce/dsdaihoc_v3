@@ -30,9 +30,13 @@ INSERT INTO schools (
     admission_score,
     tags,
     source_url,
+    source_urls,
+    last_crawled_at,
+    status,
+    source,
     updated_at
 )
-VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW())
+VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 'approved', 'airtable', NOW())
 ON CONFLICT (id)
 DO UPDATE SET
     display_order = EXCLUDED.display_order,
@@ -49,8 +53,33 @@ DO UPDATE SET
     admission_score = EXCLUDED.admission_score,
     tags = EXCLUDED.tags,
     source_url = EXCLUDED.source_url,
-    updated_at = NOW();
+    source_urls = EXCLUDED.source_urls,
+    last_crawled_at = EXCLUDED.last_crawled_at,
+    status = 'approved',
+    updated_at = NOW()
+-- Never clobber a row owned by the direct-crawl path.
+WHERE schools.source = 'airtable';
 """
+
+
+def normalize_list(value) -> list[str]:
+    """Mirror _normalize_list in export_approved_to_json.py exactly.
+
+    Airtable hands back a list for multi-selects, and newline-separated text for
+    long-text fields such as source_urls. Storing the raw value in TEXT let
+    psycopg2 adapt lists into the Postgres array literal `{"Kiến trúc"}`, which
+    round-tripped into the JSON export as a literal chip label.
+    """
+    if value is None:
+        return []
+    items = value if isinstance(value, list) else str(value).splitlines()
+
+    cleaned: list[str] = []
+    for item in items:
+        normalized = str(item).strip()
+        if normalized and normalized not in cleaned:
+            cleaned.append(normalized)
+    return cleaned
 
 
 def parse_args() -> argparse.Namespace:
@@ -58,6 +87,15 @@ def parse_args() -> argparse.Namespace:
         description="Sync approved Airtable records to PostgreSQL."
     )
     parser.add_argument("--limit", type=int, default=None, help="Maximum Airtable records to sync.")
+    parser.add_argument(
+        "--only-unsynced",
+        action="store_true",
+        help=(
+            "Only sync records whose synced_to_db checkbox is still empty. "
+            "Nothing ever clears that flag, so this makes each record sync once "
+            "and never again — leave it off for a periodic refresh."
+        ),
+    )
     parser.add_argument(
         "--dry-run",
         action="store_true",
@@ -74,13 +112,32 @@ def main() -> int:
     postgres_config = load_postgres_config()
     airtable = AirtableClient(airtable_config)
 
+    # TRIM matters: the Status values in Airtable carry a leading space, so the
+    # untrimmed comparison this script used to run matched zero records and
+    # exited reporting success. export_approved_to_json.py already does this.
+    status_clause = (
+        f'TRIM({{{airtable_config.status_field}}} & "") = "{airtable_config.approved_status}"'
+    )
     formula = (
-        f"AND("
-        f"{{{airtable_config.status_field}}} = '{airtable_config.approved_status}',"
-        f"{{{airtable_config.synced_field}}} = FALSE()"
-        f")"
+        f"AND({status_clause}, {{{airtable_config.synced_field}}} = FALSE())"
+        if args.only_unsynced
+        else status_clause
     )
     records = airtable.list_records(filter_formula=formula, max_records=args.limit)
+
+    if not records:
+        logging.warning(
+            "no Airtable records matched formula %s, falling back to local filtering",
+            formula,
+        )
+        records = [
+            record
+            for record in airtable.list_records(max_records=args.limit)
+            if str(record.get("fields", {}).get(airtable_config.status_field, "")).strip()
+            == airtable_config.approved_status
+            and (not args.only_unsynced or not record.get("fields", {}).get(airtable_config.synced_field))
+        ]
+
     logging.info("found %s Airtable records ready to sync", len(records))
 
     if args.dry_run:
@@ -114,7 +171,7 @@ def main() -> int:
                             fields.get(airtable_config.short_name_field),
                             school_name,
                             fields.get(airtable_config.school_type_field),
-                            fields.get(airtable_config.featured_major_field),
+                            Json(normalize_list(fields.get(airtable_config.featured_major_field))),
                             fields.get(airtable_config.description_field),
                             fields.get(airtable_config.information_field),
                             fields.get(airtable_config.campus_field),
@@ -124,6 +181,8 @@ def main() -> int:
                             fields.get(airtable_config.admission_score_field),
                             Json(tags),
                             fields.get(airtable_config.source_url_field),
+                            Json(normalize_list(fields.get(airtable_config.source_urls_field))),
+                            fields.get(airtable_config.last_crawled_at_field) or None,
                         ),
                     )
                     connection.commit()
