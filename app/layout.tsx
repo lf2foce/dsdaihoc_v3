@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from '@vercel/analytics/next';
+import { ClerkProvider } from "@clerk/nextjs";
 
 import {
   absoluteUrl,
@@ -100,14 +101,16 @@ export default function RootLayout({
             __html: JSON.stringify(siteJsonLd).replace(/</g, "\\u003c"),
           }}
         />
-        <ThemeProvider
-          attribute="data-ui-theme"
-          defaultTheme="light"
-          enableSystem={false}
-          storageKey="goodailist-theme"
-        >
-          {children}
-        </ThemeProvider>
+        <ClerkProvider>
+          <ThemeProvider
+            attribute="data-ui-theme"
+            defaultTheme="light"
+            enableSystem={false}
+            storageKey="goodailist-theme"
+          >
+            {children}
+          </ThemeProvider>
+        </ClerkProvider>
         <Analytics />
       </body>
     </html>

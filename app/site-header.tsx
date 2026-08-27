@@ -1,12 +1,13 @@
 import Link from "next/link";
 
 import ThemeToggle from "./theme-toggle";
+import HeaderAuth from "./header-auth";
 import styles from "./page.module.css";
 import { formatVnDate } from "./site-config";
 import { loadDatasetMeta } from "./university-data";
 
 type SiteHeaderProps = {
-  activeTab: "Trường" | "Quiz" | "FAQs" | "Góp ý";
+  activeTab: "Trường" | "Quiz" | "FAQs" | "Góp ý" | "Trường của tôi";
 };
 
 const primaryTabs = [{ label: "Trường", href: "/" }] as const;
@@ -15,6 +16,7 @@ const secondaryTabs = [
   { label: "Quiz", href: "/quiz" },
   { label: "FAQs", href: "/faqs" },
 ] as const;
+
 
 function NavigationTab({
   href,
@@ -82,6 +84,7 @@ export default async function SiteHeader({ activeTab }: SiteHeaderProps) {
               active={activeTab === tab.label}
             />
           ))}
+          <HeaderAuth active={activeTab === "Trường của tôi"} />
           <div className={styles.themeToggleMobile}>
             <ThemeToggle />
           </div>
