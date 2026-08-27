@@ -79,22 +79,22 @@ const audience = [
 
 const roadmap = [
   {
-    tag: "Tuần 1–2",
+    tag: "Buổi 1–2",
     title: "AI Literacy for Business",
     text: "Hiểu LLMs, prompt engineering và cách biến quy trình kinh doanh thủ công thành workflow AI có thể vận hành được.",
   },
   {
-    tag: "Tuần 3–6",
+    tag: "Buổi 3–4",
     title: "Vibe Coding & Product Creation",
     text: "Thiết kế user flow, dựng MVP với no-code hoặc low-code, kết nối AI API và xây giao diện có thể demo ngay.",
   },
   {
-    tag: "Tuần 7–8",
+    tag: "Buổi 5–6",
     title: "Deployment & Real Usage",
     text: "Đưa sản phẩm lên online, kết nối dữ liệu thật, chạy user testing và chỉnh lại luồng sử dụng để bớt gãy.",
   },
   {
-    tag: "Tuần 9–10",
+    tag: "Buổi 7–8",
     title: "Demo & Portfolio",
     text: "Chuẩn hoá case study, trình bày sản phẩm theo format startup pitch và biến đầu ra thành tài sản nghề nghiệp thực tế.",
   },
@@ -131,6 +131,45 @@ const outcomes = [
   },
 ];
 
+/** Straight from docs/ai4sd.md — the programme document, not marketing copy. */
+const tuition = [
+  {
+    name: "Cá nhân",
+    price: "6.400.000 ₫",
+    note: "Trọn gói 8 buổi",
+    perks: [
+      "Tự do đề xuất sản phẩm muốn xây",
+      "Được tài trợ Google Gemini API",
+    ],
+    highlight: false,
+  },
+  {
+    name: "Nhóm 2–4 bạn",
+    price: "5.440.000 ₫",
+    note: "mỗi bạn · giảm 15%",
+    perks: ["Ghép nhóm làm chung một sản phẩm", "Lớp online và offline"],
+    highlight: false,
+  },
+  {
+    name: "Nhóm từ 5 bạn",
+    price: "4.480.000 ₫",
+    note: "mỗi bạn · giảm 30%",
+    perks: [
+      "Cả nhóm tiết kiệm 9.600.000 ₫",
+      "Tài trợ trọn gói Google Gemini API",
+      "Cố vấn sản phẩm riêng cho nhóm",
+    ],
+    highlight: true,
+  },
+];
+
+const admissionFacts = [
+  { label: "Khai giảng dự kiến", value: "22/09/2026" },
+  { label: "Lịch học", value: "Thứ Bảy, Chủ Nhật và các buổi tối 19:30 – 21:30" },
+  { label: "Hình thức", value: "Có cả lớp trực tiếp và trực tuyến" },
+  { label: "Sĩ số", value: "Tối đa 20 học viên mỗi lớp" },
+];
+
 export default async function AI4SDPage() {
   // Gợi ý cho ô "trường đang học" lấy từ chính 176 trường của site.
   const schools = (await loadUniversityListRows()).map((row) => row.fullName);
@@ -161,6 +200,9 @@ export default async function AI4SDPage() {
             <a href="#roadmap" className="hidden transition-colors hover:text-teal-900 sm:block">
               Lộ trình
             </a>
+            <a href="#hoc-phi" className="hidden transition-colors hover:text-teal-900 sm:block">
+              Học phí
+            </a>
             <a
               href="#register"
               className="inline-flex h-10 items-center justify-center rounded-full border border-teal-900 bg-teal-900 px-5 text-white transition-colors hover:bg-teal-800"
@@ -186,7 +228,7 @@ export default async function AI4SDPage() {
 
             <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">
               AI4SD dành cho sinh viên non-tech muốn đi từ ý tưởng, workflow và insight
-              kinh doanh đến một MVP chạy online trong 10 tuần.
+              kinh doanh đến một MVP chạy online sau 8 buổi.
             </p>
 
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
@@ -207,8 +249,8 @@ export default async function AI4SDPage() {
 
             <div className="mt-12 grid gap-4 sm:grid-cols-3">
               <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
-                <div className="text-3xl font-semibold text-slate-950">10</div>
-                <div className="mt-1 text-sm text-slate-500">tuần từ học đến launch</div>
+                <div className="text-3xl font-semibold text-slate-950">08</div>
+                <div className="mt-1 text-sm text-slate-500">buổi, từ ý tưởng tới sản phẩm chạy online</div>
               </div>
               <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
                 <div className="text-3xl font-semibold text-slate-950">01</div>
@@ -216,7 +258,7 @@ export default async function AI4SDPage() {
               </div>
               <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
                 <div className="text-3xl font-semibold text-slate-950">04</div>
-                <div className="mt-1 text-sm text-slate-500">giai đoạn học rõ đầu ra</div>
+                <div className="mt-1 text-sm text-slate-500">module, mỗi module một đầu ra</div>
               </div>
             </div>
           </div>
@@ -337,7 +379,7 @@ export default async function AI4SDPage() {
               Learning Path
             </div>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
-              Lộ trình 10 tuần được tách thành 4 chặng rõ ràng.
+              Lộ trình 8 buổi, chia thành 4 module rõ ràng.
             </h2>
             <p className="mt-5 text-lg leading-8 text-slate-600">
               Mỗi chặng có một nhiệm vụ sản phẩm cụ thể để người học luôn biết mình đang đi
@@ -348,19 +390,19 @@ export default async function AI4SDPage() {
               <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6">
                 <div className="text-4xl font-light text-amber-500">01</div>
                 <div className="mt-2 text-sm font-medium uppercase tracking-[0.14em] text-slate-500">
-                  sản phẩm thực tế
+                  sản phẩm bạn tự làm
                 </div>
               </div>
               <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6">
                 <div className="text-4xl font-light text-teal-600">04</div>
                 <div className="mt-2 text-sm font-medium uppercase tracking-[0.14em] text-slate-500">
-                  giai đoạn học
+                  module
                 </div>
               </div>
               <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6">
-                <div className="text-4xl font-light text-slate-400">10</div>
+                <div className="text-4xl font-light text-slate-400">08</div>
                 <div className="mt-2 text-sm font-medium uppercase tracking-[0.14em] text-slate-500">
-                  tuần huấn luyện
+                  buổi học
                 </div>
               </div>
             </div>
@@ -382,6 +424,81 @@ export default async function AI4SDPage() {
             ))}
           </div>
         </div>
+      </Section>
+
+      <Section id="hoc-phi" className="relative z-10 border-t border-slate-200/80">
+        <div className="mx-auto max-w-2xl text-center">
+          <div className="text-sm font-semibold uppercase tracking-[0.22em] text-amber-700">
+            Học phí và lịch học
+          </div>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+            Đi cùng bạn bè thì rẻ hơn.
+          </h2>
+          <p className="mt-5 text-lg leading-8 text-slate-600">
+            Học phí trọn gói cho cả 8 buổi, đã gồm tài trợ Google Gemini API để bạn dựng sản
+            phẩm mà không phải trả tiền công cụ.
+          </p>
+        </div>
+
+        <div className="mt-14 grid gap-6 lg:grid-cols-3">
+          {tuition.map((plan) => (
+            <div
+              key={plan.name}
+              className={`rounded-[2rem] border p-8 ${
+                plan.highlight
+                  ? "border-teal-900 bg-teal-950 text-white shadow-[0_28px_80px_rgba(15,118,110,0.24)]"
+                  : "border-slate-200 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.05)]"
+              }`}
+            >
+              <div
+                className={`text-sm font-semibold uppercase tracking-[0.18em] ${
+                  plan.highlight ? "text-teal-200" : "text-slate-500"
+                }`}
+              >
+                {plan.name}
+              </div>
+              <div className="mt-4 text-3xl font-semibold tracking-tight">{plan.price}</div>
+              <div
+                className={`mt-1 text-sm ${plan.highlight ? "text-teal-100/80" : "text-slate-500"}`}
+              >
+                {plan.note}
+              </div>
+              <ul className="mt-6 space-y-3">
+                {plan.perks.map((perk) => (
+                  <li
+                    key={perk}
+                    className={`flex gap-2.5 text-sm leading-6 ${
+                      plan.highlight ? "text-teal-50" : "text-slate-600"
+                    }`}
+                  >
+                    <span
+                      className={`mt-2 inline-flex size-1.5 shrink-0 rounded-full ${
+                        plan.highlight ? "bg-amber-400" : "bg-teal-600"
+                      }`}
+                    />
+                    {perk}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <dl className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {admissionFacts.map((fact) => (
+            <div
+              key={fact.label}
+              className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-[0_16px_44px_rgba(15,23,42,0.05)]"
+            >
+              <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                {fact.label}
+              </dt>
+              <dd className="mt-2 text-base font-medium leading-6 text-slate-900">
+                {fact.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </Section>
 
       <section
