@@ -396,9 +396,9 @@ export default function AI4SDPage() {
                   đầu hợp lý.
                 </h2>
                 <p className="mt-5 text-lg leading-8 text-slate-600">
-                  Phiên bản hiện tại của landing page đã sáng và sạch hơn. Để tăng tỉ lệ
-                  chuyển đổi thêm nữa, bước tiếp theo nên là gắn form thật, học phí, lịch học
-                  và bằng chứng đầu ra từ học viên.
+                  Chương trình nhận hồ sơ theo đợt, ưu tiên sinh viên khối kinh tế, marketing,
+                  truyền thông và vận hành. Không yêu cầu kinh nghiệm lập trình. Để lại thông
+                  tin để nhận lộ trình chi tiết, học phí và lịch khai giảng đợt gần nhất.
                 </p>
               </div>
 

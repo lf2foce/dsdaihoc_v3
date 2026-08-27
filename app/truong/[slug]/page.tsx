@@ -1,10 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { LucideIcon } from "lucide-react";
+import {
+  BookOpen,
+  ClipboardList,
+  GraduationCap,
+  HelpCircle,
+  MapPin,
+  TrendingUp,
+} from "lucide-react";
 
 import styles from "../../page.module.css";
 import { getMajorChipStyle } from "../../university-taxonomy";
 import { absoluteUrl, formatVnDate, siteName, siteUrl } from "../../site-config";
+import FavoriteButton from "../../favorite-button";
 import {
   loadUniversityBySlug,
   loadUniversityRows,
@@ -118,15 +128,54 @@ function createFactItems(school: UniversityRow) {
   ].filter((item) => item.value);
 }
 
-/** Section headings phrased the way people actually ask the question. */
-function createSectionTitles(school: UniversityRow) {
-  return {
-    overview: `${school.shortName} là trường đại học như thế nào?`,
-    programs: `${school.shortName} đào tạo những ngành nào?`,
-    admission: `${school.shortName} xét tuyển bằng những phương thức nào?`,
-    score: `Điểm chuẩn ${school.shortName} khoảng bao nhiêu?`,
-    campus: `${school.shortName} có những cơ sở đào tạo nào?`,
-  };
+/**
+ * Headings are phrased the way people actually ask the question. One list
+ * drives the body and the table of contents so the two cannot drift apart.
+ * `tocLabel` is the short form; `title` is the full question.
+ */
+function createSections(school: UniversityRow) {
+  return [
+    {
+      id: "tong-quan",
+      tocLabel: "Tổng quan",
+      title: `${school.shortName} là trường đại học như thế nào?`,
+      content: school.information,
+      Icon: GraduationCap,
+      accent: "blue",
+    },
+    {
+      id: "nganh-dao-tao",
+      tocLabel: "Ngành đào tạo",
+      title: `${school.shortName} đào tạo những ngành nào?`,
+      content: school.programs,
+      Icon: BookOpen,
+      accent: "violet",
+    },
+    {
+      id: "tuyen-sinh",
+      tocLabel: "Phương thức xét tuyển",
+      title: `${school.shortName} xét tuyển bằng những phương thức nào?`,
+      content: school.admissionMethods,
+      Icon: ClipboardList,
+      accent: "teal",
+    },
+    {
+      id: "diem-chuan",
+      tocLabel: "Điểm chuẩn",
+      title: `Điểm chuẩn ${school.shortName} khoảng bao nhiêu?`,
+      content: school.admissionScore,
+      Icon: TrendingUp,
+      accent: "amber",
+    },
+    {
+      id: "campus",
+      tocLabel: "Cơ sở đào tạo",
+      title: `${school.shortName} có những cơ sở đào tạo nào?`,
+      content: school.campusSummary,
+      Icon: MapPin,
+      accent: "rose",
+    },
+  ] as const;
 }
 
 function createFaqItems(school: UniversityRow) {
@@ -340,17 +389,28 @@ function MarkdownContent({ content }: { content: string }) {
 }
 
 function DetailSection({
+  id,
   title,
   content,
+  Icon,
+  accent,
 }: {
+  id: string;
   title: string;
   content: string;
+  Icon: LucideIcon;
+  accent: string;
 }) {
   if (!content) return null;
 
   return (
-    <section className={styles.detailSection}>
-      <h2 className={styles.detailHeading}>{title}</h2>
+    <section id={id} className={styles.detailSection} data-accent={accent}>
+      <div className={styles.detailSectionHead}>
+        <span className={styles.detailSectionIcon} aria-hidden>
+          <Icon />
+        </span>
+        <h2 className={styles.detailHeading}>{title}</h2>
+      </div>
       <div className={styles.detailText}>
         <MarkdownContent content={content} />
       </div>
@@ -437,7 +497,7 @@ export default async function SchoolDetailPage({ params }: PageProps) {
   const majorChipStyle = getMajorChipStyle(school.featuredMajor);
   const factItems = createFactItems(school);
   const faqItems = createFaqItems(school);
-  const sectionTitles = createSectionTitles(school);
+  const sections = createSections(school).filter((section) => section.content);
   const jsonLd = buildJsonLd(school, faqItems);
   const overviewText = stripMarkdown(school.information || school.description);
   const campusText = stripMarkdown(school.campusSummary);
@@ -494,9 +554,11 @@ export default async function SchoolDetailPage({ params }: PageProps) {
               </div>
 
               <div className={styles.detailHeroActions}>
-                <Link href="/" className={styles.detailPrimaryAction}>
-                  Xem trong danh sách
-                </Link>
+                <FavoriteButton
+                  schoolId={school.id}
+                  schoolSlug={school.slug}
+                  schoolName={school.fullName}
+                />
                 {school.sourceUrl ? (
                   <a
                     href={school.sourceUrl}
@@ -523,6 +585,7 @@ export default async function SchoolDetailPage({ params }: PageProps) {
       </header>
 
       <main className={styles.main}>
+        <div className={styles.detailBody}>
         <article className={styles.detailPageArticleSeo}>
           <p className={styles.detailTldr}>
             {buildTldr(school)}
@@ -555,14 +618,26 @@ export default async function SchoolDetailPage({ params }: PageProps) {
             </div>
           </section>
 
-          <DetailSection title={sectionTitles.overview} content={school.information} />
-          <DetailSection title={sectionTitles.programs} content={school.programs} />
-          <DetailSection title={sectionTitles.admission} content={school.admissionMethods} />
-          <DetailSection title={sectionTitles.score} content={school.admissionScore} />
-          <DetailSection title={sectionTitles.campus} content={school.campusSummary} />
+          {sections.map((section) => (
+            <DetailSection
+              key={section.id}
+              id={section.id}
+              title={section.title}
+              content={section.content}
+              Icon={section.Icon}
+              accent={section.accent}
+            />
+          ))}
 
-          <section className={styles.detailSection}>
-            <h2 className={styles.detailHeading}>Câu hỏi thường gặp về {school.shortName}</h2>
+          <section id="faq" className={styles.detailSection} data-accent="slate">
+            <div className={styles.detailSectionHead}>
+              <span className={styles.detailSectionIcon} aria-hidden>
+                <HelpCircle />
+              </span>
+              <h2 className={styles.detailHeading}>
+                Câu hỏi thường gặp về {school.shortName}
+              </h2>
+            </div>
             <div className={styles.detailFaqList}>
               {faqItems.map((item) => (
                 <article key={item.question} className={styles.detailFaqCard}>
@@ -574,7 +649,7 @@ export default async function SchoolDetailPage({ params }: PageProps) {
           </section>
 
           {relatedSchools.length ? (
-            <section className={styles.detailSection}>
+            <section id="lien-quan" className={styles.detailSection} data-accent="slate">
               <h2 className={styles.detailHeading}>Trường liên quan</h2>
               <div className={styles.relatedSchoolGrid}>
                 {relatedSchools.map((item) => (
@@ -609,6 +684,46 @@ export default async function SchoolDetailPage({ params }: PageProps) {
             </a>
           ) : null}
         </article>
+
+        {/* Sticky rail, desktop only. Plain anchors — no JS, so the page stays
+            statically rendered and nothing extra ships to the client. */}
+        <aside className={styles.detailToc} aria-label="Mục lục trang">
+          <p className={styles.detailTocLabel}>Trong trang này</p>
+          <nav className={styles.detailTocNav}>
+            {sections.map((section) => (
+              <a
+                key={section.id}
+                href={`#${section.id}`}
+                className={styles.detailTocLink}
+                data-accent={section.accent}
+              >
+                <span className={styles.detailTocDot} aria-hidden />
+                {section.tocLabel}
+              </a>
+            ))}
+            <a href="#faq" className={styles.detailTocLink} data-accent="slate">
+              <span className={styles.detailTocDot} aria-hidden />
+              Câu hỏi thường gặp
+            </a>
+            {relatedSchools.length ? (
+              <a href="#lien-quan" className={styles.detailTocLink} data-accent="slate">
+                <span className={styles.detailTocDot} aria-hidden />
+                Trường liên quan
+              </a>
+            ) : null}
+          </nav>
+          {school.sourceUrl ? (
+            <a
+              href={school.sourceUrl}
+              target="_blank"
+              rel="noreferrer"
+              className={styles.detailTocSource}
+            >
+              Website chính thức ↗
+            </a>
+          ) : null}
+        </aside>
+        </div>
       </main>
     </div>
   );
