@@ -21,6 +21,21 @@ async function ensureUserRow() {
   // No email means nothing to satisfy the NOT NULL / UNIQUE constraint with.
   if (!email) return null;
 
+  // The 487 pre-existing rows carry Clerk ids from the instance the retired
+  // chat app used, so the same person signs in today under a different id.
+  // ON CONFLICT (id) sails past that and lands on users_email_unique instead.
+  // Re-key the row to the current id first; the foreign keys carry messages
+  // and favourites across (ON UPDATE CASCADE).
+  await sql`
+    UPDATE users
+       SET id         = ${user.id},
+           first_name = ${user.firstName},
+           last_name  = ${user.lastName},
+           image_url  = ${user.imageUrl},
+           updated_at = NOW()
+     WHERE email = ${email} AND id <> ${user.id}
+  `;
+
   await sql`
     INSERT INTO users (id, email, first_name, last_name, image_url)
     VALUES (${user.id}, ${email}, ${user.firstName}, ${user.lastName}, ${user.imageUrl})
