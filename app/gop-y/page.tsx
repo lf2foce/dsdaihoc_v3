@@ -39,7 +39,7 @@ export default function FeedbackPage() {
             <p className={styles.faqEyebrow}>Góp ý</p>
             <h1 className={styles.faqTitle}>Gửi phản hồi để website đầy đủ và dễ dùng hơn</h1>
             <p className={styles.faqLead}>
-              Nếu anh/chị thấy thiếu dữ liệu, có lỗi hiển thị hoặc muốn đề xuất tính năng mới,
+              Nếu bạn thấy thiếu dữ liệu, có lỗi hiển thị hoặc muốn đề xuất tính năng mới,
               cứ gửi qua form bên dưới. Mình sẽ dùng các góp ý này để ưu tiên cập nhật tiếp.
             </p>
           </div>

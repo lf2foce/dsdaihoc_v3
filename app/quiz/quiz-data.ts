@@ -70,7 +70,7 @@ export const careerTracks: CareerTrack[] = [
     strengths: ["Nhạy với cơ hội", "Giao tiếp tốt", "Ra quyết định theo mục tiêu, tăng trưởng và hiệu quả"],
     workStyle: ["Môi trường doanh nghiệp", "Làm việc với khách hàng hoặc đội nhóm", "Bài toán tăng trưởng, thương hiệu và tối ưu doanh thu"],
     caution:
-      "Nếu anh/chị không thích KPI, cạnh tranh hoặc nhịp làm việc nhanh thì nên cân bằng với các nhóm ngành ổn định hơn.",
+      "Nếu bạn không thích KPI, cạnh tranh hoặc nhịp làm việc nhanh thì nên cân bằng với các nhóm ngành ổn định hơn.",
     color: "#db2777",
   },
   {
@@ -96,7 +96,7 @@ export const careerTracks: CareerTrack[] = [
     strengths: ["Lắng nghe tốt", "Kiên nhẫn", "Quan sát và thấu hiểu con người"],
     workStyle: ["Làm việc với học sinh, phụ huynh hoặc cộng đồng", "Môi trường có ý nghĩa xã hội", "Cần giao tiếp bền bỉ"],
     caution:
-      "Nếu anh/chị chỉ thích kết quả nhanh và ít tương tác con người thì nhóm này có thể không tạo nhiều năng lượng lâu dài.",
+      "Nếu bạn chỉ thích kết quả nhanh và ít tương tác con người thì nhóm này có thể không tạo nhiều năng lượng lâu dài.",
     color: "#7c3aed",
   },
   {
@@ -135,7 +135,7 @@ export const careerTracks: CareerTrack[] = [
     strengths: ["Giao tiếp linh hoạt", "Xử lý tình huống", "Giữ năng lượng tốt khi làm việc với nhiều người"],
     workStyle: ["Môi trường dịch vụ", "Nhịp làm việc linh hoạt", "Cần phối hợp đa bộ phận"],
     caution:
-      "Nếu anh/chị thích lịch làm việc quá cố định hoặc ít giao tiếp, nhóm ngành dịch vụ có thể khiến mình nhanh mệt.",
+      "Nếu bạn thích lịch làm việc quá cố định hoặc ít giao tiếp, nhóm ngành dịch vụ có thể khiến mình nhanh mệt.",
     color: "#16a34a",
   },
 ];
@@ -143,7 +143,7 @@ export const careerTracks: CareerTrack[] = [
 export const quizQuestions: QuizQuestion[] = [
   {
     id: "q1",
-    prompt: "Khi gặp một vấn đề khó, anh/chị thường thấy mình hứng thú nhất với kiểu xử lý nào?",
+    prompt: "Khi gặp một vấn đề khó, bạn thường thấy mình hứng thú nhất với kiểu xử lý nào?",
     helper: "Câu này đo thiên hướng tư duy cốt lõi khi học và làm việc.",
     options: [
       {
@@ -170,7 +170,7 @@ export const quizQuestions: QuizQuestion[] = [
   },
   {
     id: "q2",
-    prompt: "Trong các môn học, nhóm nào thường khiến anh/chị vào guồng nhanh nhất?",
+    prompt: "Trong các môn học, nhóm nào thường khiến bạn vào guồng nhanh nhất?",
     helper: "Không phải để chọn môn tuyệt đối, mà để nhìn thiên hướng học tự nhiên.",
     options: [
       {
@@ -197,7 +197,7 @@ export const quizQuestions: QuizQuestion[] = [
   },
   {
     id: "q3",
-    prompt: "Kiểu môi trường làm việc nào làm anh/chị thấy có động lực lâu dài nhất?",
+    prompt: "Kiểu môi trường làm việc nào làm bạn thấy có động lực lâu dài nhất?",
     helper: "Mỗi ngành có nhịp vận hành khác nhau, nên câu này khá quan trọng.",
     options: [
       {
@@ -224,7 +224,7 @@ export const quizQuestions: QuizQuestion[] = [
   },
   {
     id: "q4",
-    prompt: "Nếu phải chọn một dạng giá trị mình muốn tạo ra sau này, anh/chị nghiêng về điều gì nhất?",
+    prompt: "Nếu phải chọn một dạng giá trị mình muốn tạo ra sau này, bạn nghiêng về điều gì nhất?",
     helper: "Câu này nhìn vào động lực nghề nghiệp dài hạn.",
     options: [
       {
@@ -251,7 +251,7 @@ export const quizQuestions: QuizQuestion[] = [
   },
   {
     id: "q5",
-    prompt: "Anh/chị phản ứng thế nào với áp lực trách nhiệm cao?",
+    prompt: "Bạn phản ứng thế nào với áp lực trách nhiệm cao?",
     helper: "Một số ngành không chỉ khó mà còn yêu cầu chịu trách nhiệm trực tiếp.",
     options: [
       {
@@ -278,7 +278,7 @@ export const quizQuestions: QuizQuestion[] = [
   },
   {
     id: "q6",
-    prompt: "Khi làm bài hoặc làm dự án nhóm, vai trò nào thường tự nhiên rơi vào anh/chị?",
+    prompt: "Khi làm bài hoặc làm dự án nhóm, vai trò nào thường tự nhiên rơi vào bạn?",
     helper: "Vai trò quen thuộc thường phản ánh sở trường khá rõ.",
     options: [
       {
@@ -305,7 +305,7 @@ export const quizQuestions: QuizQuestion[] = [
   },
   {
     id: "q7",
-    prompt: "Anh/chị có thấy hứng thú với dữ liệu, báo cáo, số liệu và chỉ số không?",
+    prompt: "Bạn có thấy hứng thú với dữ liệu, báo cáo, số liệu và chỉ số không?",
     helper: "Đây là một chỉ báo mạnh cho nhiều nhóm ngành khác nhau.",
     options: [
       {
@@ -332,7 +332,7 @@ export const quizQuestions: QuizQuestion[] = [
   },
   {
     id: "q8",
-    prompt: "Nếu phải học rất dài và liên tục cập nhật chuẩn chuyên môn, anh/chị thấy sao?",
+    prompt: "Nếu phải học rất dài và liên tục cập nhật chuẩn chuyên môn, bạn thấy sao?",
     helper: "Một số ngành cần vòng học tập dài và cập nhật không ngừng.",
     options: [
       {
@@ -359,7 +359,7 @@ export const quizQuestions: QuizQuestion[] = [
   },
   {
     id: "q9",
-    prompt: "Khi nghe một người khác trình bày quan điểm sai hoặc thiếu chặt, anh/chị thường làm gì?",
+    prompt: "Khi nghe một người khác trình bày quan điểm sai hoặc thiếu chặt, bạn thường làm gì?",
     helper: "Câu này đo phong cách phản biện và cách dùng ngôn ngữ/lý lẽ.",
     options: [
       {
@@ -386,8 +386,8 @@ export const quizQuestions: QuizQuestion[] = [
   },
   {
     id: "q10",
-    prompt: "Anh/chị thích làm việc gần với điều gì nhất?",
-    helper: "Đây là câu hỏi trực diện về đối tượng công việc anh/chị thấy hợp.",
+    prompt: "Bạn thích làm việc gần với điều gì nhất?",
+    helper: "Đây là câu hỏi trực diện về đối tượng công việc bạn thấy hợp.",
     options: [
       {
         label: "Máy móc, phần mềm, AI, tự động hóa hoặc quy trình kỹ thuật",
@@ -413,7 +413,7 @@ export const quizQuestions: QuizQuestion[] = [
   },
   {
     id: "q11",
-    prompt: "Nếu phải chọn giữa ổn định và thử thách, anh/chị nghiêng về bên nào hơn?",
+    prompt: "Nếu phải chọn giữa ổn định và thử thách, bạn nghiêng về bên nào hơn?",
     helper: "Không có đáp án tốt xấu, chỉ là hợp nghề nào hơn.",
     options: [
       {
@@ -440,7 +440,7 @@ export const quizQuestions: QuizQuestion[] = [
   },
   {
     id: "q12",
-    prompt: "Anh/chị thấy mình có kiên nhẫn với chi tiết và độ chính xác đến mức nào?",
+    prompt: "Bạn thấy mình có kiên nhẫn với chi tiết và độ chính xác đến mức nào?",
     helper: "Nhiều nghề cần sự chính xác rất cao, nhưng không phải ai cũng thích kiểu đó.",
     options: [
       {
@@ -467,7 +467,7 @@ export const quizQuestions: QuizQuestion[] = [
   },
   {
     id: "q13",
-    prompt: "Một ngày làm việc lý tưởng của anh/chị sẽ có nhịp như thế nào?",
+    prompt: "Một ngày làm việc lý tưởng của bạn sẽ có nhịp như thế nào?",
     helper: "Nhịp làm việc hợp mình thường quan trọng không kém nội dung công việc.",
     options: [
       {
@@ -494,8 +494,8 @@ export const quizQuestions: QuizQuestion[] = [
   },
   {
     id: "q14",
-    prompt: "Khi đứng trước một quyết định quan trọng, anh/chị tin vào điều gì nhiều hơn?",
-    helper: "Đây là câu nhìn vào kiểu ra quyết định của anh/chị.",
+    prompt: "Khi đứng trước một quyết định quan trọng, bạn tin vào điều gì nhiều hơn?",
+    helper: "Đây là câu nhìn vào kiểu ra quyết định của bạn.",
     options: [
       {
         label: "Logic, bằng chứng và dữ liệu đủ mạnh",
@@ -521,7 +521,7 @@ export const quizQuestions: QuizQuestion[] = [
   },
   {
     id: "q15",
-    prompt: "Nếu được chọn một kiểu thành tựu để tự hào sau 5-10 năm, anh/chị muốn điều gì nhất?",
+    prompt: "Nếu được chọn một kiểu thành tựu để tự hào sau 5-10 năm, bạn muốn điều gì nhất?",
     helper: "Câu cuối giúp kéo kết quả về mục tiêu dài hạn thay vì sở thích nhất thời.",
     options: [
       {

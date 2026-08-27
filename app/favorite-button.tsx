@@ -91,7 +91,7 @@ export default function FavoriteButton({
       </button>
       {failed ? (
         <span className={styles.favoriteError} role="status">
-          Chưa lưu được, anh/chị thử lại nhé.
+          Chưa lưu được, bạn thử lại nhé.
         </span>
       ) : isOn ? (
         <Link href="/truong-cua-toi" className={styles.favoriteSavedLink}>

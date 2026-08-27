@@ -44,17 +44,17 @@ function validateFeedback(formData: FormData) {
   }
 
   if (!payload.email) {
-    errors.email = ["Anh/chị vui lòng nhập email."];
+    errors.email = ["Bạn vui lòng nhập email."];
   } else if (!isValidEmail(payload.email)) {
     errors.email = ["Email chưa đúng định dạng."];
   }
 
   if (!payload.subject) {
-    errors.subject = ["Anh/chị vui lòng chọn chủ đề."];
+    errors.subject = ["Bạn vui lòng chọn chủ đề."];
   }
 
   if (!payload.message) {
-    errors.message = ["Anh/chị vui lòng nhập nội dung góp ý."];
+    errors.message = ["Bạn vui lòng nhập nội dung góp ý."];
   } else if (payload.message.length < 12) {
     errors.message = ["Nội dung góp ý nên chi tiết hơn một chút."];
   }
@@ -76,7 +76,7 @@ export async function submitFeedback(
     return {
       errors: validatedFields.errors,
       success: false,
-      message: "Anh/chị kiểm tra lại các trường còn thiếu giúp mình nhé.",
+      message: "Bạn kiểm tra lại các trường còn thiếu giúp mình nhé.",
     };
   }
 
@@ -94,12 +94,12 @@ export async function submitFeedback(
     return {
       success: false,
       message:
-        "Chưa gửi được góp ý do lỗi hệ thống. Anh/chị thử lại sau ít phút giúp mình nhé.",
+        "Chưa gửi được góp ý do lỗi hệ thống. Bạn thử lại sau ít phút giúp mình nhé.",
     };
   }
 
   return {
     success: true,
-    message: "Cảm ơn anh/chị. Góp ý đã được gửi thành công.",
+    message: "Cảm ơn bạn. Góp ý đã được gửi thành công.",
   };
 }

@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Trường của tôi | Danh sách Đại học",
-  description: "Danh sách trường đại học anh/chị đã lưu.",
+  description: "Danh sách trường đại học bạn đã lưu.",
   robots: { index: false, follow: false },
 };
 
@@ -45,7 +45,7 @@ export default async function MySchoolsPage() {
             <p className={styles.faqLead}>
               {userId
                 ? "Bấm ngôi sao ở trang từng trường để thêm hoặc bỏ khỏi danh sách này."
-                : "Sau khi đăng nhập, anh/chị có thể đánh dấu sao ở trang từng trường và xem lại tại đây."}
+                : "Sau khi đăng nhập, bạn có thể đánh dấu sao ở trang từng trường và xem lại tại đây."}
             </p>
             {!userId ? (
               <div className={styles.detailHeroActions}>

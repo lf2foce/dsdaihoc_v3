@@ -8,7 +8,7 @@ import { defaultOgImages } from "../site-config";
 export const metadata: Metadata = {
   title: "Quiz hướng nghiệp | Danh sách đại học",
   description:
-    "Làm bài test hướng nghiệp gồm 15 câu để xem anh/chị phù hợp hơn với nhóm ngành nào khi chọn trường đại học.",
+    "Làm bài test hướng nghiệp gồm 15 câu để xem bạn phù hợp hơn với nhóm ngành nào khi chọn trường đại học.",
   alternates: {
     canonical: "/quiz",
   },
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     images: defaultOgImages,
     title: "Quiz hướng nghiệp | Danh sách đại học",
     description:
-      "Làm bài test hướng nghiệp gồm 15 câu để xem anh/chị phù hợp hơn với nhóm ngành nào khi chọn trường đại học.",
+      "Làm bài test hướng nghiệp gồm 15 câu để xem bạn phù hợp hơn với nhóm ngành nào khi chọn trường đại học.",
     url: "/quiz",
     type: "website",
   },
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Quiz hướng nghiệp | Danh sách đại học",
     description:
-      "Làm bài test hướng nghiệp gồm 15 câu để xem anh/chị phù hợp hơn với nhóm ngành nào khi chọn trường đại học.",
+      "Làm bài test hướng nghiệp gồm 15 câu để xem bạn phù hợp hơn với nhóm ngành nào khi chọn trường đại học.",
     images: defaultOgImages,
   },
 };
@@ -40,7 +40,7 @@ export default function QuizPage() {
             <p className={styles.faqEyebrow}>Quiz</p>
             <h1 className={styles.faqTitle}>15 câu test để định hướng nhóm ngành phù hợp hơn</h1>
             <p className={styles.faqLead}>
-              Bài test này không chỉ hỏi anh/chị thích môn gì, mà còn nhìn vào cách tư duy, kiểu
+              Bài test này không chỉ hỏi bạn thích môn gì, mà còn nhìn vào cách tư duy, kiểu
               làm việc, mức độ chịu áp lực, phong cách giao tiếp và động lực nghề nghiệp dài hạn.
             </p>
           </div>

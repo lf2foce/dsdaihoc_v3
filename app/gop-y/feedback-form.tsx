@@ -77,7 +77,7 @@ export default function FeedbackForm() {
         <textarea
           name="message"
           className={styles.feedbackTextarea}
-          placeholder="Anh/chị mô tả chi tiết vấn đề hoặc đề xuất giúp mình nhé."
+          placeholder="Bạn mô tả chi tiết vấn đề hoặc đề xuất giúp mình nhé."
           rows={7}
           required
         />

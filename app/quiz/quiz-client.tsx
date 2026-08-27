@@ -89,7 +89,7 @@ export default function QuizClient() {
         <div className={styles.quizResultHero}>
           <div>
             <p className={styles.quizKicker}>Kết quả bài test</p>
-            <h2 className={styles.quizResultTitle}>Nhóm ngành phù hợp nhất với anh/chị lúc này</h2>
+            <h2 className={styles.quizResultTitle}>Nhóm ngành phù hợp nhất với bạn lúc này</h2>
             <p className={styles.quizResultLead}>
               Kết quả này nên được xem như định hướng ban đầu để chọn ngành học và danh sách trường,
               không phải nhãn cố định cho cả tương lai.
@@ -149,7 +149,7 @@ export default function QuizClient() {
             <p className={styles.quizMetaLabel}>Cách đọc kết quả</p>
             <p className={styles.quizMetaText}>
               {topScoreGap <= 1
-                ? "Điểm của các nhóm ngành đang khá sát nhau. Điều đó thường nghĩa là anh/chị có hồ sơ thiên hướng đa dạng, nên xem thêm môi trường học, chương trình đào tạo và kiểu công việc thực tế."
+                ? "Điểm của các nhóm ngành đang khá sát nhau. Điều đó thường nghĩa là bạn có hồ sơ thiên hướng đa dạng, nên xem thêm môi trường học, chương trình đào tạo và kiểu công việc thực tế."
                 : `Nhóm "${topResults[0]?.shortTitle}" đang nhỉnh hơn tương đối rõ. Đây là tín hiệu tốt để ưu tiên tìm hiểu sâu các ngành và các trường mạnh trong nhóm này trước.`}
             </p>
           </div>
@@ -157,7 +157,7 @@ export default function QuizClient() {
             <p className={styles.quizMetaLabel}>Bước tiếp theo nên làm</p>
             <p className={styles.quizMetaText}>
               Lấy 2-3 nhóm ngành top đầu, đối chiếu tiếp với năng lực học tập hiện tại, mức độ thích
-              môn học, điều kiện tài chính và danh sách trường anh/chị đang quan tâm.
+              môn học, điều kiện tài chính và danh sách trường bạn đang quan tâm.
             </p>
           </div>
         </div>
@@ -254,7 +254,7 @@ export default function QuizClient() {
           <p className={styles.quizMetaText}>
             Bài test này thiên về độ phù hợp giữa kiểu tư duy, môi trường làm việc và động lực nghề
             nghiệp. Bộ câu hỏi đã tính cả những hướng mới như AI, dữ liệu, marketing số và luật
-            kinh doanh, nên kết quả sẽ tốt hơn nếu anh/chị trả lời theo cảm giác thật thay vì chọn
+            kinh doanh, nên kết quả sẽ tốt hơn nếu bạn trả lời theo cảm giác thật thay vì chọn
             đáp án “có vẻ đúng”.
           </p>
         </div>

@@ -11,7 +11,7 @@ const faqGroups = [
       {
         question: "Danh sách trường trên website này được lấy từ đâu?",
         answer:
-          "Dữ liệu được tổng hợp từ nguồn công khai của từng trường, sau đó chuẩn hóa để anh em dễ tìm theo tên trường, ngành nổi bật, loại trường và campus.",
+          "Dữ liệu được tổng hợp từ nguồn công khai của từng trường, sau đó chuẩn hóa để bạn dễ tìm theo tên trường, ngành nổi bật, loại trường và campus.",
       },
       {
         question: "Bao lâu dữ liệu được cập nhật một lần?",
@@ -21,7 +21,7 @@ const faqGroups = [
       {
         question: "Nếu thấy thông tin sai thì phải làm gì?",
         answer:
-          "Anh/chị có thể đối chiếu với nguồn chính thức của trường ở trang chi tiết, hoặc gửi góp ý để mình kiểm tra và cập nhật lại.",
+          "Bạn có thể đối chiếu với nguồn chính thức của trường ở trang chi tiết, hoặc gửi góp ý để mình kiểm tra và cập nhật lại.",
       },
     ],
   },
@@ -51,7 +51,7 @@ const faqGroups = [
       {
         question: "Trang có thay thế hoàn toàn website của trường không?",
         answer:
-          "Không. Đây là trang tổng hợp để tra cứu nhanh. Khi cần thông tin chính thức như đề án tuyển sinh, học phí hoặc mốc thời gian mới nhất, anh/chị vẫn nên kiểm tra lại từ website của trường.",
+          "Không. Đây là trang tổng hợp để tra cứu nhanh. Khi cần thông tin chính thức như đề án tuyển sinh, học phí hoặc mốc thời gian mới nhất, bạn vẫn nên kiểm tra lại từ website của trường.",
       },
       {
         question: "Những nội dung nào sẽ được bổ sung thêm?",

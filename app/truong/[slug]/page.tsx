@@ -197,7 +197,7 @@ function createFaqItems(school: UniversityRow) {
     {
       question: `Xem thông tin chính thức của ${school.shortName} ở đâu?`,
       answer: school.sourceUrl
-        ? `Anh/chị có thể kiểm tra thông tin chính thức của trường tại ${school.sourceUrl}.`
+        ? `Bạn có thể kiểm tra thông tin chính thức của trường tại ${school.sourceUrl}.`
         : `Hiện trang này chưa có liên kết nguồn chính thức của trường.`,
     },
   ];
