@@ -362,9 +362,9 @@ export default async function AI4SDPage() {
             </div>
 
             <h1 className="max-w-4xl text-4xl font-extrabold leading-[1.06] tracking-tight text-slate-950 sm:text-5xl lg:text-6xl xl:text-[4.25rem]">
-              Đừng chỉ dừng lại ở <span className="text-slate-500 line-through decoration-rose-500 decoration-2">người dùng AI</span>.
+              From Vibe Coding
               <span className="block mt-2 bg-gradient-to-r from-teal-900 via-teal-700 to-emerald-700 bg-clip-text text-transparent">
-                Hãy trở thành người kiến tạo sản phẩm số.
+                to Production.
               </span>
             </h1>
 
