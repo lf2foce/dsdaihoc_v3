@@ -26,6 +26,7 @@ export default function FavoriteButton({
   // null means "not looked up yet" — deriving `resolved` from it avoids a
   // synchronous setState inside the effect, which cascades renders.
   const [favorited, setFavorited] = useState<boolean | null>(null);
+  const [failed, setFailed] = useState(false);
   const [pending, startTransition] = useTransition();
   const resolved = favorited !== null;
 
@@ -65,9 +66,11 @@ export default function FavoriteButton({
   function onToggle() {
     const next = !isOn;
     setFavorited(next); // optimistic
+    setFailed(false);
     startTransition(async () => {
       const result = await toggleFavorite(schoolId, schoolSlug, next);
       setFavorited(result.favorited);
+      setFailed(Boolean(result.failed));
     });
   }
 
@@ -86,7 +89,11 @@ export default function FavoriteButton({
         <Star aria-hidden fill={isOn ? "currentColor" : "none"} />
         {isOn ? "Đã lưu" : "Lưu trường này"}
       </button>
-      {isOn ? (
+      {failed ? (
+        <span className={styles.favoriteError} role="status">
+          Chưa lưu được, anh/chị thử lại nhé.
+        </span>
+      ) : isOn ? (
         <Link href="/truong-cua-toi" className={styles.favoriteSavedLink}>
           Xem trường của tôi →
         </Link>

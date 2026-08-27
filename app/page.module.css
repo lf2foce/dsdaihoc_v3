@@ -2952,3 +2952,9 @@
 .favoriteSavedLink:hover {
   text-decoration: underline;
 }
+
+.favoriteError {
+  color: #b91c1c;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
