@@ -15,7 +15,7 @@ export default function HomeSponsor() {
           Tự tay tạo sản phẩm AI thực chiến — Dù bạn chưa từng biết code.
         </p>
         <p className={styles.sponsorDescription}>
-          Khóa thực chiến 10 tuần Vibe Coding: Dựng Chatbot CSKH, Dashboard tài chính và Web App chạy online dành riêng cho dân Kinh tế &amp; Non-tech.
+          Khóa thực chiến 8 buổi Vibe Coding &amp; Google Gemini: Dựng Chatbot CSKH, Dashboard tài chính và Web App chạy online dành riêng cho dân Kinh tế &amp; Non-tech.
         </p>
       </div>
 

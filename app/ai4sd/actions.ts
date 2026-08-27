@@ -30,6 +30,11 @@ export async function submitLead(
   const studyYear = field(formData, "study_year");
   const note = field(formData, "note");
   const intent = field(formData, "intent");
+  const packageType = field(formData, "package_type");
+
+  const combinedNote = packageType
+    ? `[Gói: ${packageType}] ${note}`.trim()
+    : note;
 
   const errors: NonNullable<LeadFormState["errors"]> = {};
 
@@ -53,7 +58,7 @@ export async function submitLead(
     await sql`
       INSERT INTO ai4sd_leads (name, email, phone, school, study_year, intent, note)
       VALUES (${name}, ${email}, ${phone || null}, ${school || null},
-              ${studyYear || null}, ${intent}, ${note || null})
+              ${studyYear || null}, ${intent}, ${combinedNote || null})
     `;
   } catch (error) {
     // Log the failure, never the payload: it carries a name, email and phone.

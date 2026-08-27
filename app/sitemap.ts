@@ -33,6 +33,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: absoluteUrl("/ai4sd"),
       lastModified: buildDate,
       changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
+      url: absoluteUrl("/ai4sd/dashboard"),
+      lastModified: buildDate,
+      changeFrequency: "monthly",
       priority: 0.5,
     },
     {
