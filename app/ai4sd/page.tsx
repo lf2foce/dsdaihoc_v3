@@ -27,13 +27,13 @@ import { loadUniversityListRows } from "../university-data";
 import { defaultOgImages } from "../site-config";
 
 export const metadata: Metadata = {
-  title: "AI4SD — Chương trình thực hành phát triển sản phẩm số cùng AI | VNU - AI4SD",
+  title: "AI4SD Product Studio — Chương trình thực hành phát triển sản phẩm số cùng AI | VNU - AI4SD",
   description:
     "Chương trình đào tạo thực chiến 10 tuần từ Viện VNU - AI4SD (Đại học Quốc gia Hà Nội). Dành cho người không chuyên CNTT: Tự tay làm chủ AI, dựng chatbot CSKH, dashboard tài chính và ứng dụng số chạy online thực tế.",
   alternates: { canonical: "/ai4sd" },
   openGraph: {
     images: defaultOgImages,
-    title: "AI4SD — Chương trình thực hành phát triển sản phẩm số cùng AI | VNU - AI4SD",
+    title: "AI4SD Product Studio — Chương trình thực hành phát triển sản phẩm số cùng AI | VNU - AI4SD",
     description:
       "Chương trình đào tạo thực chiến 10 tuần từ Viện VNU - AI4SD (Đại học Quốc gia Hà Nội). Xây dựng sản phẩm số bằng AI từ con số 0.",
     url: "/ai4sd",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   twitter: {
     images: defaultOgImages,
     card: "summary_large_image",
-    title: "AI4SD — Chương trình thực hành phát triển sản phẩm số cùng AI | VNU - AI4SD",
+    title: "AI4SD Product Studio — Chương trình thực hành phát triển sản phẩm số cùng AI | VNU - AI4SD",
     description:
       "Chương trình đào tạo thực chiến 10 tuần từ Viện VNU - AI4SD (Đại học Quốc gia Hà Nội). Xây dựng sản phẩm số bằng AI từ con số 0.",
   },
@@ -314,7 +314,7 @@ export default async function AI4SDPage() {
                 <span className="text-[10px] text-amber-600">ĐHQGHN</span>
               </div>
               <div className="text-sm font-bold tracking-tight text-slate-950">
-                AI Product Builder Program
+                AI4SD Product Studio
               </div>
             </div>
           </Link>
@@ -869,7 +869,7 @@ export default async function AI4SDPage() {
             </p>
             <p className="mt-4 text-lg leading-8 text-slate-600">
               Với sứ mệnh tiên phong chuyển giao công nghệ AI và mô hình hợp tác <strong className="text-slate-900 font-semibold">&quot;Ba Nhà: Nhà trường – Nhà khoa học – Doanh nghiệp&quot;</strong>, 
-              Viện xây dựng chương trình AI Product Builder nhằm chuẩn hóa năng lực AI thực chiến cho thế hệ trẻ Việt Nam.
+              Viện xây dựng chương trình AI4SD Product Studio nhằm chuẩn hóa năng lực AI thực chiến cho thế hệ trẻ Việt Nam.
             </p>
 
             <Link
