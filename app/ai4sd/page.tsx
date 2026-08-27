@@ -444,7 +444,7 @@ export default async function AI4SDPage() {
                   </div>
                 </div>
                 <div className="mt-2 text-base font-semibold text-slate-950 sm:text-lg">
-                  Bắt đầu từ một bài toán thực tế bạn hiểu rõ. Kiến thức được đưa vào đúng lúc bạn cần dùng để giải nó.
+                  Đóng gói ý tưởng của bạn.
                 </div>
               </div>
             </div>
@@ -956,7 +956,7 @@ export default async function AI4SDPage() {
                 </div>
 
                 <h2 className="mt-5 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
-                  Sẵn sàng <span className="text-teal-800">khai phá tiềm năng của AI</span> chứ?
+                  Sẵn sàng <span className="text-teal-800">khai phá tiềm năng của AI</span>?
                 </h2>
 
                 <p className="mt-6 text-lg leading-8 text-slate-600">
