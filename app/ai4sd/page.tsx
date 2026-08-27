@@ -956,7 +956,7 @@ export default async function AI4SDPage() {
                 </div>
 
                 <h2 className="mt-5 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
-                  Sẵn sàng chuyển hóa từ người dùng AI thành <span className="text-teal-800">AI Product Builder</span>?
+                  Sẵn sàng <span className="text-teal-800">khai phá tiềm năng của AI</span> chứ?
                 </h2>
 
                 <p className="mt-6 text-lg leading-8 text-slate-600">
@@ -967,7 +967,7 @@ export default async function AI4SDPage() {
                 <div className="mt-8 space-y-3.5">
                   <div className="flex items-center gap-3 text-sm font-semibold text-slate-800">
                     <Check className="size-5 text-emerald-600 shrink-0" />
-                    <span>Ưu tiên xét tuyển sinh viên khối ngành Kinh tế, Marketing, Quản trị</span>
+                    <span>Phù hợp với sinh viên muốn tìm hiểu sức mạnh của AI hoặc nâng cao hiệu quả công việc</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm font-semibold text-slate-800">
                     <Check className="size-5 text-emerald-600 shrink-0" />
