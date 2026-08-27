@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useId } from "react";
+import { useActionState } from "react";
 import { Loader2, Sparkles } from "lucide-react";
 
 import { submitLead, type LeadFormState } from "./actions";
@@ -14,13 +14,8 @@ const inputClass =
 const labelClass = "mb-1.5 block text-sm font-semibold text-slate-800";
 const errorClass = "mt-1 text-xs font-medium text-rose-600";
 
-/**
- * `schools` powers a datalist rather than a select: a student may study
- * somewhere not in the list, so the field stays free text with suggestions.
- */
-export default function RegisterForm({ schools }: { schools: string[] }) {
+export default function RegisterForm() {
   const [state, formAction, pending] = useActionState(submitLead, initialState);
-  const listId = useId();
 
   if (state.success) {
     return (
@@ -111,15 +106,9 @@ export default function RegisterForm({ schools }: { schools: string[] }) {
           <input
             id="lead-school"
             name="school"
-            list={listId}
             className={inputClass}
-            placeholder="Gõ để tìm trong danh sách 176+ trường"
+            placeholder="Ví dụ: Trường Đại học Kinh tế Quốc dân"
           />
-          <datalist id={listId}>
-            {schools.map((school) => (
-              <option key={school} value={school} />
-            ))}
-          </datalist>
         </div>
 
         <div>

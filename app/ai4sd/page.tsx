@@ -23,7 +23,6 @@ import {
 } from "lucide-react";
 import styles from "./page.module.css";
 import RegisterForm from "./register-form";
-import { loadUniversityListRows } from "../university-data";
 import { defaultOgImages } from "../site-config";
 
 export const metadata: Metadata = {
@@ -291,9 +290,7 @@ const faqs = [
   },
 ];
 
-export default async function AI4SDPage() {
-  const schools = (await loadUniversityListRows()).map((row) => row.fullName);
-
+export default function AI4SDPage() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-white font-sans text-slate-900 selection:bg-teal-900 selection:text-white">
       {/* Background Decorators */}
@@ -872,13 +869,15 @@ export default async function AI4SDPage() {
               Viện xây dựng chương trình AI4SD Product Studio nhằm chuẩn hóa năng lực AI thực chiến cho thế hệ trẻ Việt Nam.
             </p>
 
-            <Link
-              href="/truong/vien-nghien-cuu-ung-dung-tri-tue-nhan-tao-trong-phat-trien-ben-vung-vnu-ai4sd"
+            <a
+              href="https://ai4sd.vnu.edu.vn/"
+              target="_blank"
+              rel="noreferrer"
               className="mt-8 inline-flex items-center gap-2 rounded-full border border-teal-800 bg-teal-50/50 px-6 py-3 text-sm font-bold text-teal-900 transition-colors hover:bg-teal-100/70"
             >
               <span>Xem hồ sơ công nhận đầy đủ của Viện</span>
               <ArrowUpRight className="size-4" />
-            </Link>
+            </a>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
@@ -981,7 +980,7 @@ export default async function AI4SDPage() {
               </div>
 
               <div className="w-full">
-                <RegisterForm schools={schools} />
+                <RegisterForm />
               </div>
             </div>
           </div>
