@@ -1,20 +1,18 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-
-// Next 16 renamed `middleware.ts` to `proxy.ts`; Clerk 7.8+ recognises both.
-const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
+import { clerkMiddleware } from "@clerk/nextjs/server";
 
 /**
- * The site stays public; only /admin demands a session here. Being signed in is
- * not enough to *be* an admin — the email allowlist is checked again inside the
- * admin layout, because this proxy guards navigation but not server actions.
+ * Next 16 renamed `middleware.ts` to `proxy.ts`; Clerk 7.8+ recognises both.
+ *
+ * No route matching here. Clerk deprecated createRouteMatcher because a path
+ * pattern can diverge from how Next actually routes a request, leaving a
+ * protected resource reachable. The check lives on the resource instead —
+ * app/admin/layout.tsx — which is also the only place that can guard server
+ * actions.
  */
-export default clerkMiddleware(async (auth, request) => {
-  if (isAdminRoute(request)) await auth.protect();
-});
+export default clerkMiddleware();
 
 export const config = {
   matcher: [
-    // Skip Next internals and static assets unless they appear in search params
     "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
     "/(api|trpc)(.*)",
   ],

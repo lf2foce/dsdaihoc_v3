@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
 
 import { getAdminEmail } from "../admin-auth";
 import styles from "./admin.module.css";
@@ -22,9 +23,14 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const email = await getAdminEmail();
+  // Signed out: send them to sign in, since an admin arriving cold should be
+  // able to get in from here.
+  const { userId, redirectToSignIn } = await auth();
+  if (!userId) return redirectToSignIn();
 
-  // 404 rather than 403: an address that answers "forbidden" confirms it exists.
+  // Signed in but not on the allowlist: 404 rather than 403, because an address
+  // that answers "forbidden" has confirmed it exists.
+  const email = await getAdminEmail();
   if (!email) notFound();
 
   return (
