@@ -1,4 +1,6 @@
 export type UniversityListRow = {
+  /** Stable dataset id. Favourites key on this, never on the derived slug. */
+  id: string;
   rank: number;
   displayOrder: number | null;
   slug: string;

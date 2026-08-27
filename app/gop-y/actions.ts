@@ -1,6 +1,6 @@
 "use server";
 
-import { appendFile } from "node:fs/promises";
+import { sql } from "../db";
 
 export type FeedbackFormState = {
   errors?: {
@@ -80,18 +80,23 @@ export async function submitFeedback(
     };
   }
 
-  const payload = {
-    ...validatedFields.payload,
-    submittedAt: new Date().toISOString(),
-  };
+  const { name, email, subject, message } = validatedFields.payload;
 
   try {
-    await appendFile("/tmp/dsdaihoc-feedback.jsonl", `${JSON.stringify(payload)}\n`, "utf8");
+    await sql`
+      INSERT INTO feedback (name, email, subject, message)
+      VALUES (${name}, ${email}, ${subject}, ${message})
+    `;
   } catch (error) {
-    console.error("Feedback storage failed", error);
+    // Log the failure, never the payload: it carries the sender's name and
+    // email, and runtime logs are not the place for that.
+    console.error("Feedback insert failed", error);
+    return {
+      success: false,
+      message:
+        "Chưa gửi được góp ý do lỗi hệ thống. Anh/chị thử lại sau ít phút giúp mình nhé.",
+    };
   }
-
-  console.info("Feedback submitted", payload);
 
   return {
     success: true,

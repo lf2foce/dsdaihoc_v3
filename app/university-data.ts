@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { cache } from "react";
 
+import { hasDatabase, sql } from "./db";
 import { buildSchoolSlugs } from "./university-slug";
 import type {
   DatasetMeta,
@@ -121,23 +122,85 @@ function normalizeSourceUrls(item: ApprovedItem) {
   return { sourceUrls, officialUrls };
 }
 
-export const loadUniversityRows = cache(async (): Promise<UniversityRow[]> => {
+/** The committed JSON, kept as a fallback so a build never depends on the DB. */
+async function readApprovedFromJson(): Promise<ApprovedItem[]> {
   const filePath = path.join(process.cwd(), "data", "universities.approved.json");
+  const raw = await readFile(filePath, "utf8");
+  return (JSON.parse(raw) as ApprovedPayload).items ?? [];
+}
+
+async function readApprovedFromDatabase(): Promise<ApprovedItem[]> {
+  const rows = (await sql`
+    SELECT id, display_order, short_name, name, school_type, featured_major,
+           description, information, campus, campus_locations, programs,
+           admission_methods, admission_score, tags, source_url, source_urls,
+           last_crawled_at
+    FROM schools
+    WHERE status = 'approved'
+    ORDER BY id
+  `) as Record<string, unknown>[];
+
+  return rows.map((row) => ({
+    ...row,
+    // JSONB columns come back parsed; timestamps come back as Date.
+    last_crawled_at:
+      row.last_crawled_at instanceof Date
+        ? row.last_crawled_at.toISOString()
+        : (row.last_crawled_at as string | undefined),
+  })) as ApprovedItem[];
+}
+
+/**
+ * Postgres is the source of truth; the committed JSON is the fallback. Both
+ * feed the exact same normalisation below, so slugs and ordering cannot drift
+ * between the two paths.
+ */
+async function readApprovedItems(): Promise<ApprovedItem[]> {
+  if (!hasDatabase()) {
+    console.warn("[university-data] DATABASE_URL chưa có — đọc từ JSON dự phòng.");
+    return readApprovedFromJson();
+  }
 
   try {
-    const raw = await readFile(filePath, "utf8");
-    const payload = JSON.parse(raw) as ApprovedPayload;
-    const sortedItems = (payload.items ?? [])
+    const rows = await readApprovedFromDatabase();
+    if (rows.length) return rows;
+    console.warn("[university-data] Postgres trả về 0 trường — đọc từ JSON dự phòng.");
+  } catch (error) {
+    console.warn("[university-data] Không đọc được Postgres, dùng JSON dự phòng:", error);
+  }
+
+  return readApprovedFromJson();
+}
+
+export const loadUniversityRows = cache(async (): Promise<UniversityRow[]> => {
+  try {
+    const items = await readApprovedItems();
+    const sortedItems = items
       .slice()
       .sort((left, right) => {
         const leftOrder = normalizeNumber(left.display_order);
         const rightOrder = normalizeNumber(right.display_order);
 
-        if (leftOrder != null && rightOrder != null) return leftOrder - rightOrder;
-        if (leftOrder != null) return -1;
-        if (rightOrder != null) return 1;
+        if (leftOrder != null && rightOrder != null && leftOrder !== rightOrder) {
+          return leftOrder - rightOrder;
+        }
+        if (leftOrder != null && rightOrder == null) return -1;
+        if (leftOrder == null && rightOrder != null) return 1;
 
-        return normalizeText(left.name).localeCompare(normalizeText(right.name), "vi");
+        const byName = normalizeText(left.name).localeCompare(
+          normalizeText(right.name),
+          "vi",
+        );
+        if (byName !== 0) return byName;
+
+        // Nine schools are entered twice under identical names. Without a final
+        // tie-break the comparator returns 0 for those pairs and the winner of
+        // the bare slug is decided by input order — which differs between the
+        // JSON export and a Postgres read, silently swapping the content behind
+        // /truong/<name> and /truong/<name>-2. Id makes the order total.
+        return String(left.id).localeCompare(String(right.id), undefined, {
+          numeric: true,
+        });
       });
     const slugs = buildSchoolSlugs(
       sortedItems.map((item) => normalizeText(item.name) || `truong-${item.id}`),
@@ -147,6 +210,7 @@ export const loadUniversityRows = cache(async (): Promise<UniversityRow[]> => {
       const { sourceUrls, officialUrls } = normalizeSourceUrls(item);
 
       return {
+        id: String(item.id),
         rank: index + 1,
         displayOrder: normalizeNumber(item.display_order),
         slug: slugs[index],
@@ -178,6 +242,7 @@ export const loadUniversityListRows = cache(async (): Promise<UniversityListRow[
   const rows = await loadUniversityRows();
   return rows.map(
     ({
+      id,
       rank,
       displayOrder,
       slug,
@@ -194,6 +259,7 @@ export const loadUniversityListRows = cache(async (): Promise<UniversityListRow[
       officialUrls,
       lastModified,
     }) => ({
+      id,
       rank,
       displayOrder,
       slug,
