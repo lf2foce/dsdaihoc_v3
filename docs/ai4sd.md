@@ -1,122 +1,128 @@
-P1 FROM NON‑TECH TO FINAL PRODUCT
-Chương trình: Ứng dụng AI tạo sản phẩm số cho người không chuyên CNTT
-1. Bối cảnh và sự cần thiết
-Sự phát triển nhanh của trí tuệ nhân tạo (AI) đang làm thay đổi cấu trúc kỹ năng lao động toàn cầu. Trong khi sinh viên khối công nghệ thông tin có lợi thế tiếp cận AI từ góc độ kỹ thuật, phần lớn sinh viên các ngành kinh tế, quản trị, marketing, tài chính và thương mại điện tử lại gặp ba rào cản chính:
-Không có nền tảng lập trình.
-Không hiểu cách chuyển ý tưởng kinh doanh thành sản phẩm số.
-Thiếu trải nghiệm tạo sản phẩm thực tế trước khi tốt nghiệp.
-Trong bối cảnh đó, AI thế hệ mới (Generative AI, AI Agents, Low‑code/No‑code development) cho phép người không chuyên CNTT vẫn có thể tạo ra sản phẩm số hoàn chỉnh, nếu được đào tạo theo phương pháp phù hợp.
-Chương trình P1 được thiết kế nhằm thu hẹp khoảng cách này và hỗ trợ sinh viên khối ngành kinh tế tiếp cận AI theo hướng ứng dụng thực tiễn.
-2. Mục tiêu chương trình
-Chương trình hướng tới việc giúp học viên:
-Hiểu cách AI được ứng dụng trong kinh doanh và vận hành thực tế.
-Biến một nhu cầu cá nhân hoặc ý tưởng kinh doanh thành sản phẩm số.
-Tự xây dựng sản phẩm AI cơ bản mà không cần kiến thức lập trình chuyên sâu.
-Hình thành tư duy sản phẩm (product thinking) thay vì chỉ sử dụng công cụ AI rời rạc.
-Kết quả đầu ra (Learning Outcomes)
-Sau khóa học, mỗi học viên hoàn thành:
-01 sản phẩm số ứng dụng AI hoạt động thực tế.
-01 portfolio cá nhân phục vụ xin việc.
-Khả năng tự thiết kế automation hoặc chatbot cơ bản.
-Hiểu quy trình phát triển sản phẩm số từ ý tưởng đến triển khai.
-3. Đối tượng tham gia
-Chương trình dành cho:
-Sinh viên khối ngành kinh tế, quản trị, marketing, tài chính, logistics.
-Người chưa có nền tảng CNTT.
-Sinh viên năm 2–4 hoặc mới tốt nghiệp.
-Người mong muốn ứng dụng AI vào công việc thực tế.
-Không yêu cầu kiến thức lập trình.
-4. Phong cách đào tạo (Approach)
-Khác với mô hình đào tạo công nghệ truyền thống, chương trình áp dụng phương pháp:
-"Build First – Learn Through Creation"
-Người học:
-Không học AI theo lý thuyết thuật toán.
-Không học lập trình từ đầu.
-Không học công cụ AI rời rạc.
-Thay vào đó, học theo chu trình:
-Vấn đề thực → Thiết kế giải pháp → Xây sản phẩm → Triển khai → Đánh giá
-AI được xem là công cụ tạo sản phẩm, không phải nội dung học thuần túy.
-5. Cấu trúc chương trình (8–10 tuần)
-Giai đoạn 1 — AI Literacy for Business (Tuần 1–2)
-Mục tiêu: Hiểu AI được ứng dụng như thế nào trong công việc kinh doanh.
-Nội dung:
-Tổng quan AI trong marketing, tài chính và vận hành.
-Tư duy automation trong doanh nghiệp.
-Prompt engineering cho nghiệp vụ kinh doanh.
-Chuyển workflow thủ công thành workflow AI.
-Kết quả: Học viên xác định vấn đề cá nhân hoặc bài toán kinh doanh muốn giải quyết.
-Giai đoạn 2 — Vibe Coding & Product Creation (Tuần 3–6)
-Mục tiêu: Tạo sản phẩm số đầu tiên.
-Học viên sử dụng AI coding assistant và nền tảng no‑code/low‑code để xây dựng sản phẩm.
-Ví dụ sản phẩm:
-Dashboard theo dõi chỉ số tài chính/thị trường.
-Website quảng bá cho cửa hàng nhỏ.
-Hệ thống tự động đăng nội dung mạng xã hội.
-AI chatbot cá nhân đa kênh.
-Công cụ quản lý tài chính cá nhân.
-Nội dung học:
-Thiết kế luồng người dùng (User Flow).
-Thiết kế sản phẩm tối thiểu khả dụng (MVP).
-Kết nối API bằng AI hỗ trợ.
-Xây dựng giao diện dashboard.
-Thiết kế automation workflow.
-Giai đoạn 3 — Deployment & Real Usage (Tuần 7–8)
-Mục tiêu: Sản phẩm vận hành thực tế.
-Học viên:
-Deploy sản phẩm lên môi trường online.
-Kết nối dữ liệu thật.
-Kiểm thử người dùng.
-Tối ưu trải nghiệm sử dụng.
-Giai đoạn 4 — Demo & Portfolio (Tuần 9–10)
-Mục tiêu: Biến sản phẩm thành tài sản nghề nghiệp.
-Học viên:
-Demo sản phẩm trước hội đồng.
-Viết case study sản phẩm.
-Chuẩn hóa portfolio cá nhân.
-Trình bày sản phẩm theo mô hình startup pitch.
+# P1: FROM NON-TECH TO AI PRODUCT BUILDER
+**Chương trình:** Ứng dụng AI & Vibe Coding tạo sản phẩm số thực chiến cho người không chuyên CNTT  
+**Đơn vị chủ trì:** Viện Nghiên cứu ứng dụng Trí tuệ nhân tạo trong phát triển bền vững (VNU - AI4SD) — Đại học Quốc gia Hà Nội
 
-6. Các sản phẩm mẫu (Capstone Examples)
-Nhóm ngành
-Sản phẩm
-Marketing
-AI content automation
-Tài chính
-Dashboard phân tích thị trường
-Quản trị
-Chatbot hỗ trợ khách hàng
-Khởi nghiệp
-Website AI cho cửa hàng
-Cá nhân
-AI quản lý chi tiêu
+---
 
+## 1. Bối cảnh và Thời cơ đột phá
+Sự phát triển bùng nổ của Trí tuệ nhân tạo thế hệ mới (Generative AI, AI Agents, Low-code/No-code, Vibe Coding) đang tái định hình toàn bộ cấu trúc kỹ năng lao động toàn cầu. 
 
-7. Phương thức đánh giá
-Đánh giá dựa trên sản phẩm thay vì thi lý thuyết (Plan)
-8. Giá trị đối với cơ sở đào tạo
-Đối với sinh viên
-Có sản phẩm thực tế trước khi tốt nghiệp.
-Gia tăng năng lực cạnh tranh nghề nghiệp.
-Hiểu AI từ góc nhìn ứng dụng thay vì lý thuyết.
-Đối với nhà trường
-Nâng cao năng lực số cho sinh viên.
-Phù hợp định hướng chuyển đổi số giáo dục đại học.
-Gia tăng sức hấp dẫn tuyển sinh.
-Đối với doanh nghiệp
-Có nguồn nhân lực biết ứng dụng AI thực tế.
-Giảm chi phí đào tạo lại sau tuyển dụng.
+Trước đây, sinh viên và nhân sự khối **Kinh tế, Quản trị, Marketing, Tài chính, Logistics** thường gặp 3 rào cản lớn:
+1. Không có nền tảng lập trình chuyên sâu.
+2. Không biết cách chuyển hóa ý tưởng kinh doanh thành sản phẩm số khả dụng.
+3. Thiếu các sản phẩm số hoạt động thực tế để chứng minh năng lực khi ứng tuyển việc làm.
 
+Trong kỷ nguyên AI hiện nay, **người thấu hiểu bài toán nghiệp vụ kinh doanh chính là người nắm giữ lợi thế cạnh tranh lớn nhất**. Khi kết hợp tư duy sản phẩm với phương pháp **Vibe Coding** (sử dụng ngôn ngữ tự nhiên để chỉ đạo các AI Coding Agents), người học hoàn toàn có thể tự tay xây dựng các ứng dụng số hoàn chỉnh chỉ trong vài tuần.
 
-9. Chứng nhận
-Sau khi hoàn thành chương trình:
-Chứng nhận: Ứng dụng AI tạo sản phẩm số (AI Product Builder Certificate)
-Định hướng liên kết:
-Khung năng lực số quốc gia.
-Chuẩn kỹ năng AI trong giáo dục đại học (định hướng tương lai).
-10. Khả năng mở rộng lộ trình
-Chương trình P1 là nền tảng cho các cấp độ tiếp theo:
-P2 — AI Developer Track.
-P3 — AI for Marketing & Sales.
-P4 — AI Leadership for Managers.
-Tạo thành lộ trình phát triển năng lực AI liên tục cho sinh viên và người đi làm.
-11. Thông điệp cốt lõi
-Sinh viên tốt nghiệp không chỉ hiểu AI, mà có thể tạo ra sản phẩm bằng AI.
+---
+
+## 2. Mục tiêu chương trình (Program Objectives)
+Chương trình **AI Product Builder (P1)** hướng tới việc giúp người học:
+- Khai phóng tư duy sản phẩm số (Product Thinking) thay vì chỉ sử dụng các công cụ AI rời rạc.
+- Làm chủ kỹ nghệ Prompt Engineering nâng cao và phương pháp Vibe Coding hiện đại.
+- Tự tay xây dựng và triển khai các ứng dụng số ứng dụng AI chạy thực tế trên Internet.
+- Đóng gói toàn bộ quá trình thành bộ Portfolio & Case Study chuẩn quốc tế phục vụ tuyển dụng, thăng tiến sự nghiệp hoặc khởi nghiệp đổi mới sáng tạo.
+
+### Kết quả đầu ra (Learning Outcomes):
+1. **01 Sản phẩm số chạy online thực tế** (Live URL với tên miền riêng và dữ liệu thật).
+2. **01 Bộ Portfolio & Case Study chi tiết** giải quyết bài toán nghiệp vụ rõ ràng.
+3. **Kỹ năng thiết kế AI Chatbot (RAG), AI Automation Workflows và Interactive Dashboards**.
+4. **Chứng nhận chính thức:** *AI Product Builder Certificate* do Viện VNU - AI4SD (ĐHQGHN) cấp.
+
+---
+
+## 3. Đối tượng tham gia
+- Sinh viên khối ngành Kinh tế, Quản trị kinh doanh, Marketing, Tài chính - Ngân hàng, Logistics, Ngoại ngữ, Thiết kế.
+- Người chưa từng có nền tảng công nghệ thông tin hoặc từng học lập trình nhưng thấy quá hàn lâm, phức tạp.
+- Sinh viên năm 2–4, cử nhân mới tốt nghiệp mong muốn tạo sự đột phá khác biệt trong CV xin việc.
+- Chủ shop, nhân sự vận hành doanh nghiệp muốn tự động hóa quy trình và cắt giảm chi phí vận hành.
+
+---
+
+## 4. Triết lý đào tạo: "Build First – Learn Through Creation"
+Khác biệt hoàn toàn với mô hình đào tạo lý thuyết hàn lâm truyền thống:
+- **Không** học lý thuyết thuật toán nặng nề.
+- **Không** bắt học thuộc lòng cú pháp lập trình từ con số 0.
+- **Không** học các công cụ AI một cách rời rạc, vô định.
+
+### Chu trình thực chiến 4 bước:
+$$\text{Bài toán thực tế} \longrightarrow \text{Thiết kế giải pháp (MVP)} \longrightarrow \text{Vibe Coding \& Xây dựng} \longrightarrow \text{Triển khai \& Đo lường}$$
+
+---
+
+## 5. Cấu trúc chương trình 10 tuần thực chiến
+
+### Giai đoạn 1: AI Literacy for Business & Kỹ nghệ Prompting (Tuần 1–2)
+- **Mục tiêu:** Hiểu sâu cách AI vận hành trong doanh nghiệp và tự động hóa quy trình nghiệp vụ.
+- **Nội dung:**
+  - Toàn cảnh Generative AI & AI Agents trong Marketing, Tài chính, Bán hàng và Vận hành.
+  - Prompt Engineering nâng cao: Chain-of-Thought, System Prompting, Few-Shot Prompting.
+  - Chuyển đổi quy trình làm việc thủ công (nhập liệu, phân loại khách hàng, viết báo cáo) thành workflow tự động.
+- **Sản phẩm mốc 1:** Bản đặc tả sản phẩm (Product Spec) và luồng tự động hóa đầu tiên.
+
+### Giai đoạn 2: Vibe Coding & Kiến trúc sản phẩm MVP (Tuần 3–6)
+- **Mục tiêu:** Tự tay dựng giao diện, kết nối AI Agent và cơ sở dữ liệu.
+- **Nội dung:**
+  - Thiết kế luồng người dùng (User Flow) và cấu trúc sản phẩm khả dụng tối thiểu (MVP).
+  - Vibe Coding: Chỉ đạo AI Coding Assistants (Cursor, Claude, Lovable, v0) tạo giao diện Web hiện đại, responsive.
+  - Tích hợp API trí tuệ nhân tạo (OpenAI / Anthropic): Xây dựng Chatbot thông minh (RAG), xử lý dữ liệu tự động.
+  - Kết nối cơ sở dữ liệu thời gian thực (Supabase / Vector DB).
+- **Sản phẩm mốc 2:** Bản MVP ứng dụng web hoàn chỉnh có giao diện tương tác và tính năng AI ổn định.
+
+### Giai đoạn 3: Cloud Deployment & Kiểm thử người dùng thật (Tuần 7–8)
+- **Mục tiêu:** Đưa sản phẩm lên Internet và kiểm chứng với người dùng thực tế.
+- **Nội dung:**
+  - Triển khai sản phẩm lên nền tảng đám mây (Vercel / Cloudflare) gắn tên miền riêng (Custom Domain).
+  - Thiết lập bảo mật API Key, kiểm soát chi phí sử dụng AI và quản lý dữ liệu an toàn.
+  - Chiến dịch User Testing: Mời người dùng thật trải nghiệm, thu thập dữ liệu hành vi và phản hồi.
+  - Tối ưu hóa giao diện và hiệu năng dựa trên số liệu thực tế.
+- **Sản phẩm mốc 3:** Live Production Web App chạy 24/7 trên Internet với người dùng thực tế.
+
+### Giai đoạn 4: Demo Day, Portfolio Chuẩn Quốc Tế & Startup Pitch (Tuần 9–10)
+- **Mục tiêu:** Đóng gói sản phẩm thành tài sản nghề nghiệp giá trị cao.
+- **Nội dung:**
+  - Viết Case Study chuẩn quốc tế: Problem $\rightarrow$ AI Solution $\rightarrow$ Measurable Metrics.
+  - Hoàn thiện Portfolio cá nhân chuyên nghiệp trên GitHub / LinkedIn / Web cá nhân.
+  - Huấn luyện kỹ năng thuyết trình sản phẩm (Product Pitch) trước hội đồng tuyển dụng / nhà đầu tư.
+  - Ngày hội Demo Day: Trình diễn sản phẩm trước Hội đồng chuyên gia Viện VNU - AI4SD và doanh nghiệp đối tác.
+- **Sản phẩm mốc 4:** Bộ Portfolio cá nhân hoàn chỉnh + Chứng nhận *AI Product Builder*.
+
+---
+
+## 6. Danh mục sản phẩm mẫu học viên (Capstone Showcase)
+
+| Lĩnh vực | Tên Sản Phẩm | Giải Pháp AI & Tính Năng Đột Phá |
+|---|---|---|
+| **E-Commerce / CSKH** | **AI Customer Support & Sales Agent** | Chatbot RAG tự nạp kiến thức sản phẩm, tư vấn tự nhiên 24/7, tự động chốt đơn và đồng bộ dữ liệu vào CRM/Sheets. |
+| **Marketing & Growth** | **Smart Marketing Content Engine** | Tự động quét từ khóa xu hướng, sinh 30 bài viết chuẩn SEO và kịch bản video TikTok/Reels theo đúng Brand Voice, tự động đăng đa kênh. |
+| **Tài Chính & Quản Trị** | **AI Financial & Market Dashboard** | Dashboard thời gian thực gom dữ liệu đa nguồn, AI tự động tóm tắt biến động tài chính, phân tích xu hướng và cảnh báo rủi ro dòng tiền. |
+| **Vận Hành & Micro-SaaS** | **AI Smart Booking & Operations Portal** | Web App đặt lịch thông minh, trợ lý AI gửi tin nhắn Zalo/Email nhắc hẹn, phân luồng chuyên gia và tự động xuất hóa đơn số. |
+| **Cá Nhân & Năng Suất** | **AI Personal Knowledge & Task Hub** | Trợ lý cá nhân hóa phân loại tài liệu học tập, tóm tắt bài báo khoa học và quản lý chi tiêu thông minh. |
+
+---
+
+## 7. Giá trị mang lại cho các bên liên quan
+
+### Đối với Người học / Sinh viên:
+- Sở hữu ngay sản phẩm số chạy thực tế trước khi tốt nghiệp.
+- Gia tăng vượt trội năng lực cạnh tranh khi ứng tuyển các vị trí Product Owner, AI Transformation, Growth Marketer.
+- Làm chủ tư duy công nghệ của tương lai, không lo bị AI thay thế.
+
+### Đối với Nhà trường & Viện:
+- Nâng cao chỉ số năng lực số (Digital Fluency) cho sinh viên các khối ngành phi công nghệ.
+- Hiện thực hóa chủ trương Chuyển đổi số giáo dục đại học quốc gia.
+- Tạo điểm nhấn khác biệt và thu hút trong công tác tuyển sinh, hợp tác doanh nghiệp.
+
+### Đối với Doanh nghiệp tuyển dụng:
+- Tiếp cận nguồn nhân lực có tư duy sản phẩm và kỹ năng ứng dụng AI thực chiến ngay từ ngày đầu làm việc.
+- Tiết kiệm hàng trăm triệu đồng chi phí đào tạo lại sau tuyển dụng.
+
+---
+
+## 8. Chứng nhận & Lộ trình phát triển dài hạn
+- **Chứng nhận cấp:** *AI Product Builder Certificate* từ Viện Nghiên cứu ứng dụng Trí tuệ nhân tạo trong phát triển bền vững (VNU - AI4SD), Đại học Quốc gia Hà Nội.
+- **Lộ trình nâng cao (AI Mastery Tracks):**
+  - **P1:** From Non-Tech to AI Product Builder *(Khóa nền tảng thực chiến)*
+  - **P2:** Advanced AI Agents & Autonomous Workflows
+  - **P3:** AI Growth Marketing & E-Commerce Automation
+  - **P4:** AI Leadership & Business Transformation for Managers

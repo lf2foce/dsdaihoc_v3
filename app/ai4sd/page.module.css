@@ -5,24 +5,31 @@
     linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
     linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
   background-size: 72px 72px;
-  mask-image: linear-gradient(180deg, rgba(255, 255, 255, 0.75), transparent 88%);
+  mask-image: linear-gradient(180deg, rgba(255, 255, 255, 0.85), transparent 92%);
+  pointer-events: none;
+}
+
+.radialGlow {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
   pointer-events: none;
 }
 
 .roadmapList {
   position: relative;
   display: grid;
-  gap: 1.75rem;
+  gap: 2rem;
 }
 
 .roadmapList::before {
   content: "";
   position: absolute;
   left: 1.75rem;
-  top: 0.7rem;
-  bottom: 2.4rem;
+  top: 1rem;
+  bottom: 2.5rem;
   width: 2px;
-  background: linear-gradient(180deg, rgba(13, 148, 136, 0.26) 0%, rgba(245, 158, 11, 0.18) 100%);
+  background: linear-gradient(180deg, rgba(13, 148, 136, 0.6) 0%, rgba(245, 158, 11, 0.4) 70%, rgba(13, 148, 136, 0.2) 100%);
   z-index: 2;
 }
 
@@ -35,13 +42,13 @@
 .roadmapDot {
   position: absolute;
   left: 1.19rem;
-  top: 0.35rem;
+  top: 0.45rem;
   width: 1.125rem;
   height: 1.125rem;
   border-radius: 9999px;
   background: #0f766e;
-  border: 4px solid #f0fdfa;
-  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.95);
+  border: 3.5px solid #f0fdfa;
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.95), 0 4px 12px rgba(15, 118, 110, 0.3);
   z-index: 3;
 }
 
@@ -52,7 +59,7 @@
 
   .roadmapList::before {
     left: 1.44rem;
-    top: 0.6rem;
+    top: 0.8rem;
     bottom: 2.2rem;
   }
 
@@ -60,3 +67,4 @@
     left: 0.88rem;
   }
 }
+
