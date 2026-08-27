@@ -11,11 +11,10 @@ export default function HomeSponsor() {
 
       <div className={styles.sponsorCopy}>
         <p className={styles.sponsorEyebrow}>VNU - AI4SD · ĐHQGHN</p>
-        <p className={styles.sponsorTitle}>
-          Tự tay tạo sản phẩm AI thực chiến — Dù bạn chưa từng biết code.
-        </p>
+        <p className={styles.sponsorTitle}>Vibe Code: Zero to Hero</p>
         <p className={styles.sponsorDescription}>
-          Khóa thực chiến 8 buổi Vibe Coding &amp; Google Gemini: Dựng Chatbot CSKH, Dashboard tài chính và Web App chạy online dành riêng cho dân Kinh tế &amp; Non-tech.
+          Khóa thực chiến 10 tuần dành cho sinh viên khối Kinh tế, Marketing, Quản trị. Bắt đầu
+          từ con số 0, kết thúc bằng một sản phẩm số chạy online.
         </p>
       </div>
 

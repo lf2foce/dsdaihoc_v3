@@ -31,7 +31,7 @@ export default async function MySchoolsPage() {
 
   return (
     <div className={styles.page}>
-      <SiteHeader activeTab="Trường của tôi" />
+      <SiteHeader activeTab="My schools" />
 
       <main className={styles.main}>
         <section className={styles.faqHero}>

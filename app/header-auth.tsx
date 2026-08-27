@@ -36,7 +36,7 @@ export default function HeaderAuth({ active }: { active: boolean }) {
         className={`${styles.tab} ${active ? styles.tabActive : ""}`.trim()}
         aria-current={active ? "page" : undefined}
       >
-        Trường của tôi
+        My schools
       </Link>
       <UserButton />
     </>

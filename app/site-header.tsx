@@ -7,7 +7,7 @@ import { formatVnDate } from "./site-config";
 import { loadDatasetMeta } from "./university-data";
 
 type SiteHeaderProps = {
-  activeTab: "Trường" | "Quiz" | "FAQs" | "Góp ý" | "Trường của tôi";
+  activeTab: "Trường" | "Quiz" | "FAQs" | "Góp ý" | "My schools";
 };
 
 const primaryTabs = [{ label: "Trường", href: "/" }] as const;
@@ -15,6 +15,7 @@ const primaryTabs = [{ label: "Trường", href: "/" }] as const;
 const secondaryTabs = [
   { label: "Quiz", href: "/quiz" },
   { label: "FAQs", href: "/faqs" },
+  { label: "Góp ý", href: "/gop-y" },
 ] as const;
 
 
@@ -84,7 +85,7 @@ export default async function SiteHeader({ activeTab }: SiteHeaderProps) {
               active={activeTab === tab.label}
             />
           ))}
-          <HeaderAuth active={activeTab === "Trường của tôi"} />
+          <HeaderAuth active={activeTab === "My schools"} />
           <div className={styles.themeToggleMobile}>
             <ThemeToggle />
           </div>
