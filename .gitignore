@@ -44,3 +44,6 @@ next-env.d.ts
 
 # standalone scaffolds parked outside the Next app
 /vendor
+
+# python venv for the backend pipeline
+backend/.venv/
