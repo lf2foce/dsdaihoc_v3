@@ -25,7 +25,7 @@ export default function RegisterForm() {
         </div>
         <p className="text-xl font-bold text-teal-950">{state.message}</p>
         <p className="mt-3 text-sm text-teal-800/90 leading-relaxed">
-          Đội ngũ chuyên gia của Viện VNU - AI4SD sẽ gửi lại <strong>trọn bộ Đề cương chi tiết 8 buổi</strong>, lịch học cụ thể cho đợt <strong>khai giảng dự kiến 22/09</strong> (học cuối tuần &amp; buổi tối) và hướng dẫn nhận ưu đãi học phí qua Email / Số điện thoại của bạn.
+          Đội ngũ chuyên gia của Viện VNU - AI4SD sẽ gửi lại <strong>trọn bộ Đề cương chi tiết 8 buổi</strong>, lịch học cụ thể cho đợt <strong>khai giảng dự kiến 28/10</strong> (học cuối tuần &amp; buổi tối) và hướng dẫn nhận ưu đãi học phí qua Email / Số điện thoại của bạn.
         </p>
       </div>
     );

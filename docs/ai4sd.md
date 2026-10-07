@@ -38,7 +38,7 @@ Chương trình **AI Product Builder (P1)** hướng tới việc giúp người
 - Chủ shop, nhân sự vận hành doanh nghiệp muốn tự động hóa quy trình và cắt giảm chi phí vận hành.
 - **Quyền lợi đặc quyền:** **Học viên được tự do đề xuất bài toán, ý tưởng hoặc sản phẩm số mong muốn xây dựng** — Viện sẽ hỗ trợ giải pháp kỹ thuật và đồng hành hoàn thiện.
 - **Hình thức học:** **Linh hoạt có cả lớp Trực tiếp (Offline) và Trực tuyến (Online Live Lab)**.
-- **Khai giảng dự kiến:** **22/09/2026**
+- **Khai giảng dự kiến:** **28/10/2026**
 - **Lịch học:** Bố trí linh hoạt **2 ngày cuối tuần (Thứ Bảy, Chủ Nhật)** kết hợp **các buổi tối trong tuần (19:30 – 21:30)**.
 - **Quy mô lớp học:** **Sĩ số tối đa 20 học viên / lớp** nhằm đảm bảo chất lượng đào tạo và hoàn thành sản phẩm.
 - **Tư vấn tuyển sinh:** Đăng ký để nhận trọn bộ Đề cương & Lộ trình chi tiết 8 buổi gửi về Email/Zalo.

@@ -70,14 +70,14 @@ const MetricCard = ({
 );
 
 const monthlyData = [
-  { month: "T1", revenue: 290, expense: 210, profit: 80 },
-  { month: "T2", revenue: 320, expense: 225, profit: 95 },
-  { month: "T3", revenue: 350, expense: 230, profit: 120 },
-  { month: "T4", revenue: 390, expense: 240, profit: 150 },
-  { month: "T5", revenue: 420, expense: 235, profit: 185 },
-  { month: "T6", revenue: 440, expense: 245, profit: 195 },
-  { month: "T7", revenue: 460, expense: 250, profit: 210 },
-  { month: "T8", revenue: 485, expense: 242, profit: 243 },
+  { month: "T2", revenue: 290, expense: 210, profit: 80 },
+  { month: "T3", revenue: 320, expense: 225, profit: 95 },
+  { month: "T4", revenue: 350, expense: 230, profit: 120 },
+  { month: "T5", revenue: 390, expense: 240, profit: 150 },
+  { month: "T6", revenue: 420, expense: 235, profit: 185 },
+  { month: "T7", revenue: 440, expense: 245, profit: 195 },
+  { month: "T8", revenue: 460, expense: 250, profit: 210 },
+  { month: "T9", revenue: 485, expense: 242, profit: 243 },
 ];
 
 const expenseBreakdown = [
@@ -96,7 +96,7 @@ const aiInsights = [
   },
   {
     type: "warning",
-    title: "Cảnh báo chi phí Marketing Ads tháng 8",
+    title: "Cảnh báo chi phí Marketing Ads tháng 9",
     desc: "Ngân sách Ads kênh Facebook tăng 18% nhưng tỷ lệ chuyển đổi chững lại. AI đề xuất chuyển dịch 30% ngân sách sang kênh TikTok Organic & Video AI.",
   },
   {
@@ -114,11 +114,11 @@ const presetQuestions = [
 ];
 
 export default function FinancialDashboardPreview({ isStandalone = false }: { isStandalone?: boolean }) {
-  const [selectedMonth, setSelectedMonth] = useState("Tháng 8 / 2026 (Hiện tại)");
+  const [selectedMonth, setSelectedMonth] = useState("Tháng 9 / 2026 (Hiện tại)");
   const [activeTab, setActiveTab] = useState<"revenue" | "expense">("revenue");
   const [userQuery, setUserQuery] = useState("");
   const [aiResponse, setAiResponse] = useState<string | null>(
-    "Xin chào! Tôi là Trợ lý AI Tài chính. Toàn bộ chỉ số doanh thu, chi phí và dòng tiền tháng 8/2026 đã được đồng bộ tự động. Bạn muốn tôi phân tích sâu khía cạnh nào?"
+    "Xin chào! Tôi là Trợ lý AI Tài chính. Toàn bộ chỉ số doanh thu, chi phí và dòng tiền tháng 9/2026 đã được đồng bộ tự động. Bạn muốn tôi phân tích sâu khía cạnh nào?"
   );
   const [isAiThinking, setIsAiThinking] = useState(false);
 
@@ -296,7 +296,7 @@ export default function FinancialDashboardPreview({ isStandalone = false }: { is
                   <span>Cơ Cấu Chi Phí Vận Hành (OPEX)</span>
                 </h3>
                 <span className="text-xs font-bold text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-full border border-amber-400/20">
-                  Tháng 8/2026
+                  Tháng 9/2026
                 </span>
               </div>
 
