@@ -1,16 +1,16 @@
 import "server-only";
 
-import { neon, type NeonQueryFunction } from "@neondatabase/serverless";
+import postgres from "postgres";
 
 /**
- * Neon over HTTP: each query is a stateless fetch, so serverless invocations
- * never hold a pooled connection open. Requires the *pooled* connection string.
+ * Plain Postgres over TCP (postgres.js), so the same code talks to the
+ * Postgres that runs next to the app on the VPS and to any hosted Postgres.
  *
  * Created lazily. Building the client at module scope threw on import whenever
  * DATABASE_URL was absent, which took down callers that only wanted to fall
  * back to the committed JSON.
  */
-let client: NeonQueryFunction<false, false> | null = null;
+let client: postgres.Sql | null = null;
 
 export function hasDatabase() {
   return Boolean(process.env.DATABASE_URL?.trim());
@@ -22,16 +22,15 @@ export function getSql() {
   const url = process.env.DATABASE_URL?.trim();
   if (!url) {
     throw new Error(
-      "DATABASE_URL chưa được cấu hình. Thêm connection string (pooled) của Neon vào .env.local và vào Environment Variables trên Vercel.",
+      "DATABASE_URL chưa được cấu hình. Thêm connection string Postgres vào .env.local và vào Environment của app trên Dokploy.",
     );
   }
 
-  client = neon(url);
+  // prepare: false keeps it working behind a transaction pooler (PgBouncer).
+  client = postgres(url, { max: 10, prepare: false });
   return client;
 }
 
 /** Tagged-template proxy so call sites read as `sql\`SELECT ...\``. */
-export const sql: NeonQueryFunction<false, false> = ((
-  strings: TemplateStringsArray,
-  ...values: unknown[]
-) => getSql()(strings, ...values)) as NeonQueryFunction<false, false>;
+export const sql = ((strings: TemplateStringsArray, ...values: never[]) =>
+  getSql()(strings, ...values)) as unknown as postgres.Sql;

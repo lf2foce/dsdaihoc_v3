@@ -1,0 +1,12 @@
+node_modules
+.next
+.git
+.env*
+.vercel
+.claude
+.agents
+.trae
+backend
+data/backups
+tsconfig.tsbuildinfo
+*.md

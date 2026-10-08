@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Self-hosted on Dokploy: see Dockerfile.
+  output: "standalone",
   async redirects() {
     return [
       {
